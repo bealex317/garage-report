@@ -318,19 +318,39 @@
 
   /* --- עיצוב הדוח להורדה כקובץ PDF (מחוץ למסך בזמן ההפקה) --- */
   .pdf-capture{
-    position:fixed; left:-10000px; top:0; width:760px;
-    background:#fff; color:#000; direction:rtl;
-    font-family:'Roboto','Noto Sans Hebrew',Arial,sans-serif; font-size:12px;
+    width:740px; box-sizing:border-box; padding:4px;
+    background:#fff; color:#1c2b21; direction:rtl;
+    font-family:'Roboto','Noto Sans Hebrew',Arial,sans-serif; font-size:12px; line-height:1.45;
+    overflow:hidden;
   }
-  .pdf-capture h1{font-size:20px; margin:0 0 4px;}
-  .pdf-capture .pr-credit{font-size:11px; font-weight:700; color:#444; margin:0 0 6px;}
-  .pdf-capture .pr-sub{color:#444; font-size:11.5px; margin-bottom:12px;}
-  .pdf-capture .pr-summary{display:flex; flex-wrap:wrap; gap:6px; margin:0 0 14px;}
-  .pdf-capture .pr-chip{border:1px solid #999; border-radius:20px; padding:3px 11px; font-size:11px;}
-  .pdf-capture h2{font-size:14px; margin:16px 0 6px; padding-bottom:3px; border-bottom:2px solid #333;}
-  .pdf-capture table{width:100%; border-collapse:collapse; margin-bottom:6px;}
-  .pdf-capture th, .pdf-capture td{border:1px solid #bbb; padding:5px 7px; text-align:right; vertical-align:top; font-size:11px;}
-  .pdf-capture th{background:#eee; font-weight:700;}
+  .pdf-capture, .pdf-capture *{letter-spacing:0.1px; box-sizing:border-box;}
+  .pdf-capture .pr-head{
+    background:#0b3320; color:#fff; border-radius:18px; padding:16px 20px 14px; margin:0 0 14px;
+  }
+  .pdf-capture .pr-credit{font-size:10.5px; font-weight:500; color:#bcd9c7; margin:0 0 6px;}
+  .pdf-capture h1{font-size:22px; margin:0 0 4px; color:#fff; font-weight:700;}
+  .pdf-capture .pr-sub{color:#e3f2e9; font-size:11.5px; margin:0;}
+  .pdf-capture .pr-summary{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 16px;}
+  .pdf-capture .pr-chip{
+    background:#e6f2ea; color:#0b3320; border-radius:20px; padding:5px 13px; font-size:11.5px;
+  }
+  .pdf-capture .pr-chip b{font-weight:700;}
+  .pdf-capture h2{
+    font-size:14px; margin:18px 0 8px; padding:7px 12px; color:#0b3320; background:#f1f7f3;
+    border-right:5px solid #0b3320; border-radius:8px; font-weight:700;
+  }
+  .pdf-capture table{width:100%; table-layout:fixed; border-collapse:separate; border-spacing:0; margin-bottom:6px;}
+  .pdf-capture th, .pdf-capture td{
+    padding:7px 8px; text-align:right; vertical-align:top; font-size:11px;
+    border-bottom:1px solid #dfe8e2; overflow-wrap:anywhere; word-break:break-word;
+  }
+  .pdf-capture th{background:#e6f2ea; color:#0b3320; font-weight:700; font-size:10.5px;}
+  .pdf-capture th:first-child{border-top-right-radius:8px;}
+  .pdf-capture th:last-child{border-top-left-radius:8px;}
+  .pdf-capture tbody tr:nth-child(even) td{background:#f8fbf9;}
+  .pdf-capture .pr-days{font-weight:700; color:#0b3320;}
+  .pdf-capture .pr-days.old{color:#b3261e;}
+  .pdf-capture .pr-foot{margin-top:14px; font-size:10px; color:#6b7c71; text-align:center;}
 
   /* --- דוח להדפסה / שמירה כ-PDF --- */
   #printReport{display:none;}
@@ -943,17 +963,17 @@
     });
     const names = Object.keys(groups).sort((a, b) => groups[b].length - groups[a].length);
 
-    let html = '<div class="pr-credit">פותח ע"י ק\' תחבורה מג"ב ירושלים אלכס בנדרסקי</div>' +
+    let html = '<div class="pr-head"><div class="pr-credit">פותח ע"י ק\' תחבורה מג"ב ירושלים אלכס בנדרסקי</div>' +
       '<h1>סטטוס רכבים במוסך</h1>' +
       '<div class="pr-sub">משטרת ישראל · משמר הגבול · הופק בתאריך ' + today +
-      ' · סה"כ ' + lastActive.length + ' כלי רכב' + (selectedRegion ? ' · מרחב: ' + escapeHtml(selectedRegion) : '') + '</div>' +
+      ' · סה"כ ' + lastActive.length + ' כלי רכב' + (selectedRegion ? ' · מרחב: ' + escapeHtml(selectedRegion) : '') + '</div></div>' +
       '<div class="pr-summary">' +
       names.map(n => '<span class="pr-chip">' + escapeHtml(n) + ': <b>' + groups[n].length + '</b></span>').join('') +
       '</div>';
 
     names.forEach(n => {
-      html += '<h2>' + escapeHtml(n) + ' (' + groups[n].length + ')</h2>' +
-        '<table><thead><tr>' +
+      html += '<h2>' + escapeHtml(n) + ' · ' + groups[n].length + '</h2>' +
+        '<table><colgroup><col style="width:13%"><col style="width:13%"><col style="width:25%"><col style="width:13%"><col style="width:11%"><col style="width:9%"><col style="width:16%"></colgroup><thead><tr>' +
         '<th>מספר רכב</th><th>יחידה</th><th>תקלה</th><th>מוסך</th><th>תאריך כניסה</th><th>ימים במוסך</th><th>דווח ע"י</th>' +
         '</tr></thead><tbody>';
       groups[n].forEach(it => {
@@ -964,7 +984,7 @@
           '<td>' + escapeHtml(it.fault) + '</td>' +
           '<td>' + escapeHtml(it.garage) + '</td>' +
           '<td>' + escapeHtml(formatDate(it.entryDate)) + '</td>' +
-          '<td>' + (d === null ? '' : d) + '</td>' +
+          '<td><span class="pr-days' + (d !== null && d >= 14 ? ' old' : '') + '">' + (d === null ? '' : d) + '</span></td>' +
           '<td>' + escapeHtml(it.reportedBy) + '</td>' +
           '</tr>';
       });
@@ -1070,7 +1090,6 @@
     const el = document.createElement('div');
     el.className = 'pdf-capture';
     el.innerHTML = printReport.innerHTML;
-    document.body.appendChild(el);
     pdfBtn.disabled = true;
 
     try {
@@ -1085,7 +1104,6 @@
     } catch (err) {
       window.print();
     } finally {
-      el.remove();
       pdfBtn.disabled = false;
     }
   });
