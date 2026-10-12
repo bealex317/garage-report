@@ -316,6 +316,22 @@
     letter-spacing:.01em;
   }
 
+  /* --- עיצוב הדוח להורדה כקובץ PDF (מחוץ למסך בזמן ההפקה) --- */
+  .pdf-capture{
+    position:fixed; left:-10000px; top:0; width:760px;
+    background:#fff; color:#000; direction:rtl;
+    font-family:'Roboto','Noto Sans Hebrew',Arial,sans-serif; font-size:12px;
+  }
+  .pdf-capture h1{font-size:20px; margin:0 0 4px;}
+  .pdf-capture .pr-credit{font-size:11px; font-weight:700; color:#444; margin:0 0 6px;}
+  .pdf-capture .pr-sub{color:#444; font-size:11.5px; margin-bottom:12px;}
+  .pdf-capture .pr-summary{display:flex; flex-wrap:wrap; gap:6px; margin:0 0 14px;}
+  .pdf-capture .pr-chip{border:1px solid #999; border-radius:20px; padding:3px 11px; font-size:11px;}
+  .pdf-capture h2{font-size:14px; margin:16px 0 6px; padding-bottom:3px; border-bottom:2px solid #333;}
+  .pdf-capture table{width:100%; border-collapse:collapse; margin-bottom:6px;}
+  .pdf-capture th, .pdf-capture td{border:1px solid #bbb; padding:5px 7px; text-align:right; vertical-align:top; font-size:11px;}
+  .pdf-capture th{background:#eee; font-weight:700;}
+
   /* --- דוח להדפסה / שמירה כ-PDF --- */
   #printReport{display:none;}
   @media print{
@@ -596,7 +612,11 @@
         <h2>כלי רכב במוסך כרגע</h2>
       </div>
       <div class="board-tools">
-        <button type="button" class="pdf-btn" id="pdfBtn" title="הפקת דוח PDF">
+        <button type="button" class="pdf-btn" id="xlsBtn" title="ייצוא ל-Excel">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
+          Excel
+        </button>
+        <button type="button" class="pdf-btn" id="pdfBtn" title="הורדת קובץ PDF">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 12v6M9 15l3 3 3-3"/></svg>
           PDF
         </button>
@@ -671,6 +691,8 @@
   </form>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <div id="printReport" dir="rtl"></div>
 
 <script>
@@ -734,6 +756,7 @@
   let lastItems = [];
   let selectedRegion = '';
   const pdfBtn = document.getElementById('pdfBtn');
+  const xlsBtn = document.getElementById('xlsBtn');
   const printReport = document.getElementById('printReport');
   let lastActive = [];
   const boardList = document.getElementById('boardList');
@@ -958,13 +981,113 @@
     renderBoard(lastItems);
   });
 
-  pdfBtn.addEventListener('click', () => {
+  function exportRows(){
+    const regionOf = it => (it.region || '').trim() || 'ללא מרחב';
+    const order = r => { const i = REGIONS.indexOf(r); return i === -1 ? 999 : i; };
+    return lastActive.slice().sort((a, b) => {
+      const ra = regionOf(a), rb = regionOf(b);
+      if (order(ra) !== order(rb)) return order(ra) - order(rb);
+      if (ra !== rb) return ra.localeCompare(rb, 'he');
+      return (daysAgo(b.entryDate) || 0) - (daysAgo(a.entryDate) || 0);
+    }).map(it => {
+      const iso = (it.entryDate || '').toString().slice(0, 10).split('-');
+      const dt = iso.length === 3 ? new Date(+iso[0], +iso[1] - 1, +iso[2]) : null;
+      return {
+        region: regionOf(it),
+        unit: it.unit || '',
+        plate: it.plate || '',
+        fault: it.fault || '',
+        garage: it.garage || '',
+        date: (dt && !isNaN(dt.getTime())) ? dt : null,
+        days: daysAgo(it.entryDate),
+        reportedBy: it.reportedBy || ''
+      };
+    });
+  }
+
+  function exportExcel(){
+    if (!lastActive.length){
+      alert('אין כרגע כלי רכב במוסך לייצוא.');
+      return;
+    }
+    const rows = exportRows();
+    const header = ['מרחב', 'יחידה', 'מספר רכב', 'תקלה', 'מוסך', 'תאריך כניסה', 'ימים במוסך', 'דווח ע"י'];
+    const filename = 'vehicles-in-garage-' + new Date().toISOString().slice(0, 10);
+
+    if (window.XLSX){
+      const aoa = [header].concat(rows.map(r => [
+        r.region, r.unit, r.plate, r.fault, r.garage, r.date, r.days === null ? '' : r.days, r.reportedBy
+      ]));
+      const ws = XLSX.utils.aoa_to_sheet(aoa, { cellDates: true });
+      for (let i = 1; i <= rows.length; i++){
+        const cell = ws[XLSX.utils.encode_cell({ r: i, c: 5 })];
+        if (cell && cell.t === 'd') cell.z = 'dd/mm/yy';
+      }
+      ws['!cols'] = [{wch:16}, {wch:14}, {wch:14}, {wch:36}, {wch:16}, {wch:13}, {wch:11}, {wch:16}];
+      ws['!autofilter'] = { ref: 'A1:H' + (rows.length + 1) };
+      const wb = XLSX.utils.book_new();
+      wb.Workbook = { Views: [{ RTL: true }] };
+      XLSX.utils.book_append_sheet(wb, ws, 'רכבים במוסך');
+      XLSX.writeFile(wb, filename + '.xlsx');
+      return;
+    }
+
+    // גיבוי: אם ספריית Excel לא נטענה (למשל בלי אינטרנט) — קובץ CSV שנפתח ב-Excel
+    const pad = n => String(n).padStart(2, '0');
+    const esc = v => '"' + String(v === null || v === undefined ? '' : v).replace(/"/g, '""') + '"';
+    const csvRows = [header].concat(rows.map(r => [
+      r.region, r.unit, r.plate, r.fault, r.garage,
+      r.date ? pad(r.date.getDate()) + '/' + pad(r.date.getMonth() + 1) + '/' + String(r.date.getFullYear()).slice(-2) : '',
+      r.days === null ? '' : r.days,
+      r.reportedBy
+    ]));
+    const csv = '﻿' + csvRows.map(r => r.map(esc).join(',')).join('\r\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename + '.csv';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+
+  xlsBtn.addEventListener('click', exportExcel);
+
+  pdfBtn.addEventListener('click', async () => {
     if (!lastActive.length){
       alert('אין כרגע כלי רכב במוסך להפקת דוח.');
       return;
     }
     buildReport();
-    window.print();
+
+    // גיבוי: אם ספריית ה-PDF לא נטענה — נפתח חלון הדפסה (שם אפשר לבחור "שמירה כ-PDF")
+    if (!window.html2pdf){
+      window.print();
+      return;
+    }
+
+    const el = document.createElement('div');
+    el.className = 'pdf-capture';
+    el.innerHTML = printReport.innerHTML;
+    document.body.appendChild(el);
+    pdfBtn.disabled = true;
+
+    try {
+      await html2pdf().set({
+        margin: [10, 10, 10, 10],
+        filename: 'vehicles-in-garage-' + new Date().toISOString().slice(0, 10) + '.pdf',
+        image: { type: 'jpeg', quality: 0.95 },
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['css', 'legacy'], avoid: ['tr', 'h2'] }
+      }).from(el).save();
+    } catch (err) {
+      window.print();
+    } finally {
+      el.remove();
+      pdfBtn.disabled = false;
+    }
   });
 
   boardList.addEventListener('click', async (e) => {
