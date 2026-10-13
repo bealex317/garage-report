@@ -851,6 +851,15 @@
   }
 
   function renderBoard(items){
+    // גיליון גוגל ממיר לפעמים ערכים (למשל יחידה "3" או מספר רכב) למספרים — מנרמלים לטקסט
+    items = (items || []).map(it => Object.assign({}, it, {
+      plate: it.plate == null ? '' : String(it.plate),
+      fault: it.fault == null ? '' : String(it.fault),
+      unit: it.unit == null ? '' : String(it.unit),
+      reportedBy: it.reportedBy == null ? '' : String(it.reportedBy),
+      region: it.region == null ? '' : String(it.region),
+      garage: it.garage == null ? '' : String(it.garage)
+    }));
     lastItems = items;
 
     const garageDatalist = document.getElementById('garageList');
