@@ -390,6 +390,56 @@
     #printReport th{background:#eee; font-weight:700;}
     #printReport tr{break-inside:avoid;}
   }
+
+  /* --- תצוגת מחשב (מסך רחב) — בטלפון שום דבר לא משתנה --- */
+  .view-btn{display:none;}
+  .exit-form[hidden], .exit-err[hidden], .exit-btn[hidden]{display:none !important;}
+  .row-table-wrap{overflow:auto;}
+  table.row-table{width:100%; border-collapse:separate; border-spacing:0; background:var(--surface); border-radius:16px; overflow:hidden; font-size:13px;}
+  .row-table th{position:sticky; top:0; background:var(--surface-2); color:var(--ink-dim); font-weight:700; font-size:12px; text-align:right; padding:10px; white-space:nowrap;}
+  .row-table .sub-line{display:block; color:var(--ink-dim); font-size:11.5px; margin-top:2px;}
+  .row-table .plate-cell{white-space:nowrap;}
+  .row-table td{padding:9px 10px; border-top:1px solid var(--surface-2); text-align:right; vertical-align:top;}
+  .row-table td.fault-cell{min-width:200px;}
+  .row-table tr:hover td{background:color-mix(in srgb, var(--primary-container) 35%, var(--surface));}
+  .row-table .age-pill{display:inline-block;}
+  .row-table .exit-btn{white-space:nowrap;}
+  .row-table th, .row-table td{overflow-wrap:anywhere;}
+
+  @media (min-width:1000px){
+    body{padding:32px 32px 48px;}
+    .sheet{
+      max-width:1240px;
+      display:grid;
+      grid-template-columns:minmax(0,1.9fr) minmax(0,1fr);
+      grid-template-rows:auto 1fr;
+      align-items:start;
+    }
+    .sheet > header{grid-column:1 / -1; padding:26px 36px 18px;}
+    .sheet > .board{grid-column:1; grid-row:2; margin:0 24px 24px 12px; padding:22px 26px 24px;}
+    .sheet > form{grid-column:2; grid-row:2; padding:6px 24px 28px 12px;
+      display:grid; grid-template-columns:1fr 1fr; column-gap:14px; align-content:start;}
+    .view-btn{display:inline-flex;}
+    .sheet .board-list{
+      max-height:calc(100vh - 430px); min-height:320px;
+      display:grid; grid-template-columns:1fr 1fr; gap:12px; align-content:start;
+    }
+    .sheet .board-list.table-mode{display:block;}
+    .board-empty-state{grid-column:1 / -1;}
+    .breakdown-label{margin-top:2px;}
+
+    /* סדר שדות הטופס בשתי עמודות */
+    form .field{margin-bottom:14px;}
+    form .field:nth-child(1){order:1;}               /* מרחב */
+    form .field:nth-child(2){order:2;}               /* יחידה */
+    form .field:nth-child(3){order:3;}               /* מספר רכב */
+    form .field:nth-child(6){order:4;}               /* תאריך כניסה */
+    form .field:nth-child(4){order:5; grid-column:1 / -1;}  /* תקלה */
+    form .field:nth-child(5){order:6;}               /* מוסך */
+    form .field:nth-child(7){order:7;}               /* דווח ע"י */
+    form #submitBtn{order:8; grid-column:1 / -1;}
+    form .status{order:9; grid-column:1 / -1;}
+  }
   .refresh{
     background:var(--surface);
     border:none;
@@ -632,6 +682,10 @@
         <h2>כלי רכב במוסך כרגע</h2>
       </div>
       <div class="board-tools">
+        <button type="button" class="pdf-btn view-btn" id="viewBtn" title="מעבר בין כרטיסים לטבלה">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <span id="viewBtnLabel">טבלה</span>
+        </button>
         <button type="button" class="pdf-btn" id="xlsBtn" title="ייצוא ל-Excel">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
           Excel
@@ -719,6 +773,7 @@
   // === הגדרות חיבור ל-Google Sheets ===
   // יש להחליף את הכתובת למטה בכתובת ה-Web App של Apps Script שפרסמתם.
   // ראו הוראות ההתקנה שנשלחו בנפרד.
+  // === הגדרות חיבור ל-Google Sheets ===
   const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyuMxCYb48P_TjwlsY7Ryg1ozZbNObuHnrFiThTKO6cu0VKemEKC6atVlkjkKJxDKjo/exec";
 
   // === רשימת המרחבים לבחירה ===
@@ -780,6 +835,23 @@
   const printReport = document.getElementById('printReport');
   let lastActive = [];
   const boardList = document.getElementById('boardList');
+  let tableMode = false;
+  try { tableMode = localStorage.getItem('boardView') === 'table'; } catch (e) {}
+  const viewBtn = document.getElementById('viewBtn');
+  const viewBtnLabel = document.getElementById('viewBtnLabel');
+  const wideMq = window.matchMedia('(min-width:1000px)');
+  function syncViewBtn(){ viewBtnLabel.textContent = tableMode ? 'כרטיסים' : 'טבלה'; }
+  syncViewBtn();
+  viewBtn.addEventListener('click', () => {
+    tableMode = !tableMode;
+    try { localStorage.setItem('boardView', tableMode ? 'table' : 'cards'); } catch (e) {}
+    syncViewBtn();
+    renderBoard(lastItems);
+  });
+  const onWideChange = () => renderBoard(lastItems);
+  if (wideMq.addEventListener) wideMq.addEventListener('change', onWideChange);
+  else if (wideMq.addListener) wideMq.addListener(onWideChange);
+
   const boardEmpty = document.getElementById('boardEmpty');
   const refreshBtn = document.getElementById('refreshBtn');
 
@@ -903,6 +975,7 @@
       .join('');
 
     boardList.innerHTML = '';
+    boardList.classList.remove('table-mode');
 
     if (!active.length){
       boardList.innerHTML =
@@ -914,6 +987,38 @@
     }
 
     const todayStr = new Date().toISOString().slice(0,10);
+
+    boardList.classList.remove('table-mode');
+    if (tableMode && wideMq.matches){
+      boardList.classList.add('table-mode');
+      const exitCell = item =>
+        '<button type="button" class="exit-btn" data-row="' + item.row + '">סימון יציאה</button>' +
+        '<div class="exit-form" data-row-form="' + item.row + '" hidden>' +
+          '<input type="date" class="exit-date-input" value="' + todayStr + '">' +
+          '<button type="button" class="exit-confirm" data-row="' + item.row + '">אישור</button>' +
+          '<button type="button" class="exit-cancel" data-row="' + item.row + '">ביטול</button>' +
+          '<span class="exit-err" hidden></span>' +
+        '</div>';
+      const rowsHtml = active.slice().reverse().map(item => {
+        const d = daysAgo(item.entryDate);
+        let ageClass = 'age-fresh';
+        if (d !== null){ if (d >= 7) ageClass = 'age-long'; else if (d >= 3) ageClass = 'age-mid'; }
+        const ageLabel = d === null ? '' : (d === 0 ? 'היום' : d === 1 ? 'יום 1' : d + ' ימים');
+        return '<tr>' +
+          '<td>' + escapeHtml(item.region || 'ללא מרחב') + '<span class="sub-line">' + escapeHtml(item.unit) + '</span></td>' +
+          '<td class="plate-cell"><b>' + escapeHtml(item.plate) + '</b></td>' +
+          '<td class="fault-cell">' + escapeHtml(item.fault) + '</td>' +
+          '<td>' + escapeHtml(item.garage) + '</td>' +
+          '<td>' + escapeHtml(formatDate(item.entryDate)) + (ageLabel ? '<span class="sub-line"><span class="age-pill ' + ageClass + '">' + ageLabel + '</span></span>' : '') + '</td>' +
+          '<td>' + escapeHtml(item.reportedBy) + '</td>' +
+          '<td>' + exitCell(item) + '</td>' +
+        '</tr>';
+      }).join('');
+      boardList.innerHTML = '<div class="row-table-wrap"><table class="row-table"><thead><tr>' +
+        '<th>מרחב / יחידה</th><th>מספר רכב</th><th>תקלה</th><th>מוסך</th><th>כניסה</th><th>דווח ע"י</th><th></th>' +
+        '</tr></thead><tbody>' + rowsHtml + '</tbody></table></div>';
+      return;
+    }
 
     active.slice().reverse().forEach(item => {
       const d = daysAgo(item.entryDate);
