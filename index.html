@@ -927,7 +927,7 @@
   .count-label{font-size:15px; font-weight:500;}
 
   /* כרטיסי רכב */
-  .board-list{gap:12px; max-height:none; overflow:visible;}
+  .board-list{gap:12px; max-height:min(68vh,560px); overflow-y:auto; overscroll-behavior:contain; padding:2px 4px 2px 2px; scrollbar-width:thin; scrollbar-color:var(--outline) transparent; -webkit-overflow-scrolling:touch;}
   .board-row{background:var(--tonal); border:none; border-radius:20px; box-shadow:none; padding:16px; border-inline-start:none;}
   .board-row:hover{box-shadow:none; background:color-mix(in srgb, var(--tonal) 92%, var(--primary) 8%);}
   .plate-num{font-size:18px; font-weight:600; letter-spacing:.02em;}
@@ -1001,7 +1001,7 @@
     .sheet > header{grid-column:1 / -1; padding:26px 32px 24px;}
     .sheet > .board{margin:0 0 16px; padding:24px 24px 26px;}
     .sheet > form{margin:0 0 16px; padding:24px 22px; display:grid; grid-template-columns:1fr 1fr; column-gap:14px; row-gap:14px; align-content:start;}
-    .sheet .board-list{max-height:none; min-height:0; overflow:visible; display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+    .sheet .board-list{max-height:calc(100vh - 380px); min-height:340px; overflow-y:auto; display:grid; grid-template-columns:1fr 1fr; gap:12px;}
     .sheet .board-list.table-mode, .sheet .board-list.sup-mode{display:block;}
   }
   @media (max-width:699px){
@@ -1025,6 +1025,24 @@
     .board-list.sup-mode, .board-list.table-mode, .table-scroll{border:none !important; padding:0;}
   }
   .board-list > table, .board-list .row-table-wrap, .sup-table-wrap{border:none !important; box-shadow:none !important; background:transparent !important;}
+
+  /* ===== מצב מפקח — כתום ===== */
+  :root{--sup:#c2570c; --sup-ink:#ffffff; --sup-container:#ffe0c7; --on-sup-container:#4a1f00;}
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--sup:#ffb784; --sup-ink:#4a1f00; --sup-container:#6b3400; --on-sup-container:#ffdcc5;} }
+  :root[data-theme="dark"]{--sup:#ffb784; --sup-ink:#4a1f00; --sup-container:#6b3400; --on-sup-container:#ffdcc5;}
+  #supBtn{background:var(--sup) !important; color:var(--sup-ink) !important;}
+  .sup-who{background:var(--sup-container); color:var(--on-sup-container);}
+  .sup-bar{border:1.5px solid var(--sup); background:color-mix(in srgb, var(--sup-container) 35%, var(--card));}
+  .sup-fields input:focus, .sup-fields select:focus{border-color:var(--sup);}
+  .row-table.sup tr.sel td, .row-table tr.sel td{background:var(--sup-container);}
+  .row-table .sup-one, .sup-row-ok, .stage-adv, .stage-confirm, .card-dec button, .sup-adv{background:var(--sup) !important; color:var(--sup-ink) !important;}
+  .sup-dec{color:var(--sup) !important; border-color:var(--sup) !important; background:transparent !important;}
+  .sup-dec:not(:disabled):hover{background:var(--sup-container) !important;}
+  details.sup-tools{border-top-color:var(--sup);}
+  details.sup-tools > summary{background:var(--sup-container); color:var(--on-sup-container);}
+  details.sup-tools[open] > summary{background:var(--sup); color:var(--sup-ink);}
+  .edit-rep, .edit-rep.small{color:var(--sup); border-color:var(--sup);}
+  .sup-chk, input[type="checkbox"]{accent-color:var(--sup);}
 </style>
 </head>
 <body>
@@ -2049,7 +2067,7 @@
           (it.quoteAmount !== null ? '<span class="sub-line">₪' + it.quoteAmount.toLocaleString('he-IL') + '</span>' : '') + '</td>' +
         '<td>' + escapeHtml(formatDate(it.entryDate)) + (d !== null ? '<span class="sub-line"><span class="age-pill ' + ageClass + '">' + (d === 0 ? 'היום' : d + ' ימים') + '</span></span>' : '') + '</td>' +
         '<td class="decision">' + (it.stageLog.length > 1 ? '<b>' + escapeHtml(lastDecision(it)) + '</b>' + (it.stageNote ? '<br>' + escapeHtml(it.stageNote) : '') : '—') + '</td>' +
-        '<td>' + (next && canSetStage(next.id) ? '<button type="button" class="sup-one" data-row="' + rid + '" data-to="' + next.id + '">' + escapeHtml(next.short) + ' ›</button>' : '') +
+        '<td>' + (next && canSetStage(next.id) && !DECISION_IDS.includes(next.id) ? '<button type="button" class="sup-one" data-row="' + rid + '" data-to="' + next.id + '">' + escapeHtml(next.short) + ' ›</button>' : '') +
           '<select class="sup-dec-sel" data-row="' + rid + '"><option value="">החלטה…</option>' + DECISION_IDS.filter(d => canSetStage(d) && d !== it.stage).map(d => '<option value="' + d + '">' + escapeHtml(STAGES.find(x => x.id === d).short) + '</option>').join('') + '</select>' +
           '<div class="sup-row-confirm" hidden><input type="text" class="sup-row-note" maxlength="200" placeholder="הערת מפקח (לא חובה)"><div class="row2"><button type="button" class="sup-row-ok" data-row="' + rid + '">אישור</button><button type="button" class="sup-row-x">ביטול</button></div></div>' +
           (canEdit() ? '<br><button type="button" class="edit-rep small" data-row="' + rid + '">עריכת פרטים</button>' : '') + '</td>' +
