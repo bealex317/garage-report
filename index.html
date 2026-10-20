@@ -9,55 +9,44 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#f2f3f9;
-    --surface:#ffffff;
-    --surface-2:#e9eaf3;
-    --outline:#cbccd7;
-    --ink:#1a1b21;
-    --ink-dim:#5c5e6a;
-    --primary:#4759e8;
-    --primary-ink:#ffffff;
-    --primary-container:#e2e4ff;
-    --on-primary-container:#0d1a8f;
-    --fault:#b3261e;
-    --fault-container:#fbe9e7;
-    --ok:#1e7a46;
-    --ok-container:#e2f4e8;
+      --bg:#f3f4f6;
+      --surface:#ffffff;
+      --surface-2:#eceef1;
+      --outline:#d3d7de;
+      --ink:#1f2933;
+      --ink-dim:#5f6b7a;
+      --primary:#2f4a6b;
+      --primary-ink:#ffffff;
+      --primary-container:#e3e9f0;
+      --on-primary-container:#1f3550;
+      --fault:#9b2c2c;
+      --fault-container:#f6e7e6;
+      --ok:#2f6b4a;
+      --ok-container:#e4efe8;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --bg:#131318;
-      --surface:#1d1e25;
-      --surface-2:#26272f;
-      --outline:#454652;
-      --ink:#e6e6ec;
-      --ink-dim:#a9aab6;
-      --primary:#b8c1ff;
-      --primary-ink:#131a6e;
-      --primary-container:#2c3070;
-      --on-primary-container:#dde1ff;
-      --fault:#f2b8b5;
-      --fault-container:#5c2b27;
-      --ok:#8fd9a8;
-      --ok-container:#1f4d31;
+      --bg:#14181d;
+      --surface:#1c2127;
+      --surface-2:#252b33;
+      --outline:#3a424d;
+      --ink:#e4e7eb;
+      --ink-dim:#9aa5b1;
+      --primary:#9db4d1;
+      --primary-ink:#14202f;
+      --primary-container:#2a3745;
+      --on-primary-container:#d5e0ec;
+      --fault:#e5a3a0;
+      --fault-container:#4a2a29;
+      --ok:#8cc6a4;
+      --ok-container:#25402f; color-scheme:dark;
     }
   }
-  :root[data-theme="dark"]{
-    --bg:#131318; --surface:#1d1e25; --surface-2:#26272f; --outline:#454652;
-    --ink:#e6e6ec; --ink-dim:#a9aab6;
-    --primary:#b8c1ff; --primary-ink:#131a6e; --primary-container:#2c3070; --on-primary-container:#dde1ff;
-    --fault:#f2b8b5; --fault-container:#5c2b27;
-    --ok:#8fd9a8; --ok-container:#1f4d31;
-  }
-  :root[data-theme="light"]{
-    --bg:#f2f3f9; --surface:#ffffff; --surface-2:#e9eaf3; --outline:#cbccd7;
-    --ink:#1a1b21; --ink-dim:#5c5e6a;
-    --primary:#4759e8; --primary-ink:#ffffff; --primary-container:#e2e4ff; --on-primary-container:#0d1a8f;
-    --fault:#b3261e; --fault-container:#fbe9e7;
-    --ok:#1e7a46; --ok-container:#e2f4e8;
-  }
+  :root[data-theme="dark"]{ --bg:#14181d; --surface:#1c2127; --surface-2:#252b33; --outline:#3a424d; --ink:#e4e7eb; --ink-dim:#9aa5b1; --primary:#9db4d1; --primary-ink:#14202f; --primary-container:#2a3745; --on-primary-container:#d5e0ec; --fault:#e5a3a0; --fault-container:#4a2a29; --ok:#8cc6a4; --ok-container:#25402f; color-scheme:dark; }
+  :root[data-theme="light"]{ --bg:#f3f4f6; --surface:#ffffff; --surface-2:#eceef1; --outline:#d3d7de; --ink:#1f2933; --ink-dim:#5f6b7a; --primary:#2f4a6b; --primary-ink:#ffffff; --primary-container:#e3e9f0; --on-primary-container:#1f3550; --fault:#9b2c2c; --fault-container:#f6e7e6; --ok:#2f6b4a; --ok-container:#e4efe8; }
 
   *{box-sizing:border-box;}
+  body{padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px));}
   html,body{margin:0;padding:0;}
   body{
     background:var(--bg);
@@ -75,19 +64,15 @@
     width:100%;
     max-width:460px;
     background:var(--surface);
-    border-radius:28px;
-    box-shadow:
-      0 1px 2px rgba(0,0,0,.10),
-      0 4px 12px rgba(0,0,0,.08),
-      0 12px 28px -8px rgba(0,0,0,.12);
+    border-radius:10px;
+    box-shadow:none; border:1px solid var(--outline);
     overflow:hidden;
   }
 
   header{
     padding:26px 28px 20px;
     position:relative;
-    background:
-      radial-gradient(140% 100% at 50% -30%, var(--primary-container) 0%, transparent 60%);
+    background:var(--surface); border-bottom:1px solid var(--outline);
   }
 
   .badge-row{
@@ -121,7 +106,7 @@
     color:var(--on-primary-container);
     background:var(--primary-container);
     padding:6px 14px;
-    border-radius:100px;
+    border-radius:6px;
     width:fit-content;
   }
 
@@ -158,7 +143,7 @@
     width:100%;
     background:var(--surface-2);
     border:1.5px solid transparent;
-    border-radius:16px;
+    border-radius:8px;
     color:var(--ink);
     font-family:inherit;
     font-size:16px;
@@ -200,7 +185,7 @@
     background:var(--primary);
     color:var(--primary-ink);
     border:none;
-    border-radius:100px;
+    border-radius:6px;
     font-family:inherit;
     font-size:15.5px;
     font-weight:600;
@@ -208,18 +193,18 @@
     padding:16px 16px;
     cursor:pointer;
     margin-top:10px;
-    box-shadow:0 1px 3px rgba(0,0,0,.15);
+    box-shadow:none;
     transition:box-shadow .15s ease, transform .05s ease, filter .15s ease;
   }
   button:active{transform:translateY(1px); box-shadow:0 1px 1px rgba(0,0,0,.1);}
   button:disabled{opacity:.5; cursor:default; box-shadow:none;}
-  button:not(:disabled):hover{filter:brightness(1.04); box-shadow:0 2px 6px rgba(0,0,0,.18);}
+  button:not(:disabled):hover{filter:brightness(1.04); box-shadow:none;}
 
   .status{
     margin-top:14px;
     font-size:14px;
     padding:13px 16px;
-    border-radius:16px;
+    border-radius:8px;
     display:none;
     line-height:1.5;
     font-weight:500;
@@ -239,7 +224,7 @@
   .board{
     padding:20px 28px 22px;
     background:var(--surface-2);
-    border-radius:24px;
+    border-radius:10px;
     margin:0 20px 8px;
   }
   .board-head{
@@ -274,7 +259,7 @@
     background:var(--surface);
     color:var(--ink-dim);
     border:none;
-    border-radius:100px;
+    border-radius:6px;
     height:36px;
     padding:0 14px;
     font-size:12.5px;
@@ -296,7 +281,7 @@
     color:var(--ink-dim);
     background:var(--surface);
     border:1.5px solid transparent;
-    border-radius:100px;
+    border-radius:6px;
     padding:6px 13px;
     box-shadow:0 1px 2px rgba(0,0,0,.05);
   }
@@ -325,14 +310,14 @@
   }
   .pdf-capture, .pdf-capture *{letter-spacing:0.1px; box-sizing:border-box;}
   .pdf-capture .pr-head{
-    background:#0b3320; color:#fff; border-radius:18px; padding:16px 20px 14px; margin:0 0 14px;
+    background:#0b3320; color:#fff; border-radius:8px; padding:16px 20px 14px; margin:0 0 14px;
   }
   .pdf-capture .pr-credit{font-size:10.5px; font-weight:500; color:#bcd9c7; margin:0 0 6px;}
   .pdf-capture h1{font-size:22px; margin:0 0 4px; color:#fff; font-weight:700;}
   .pdf-capture .pr-sub{color:#e3f2e9; font-size:11.5px; margin:0;}
   .pdf-capture .pr-summary{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 16px;}
   .pdf-capture .pr-chip{
-    background:#e6f2ea; color:#0b3320; border-radius:20px; padding:5px 13px; font-size:11.5px;
+    background:#e6f2ea; color:#0b3320; border-radius:8px; padding:5px 13px; font-size:11.5px;
   }
   .pdf-capture .pr-chip b{font-weight:700;}
   .pdf-capture h2{
@@ -377,7 +362,7 @@
       display:flex; flex-wrap:wrap; gap:6px; margin:0 0 14px;
     }
     #printReport .pr-chip{
-      border:1px solid #999; border-radius:20px; padding:3px 11px; font-size:11px;
+      border:1px solid #999; border-radius:8px; padding:3px 11px; font-size:11px;
     }
     #printReport h2{
       font-size:14px; margin:16px 0 6px; padding-bottom:3px; border-bottom:2px solid #333;
@@ -392,10 +377,114 @@
   }
 
   /* --- תצוגת מחשב (מסך רחב) — בטלפון שום דבר לא משתנה --- */
+
+  /* --- התחברות (Firebase) --- */
+  body.locked .sheet{display:none;}
+  .auth-gate{position:fixed; inset:0; z-index:50; display:flex; align-items:center; justify-content:center; padding:20px; background:var(--bg);}
+  .auth-gate[hidden]{display:none;}
+  .auth-card{width:100%; max-width:380px; background:var(--surface); border-radius:10px; padding:28px 26px 24px;
+    box-shadow:0 1px 2px rgba(0,0,0,.10),0 4px 12px rgba(0,0,0,.08),0 12px 28px -8px rgba(0,0,0,.12);}
+  .auth-card h1{font-size:22px; margin:0 0 4px;}
+  .auth-card p{color:var(--ink-dim); font-size:13.5px; margin:0 0 18px; line-height:1.5;}
+  .auth-card input[type="email"], .auth-card input[type="password"]{
+    width:100%; background:var(--surface-2); border:1.5px solid transparent; border-radius:8px; color:var(--ink);
+    font-family:inherit; font-size:16px; padding:14px 16px; outline:none; margin-bottom:12px;}
+  .auth-card input:focus{border-color:var(--primary); background:var(--surface);}
+  .auth-msg{font-size:13px; border-radius:6px; padding:10px 14px; margin-top:12px; display:none; line-height:1.5;}
+  .auth-msg.show{display:block;}
+  .auth-msg.err{background:var(--fault-container); color:var(--fault);}
+  .auth-msg.ok{background:var(--ok-container); color:var(--ok);}
+  .link-btn{width:auto; margin:0; background:none; box-shadow:none; color:var(--ink-dim); font-size:12.5px; font-weight:600;
+    padding:6px 8px; border-radius:8px; text-decoration:underline;}
+  .link-btn:not(:disabled):hover{filter:none; box-shadow:none; color:var(--primary);}
+  .app-footer{display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
+    padding:10px 24px 20px; color:var(--ink-dim); font-size:12px;}
+  @media (min-width:1000px){ .sheet > .app-footer{grid-column:1 / -1; grid-row:3;} }
+  .demo-banner{background:var(--surface-2); color:var(--ink-dim); border-bottom:1px solid var(--outline); text-align:center; font-size:12.5px; font-weight:500; padding:9px 14px; line-height:1.4;}
+  /* --- שלבי טיפול --- */
+  .stage-box{margin-top:10px; padding-top:10px; border-top:1px solid var(--surface-2);}
+  .stage-top{display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+  .stage-pill{display:inline-block; font-size:11.5px; font-weight:700; border-radius:6px; padding:4px 11px;
+    background:var(--surface-2); color:var(--ink-dim);}
+  .stage-pill.s1,.stage-pill.s2,.stage-pill.s3{background:color-mix(in srgb,#c9a227 22%,var(--surface-2)); color:#8a6d13;}
+  .stage-pill.s4,.stage-pill.s5,.stage-pill.s6{background:var(--primary-container); color:var(--on-primary-container);}
+  .stage-pill.s7{background:var(--ok-container); color:var(--ok);}
+  .sup-dec{background:transparent !important; color:var(--primary) !important; border:1.5px solid var(--primary) !important;}
+  .sup-dec-row{display:flex; flex-wrap:wrap; gap:8px; align-items:center; width:100%;}
+  .sup-dec-row .lbl{font-size:12.5px; font-weight:700; color:var(--ink-dim);}
+  .sup-dec-sel{width:auto; margin:6px 0 0; padding:6px 8px; font-size:12.5px; min-width:120px;}
+  .edit-rep{display:block; width:100%; margin:0 0 8px; background:transparent; color:var(--ink-dim); border:1.5px solid var(--outline); box-shadow:none; font-size:12.5px; padding:8px 14px;}
+  .edit-rep.small{display:inline-block; width:auto; margin:6px 0 0; padding:5px 10px;}
+  .edit-overlay{position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:50; display:flex; align-items:center; justify-content:center; padding:16px;}
+  .edit-dlg{background:var(--surface); color:var(--ink); border:1px solid var(--outline); border-radius:10px; width:100%; max-width:440px; max-height:90vh; overflow:auto; padding:20px; display:flex; flex-direction:column; gap:10px;}
+  .edit-dlg h3{margin:0 0 4px; font-size:17px;}
+  .edit-dlg label{font-size:12.5px; font-weight:600; color:var(--ink-dim);}
+  .edit-dlg .btns{display:flex; gap:8px; margin-top:6px;}
+  .edit-dlg .btns button{width:auto; margin:0; padding:10px 18px;}
+  .edit-dlg .edit-err{color:var(--fault); font-size:12.5px;}
+  .stage-dots{display:inline-flex; gap:3px;}
+  .sdot{width:14px; height:5px; border-radius:5px; background:var(--outline); opacity:.5;}
+  .sdot.on{background:var(--primary); opacity:1;}
+  .stage-extra{font-size:11.5px; color:var(--ink-dim);}
+  .stage-actions{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;}
+  .stage-adv{width:auto; margin:0; font-size:12.5px; font-weight:700; padding:8px 14px; border-radius:6px;
+    background:var(--primary); color:var(--primary-ink); box-shadow:none;}
+  .stage-back{width:auto; margin:0; font-size:12px; font-weight:600; padding:7px 12px; border-radius:6px;
+    background:transparent; color:var(--ink-dim); border:1.5px solid var(--outline); box-shadow:none;}
+  .stage-form{display:flex; flex-direction:column; gap:8px; margin-top:8px;}
+  .stage-form[hidden]{display:none !important;}
+  .stage-form input{width:100%; background:var(--surface-2); border:1.5px solid transparent; border-radius:6px;
+    color:var(--ink); font-family:inherit; font-size:14px; padding:10px 12px; outline:none;}
+  .stage-form input:focus{border-color:var(--primary);}
+  .stage-form .row2{display:flex; gap:8px;}
+  .stage-form .row2 button{width:auto; margin:0; font-size:12.5px; padding:8px 14px; box-shadow:none;}
+  .stage-confirm{background:var(--primary); color:var(--primary-ink);}
+  .stage-cancel{background:transparent; color:var(--ink-dim); border:1.5px solid var(--outline);}
+  .stage-err{font-size:11.5px; color:var(--fault);}
+  details.stage-log{margin-top:8px; font-size:12px; color:var(--ink-dim);}
+  details.stage-log summary{cursor:pointer; font-weight:600;}
+  details.stage-log li{margin:3px 0;}
+  details.stage-log ul{margin:6px 0 0; padding-inline-start:18px;}
+  .role-note{font-size:11.5px; color:var(--ink-dim);}
+  /* --- מצב מפקח --- */
+  #supPanel[hidden]{display:none;}
+  #supBtn[hidden]{display:none !important;}
+  #supPanel{margin:6px 0 12px;}
+  .sup-head{display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap; margin-bottom:8px;}
+  .sup-who{font-size:12.5px; font-weight:700; color:var(--on-primary-container); background:var(--primary-container); border-radius:6px; padding:5px 12px;}
+  .sup-chips{display:flex; flex-wrap:wrap; gap:7px; margin-bottom:10px;}
+  .sup-bar{position:sticky; top:0; z-index:5; background:var(--surface); border-radius:8px; padding:12px 14px;
+    box-shadow:0 2px 10px rgba(0,0,0,.12); display:flex; flex-direction:column; gap:8px;}
+  .sup-bar-top{display:flex; align-items:center; gap:12px; flex-wrap:wrap; font-size:13px; font-weight:600;}
+  .sup-bar label{display:inline-flex; align-items:center; gap:6px; margin:0; font-size:13px; color:var(--ink); cursor:pointer;}
+  .sup-bar input[type="checkbox"], .row-table input.sup-chk{width:20px; height:20px; accent-color:var(--primary); cursor:pointer;}
+  .sup-fields{display:flex; gap:8px; flex-wrap:wrap;}
+  .sup-fields input{flex:1 1 180px; background:var(--surface-2); border:1.5px solid transparent; border-radius:6px;
+    color:var(--ink); font-family:inherit; font-size:14px; padding:10px 12px; outline:none;}
+  .sup-fields input:focus{border-color:var(--primary);}
+  .sup-fields input[hidden]{display:none;}
+  .sup-actions{display:flex; gap:8px; flex-wrap:wrap; align-items:center;}
+  .sup-actions button{width:auto; margin:0; padding:10px 18px; font-size:13.5px; box-shadow:none;}
+  .sup-adv{background:var(--primary); color:var(--primary-ink);}
+  .sup-back{background:transparent; color:var(--ink-dim); border:1.5px solid var(--outline);}
+  .sup-hint{font-size:12px; color:var(--ink-dim); font-weight:500;}
+  .sheet .board-list.sup-mode{display:block;}
+  .row-table.sup td{vertical-align:middle;}
+  .row-table.sup .stage-pill{white-space:nowrap;}
+  .row-table.sup td:nth-child(4){min-width:96px;}
+  .row-table.sup td:nth-child(3){min-width:130px;}
+  .row-table.sup td.decision{min-width:110px; font-size:11px; overflow-wrap:anywhere;}
+  .row-table.sup td:first-child{width:36px;}
+  .row-table.sup th, .row-table.sup td{padding:8px 6px;}
+  .row-table .sup-one{width:auto; margin:0; padding:6px 12px; font-size:12px; font-weight:700; border-radius:6px;
+    background:var(--primary-container); color:var(--on-primary-container); box-shadow:none; white-space:nowrap;}
+  .row-table tr.sel td{background:color-mix(in srgb, var(--primary-container) 55%, var(--surface));}
+  .decision{font-size:11.5px; color:var(--ink-dim); line-height:1.4;}
+  .decision b{color:var(--ink);}
   .view-btn{display:none;}
   .exit-form[hidden], .exit-err[hidden], .exit-btn[hidden]{display:none !important;}
   .row-table-wrap{overflow:auto;}
-  table.row-table{width:100%; border-collapse:separate; border-spacing:0; background:var(--surface); border-radius:16px; overflow:hidden; font-size:13px;}
+  table.row-table{width:100%; border-collapse:separate; border-spacing:0; background:var(--surface); border-radius:8px; overflow:hidden; font-size:13px;}
   .row-table th{position:sticky; top:0; background:var(--surface-2); color:var(--ink-dim); font-weight:700; font-size:12px; text-align:right; padding:10px; white-space:nowrap;}
   .row-table .sub-line{display:block; color:var(--ink-dim); font-size:11.5px; margin-top:2px;}
   .row-table .plate-cell{white-space:nowrap;}
@@ -444,7 +533,7 @@
     background:var(--surface);
     border:none;
     color:var(--ink-dim);
-    border-radius:100px;
+    border-radius:6px;
     width:36px;
     height:36px;
     font-size:17px;
@@ -467,7 +556,7 @@
   .count-chip{
     width:64px;
     height:64px;
-    border-radius:20px;
+    border-radius:8px;
     background:var(--primary);
     color:var(--primary-ink);
     display:flex;
@@ -507,7 +596,7 @@
     font-weight:600;
     color:var(--ink-dim);
     background:var(--surface);
-    border-radius:100px;
+    border-radius:6px;
     padding:5px 12px;
     box-shadow:0 1px 2px rgba(0,0,0,.05);
   }
@@ -539,13 +628,13 @@
 
   .board-row{
     background:var(--surface);
-    border-radius:16px;
+    border-radius:8px;
     padding:14px 16px;
     box-shadow:0 1px 2px rgba(0,0,0,.06);
     border-inline-start:4px solid var(--outline);
     transition:box-shadow .15s ease;
   }
-  .board-row:hover{box-shadow:0 2px 8px rgba(0,0,0,.1);}
+  .board-row:hover{box-shadow:none;}
   .board-row.age-fresh{border-inline-start-color:var(--ok);}
   .board-row.age-mid{border-inline-start-color:#c9a227;}
   .board-row.age-long{border-inline-start-color:var(--fault);}
@@ -572,7 +661,7 @@
     font-weight:600;
     color:var(--on-primary-container);
     background:var(--primary-container);
-    border-radius:100px;
+    border-radius:6px;
     padding:3px 10px;
     flex:0 0 auto;
   }
@@ -583,7 +672,7 @@
   .age-pill{
     font-size:11px;
     font-weight:700;
-    border-radius:100px;
+    border-radius:6px;
     padding:4px 10px;
     flex:0 0 auto;
     white-space:nowrap;
@@ -614,7 +703,7 @@
     background:transparent;
     border:1.5px solid var(--outline);
     color:var(--ink-dim);
-    border-radius:100px;
+    border-radius:6px;
     font-family:inherit;
     font-size:12.5px;
     font-weight:600;
@@ -633,7 +722,7 @@
   .exit-date-input{
     background:var(--surface-2);
     border:1.5px solid transparent;
-    border-radius:100px;
+    border-radius:6px;
     color:var(--ink);
     font-family:inherit;
     font-size:13px;
@@ -641,7 +730,7 @@
   }
   .exit-date-input:focus{border-color:var(--primary); outline:none;}
   .exit-confirm, .exit-cancel{
-    border-radius:100px;
+    border-radius:6px;
     font-family:inherit;
     font-size:12.5px;
     font-weight:600;
@@ -659,11 +748,123 @@
     color:var(--fault);
     margin-top:4px;
   }
+  .timeline{list-style:none; margin:8px 0 0; padding:0 12px 0 0; border-right:2px solid var(--outline); display:flex; flex-direction:column; gap:8px; font-size:12.5px; line-height:1.5;}
+  .timeline li{position:relative;}
+  .timeline li::before{content:''; position:absolute; right:-17px; top:6px; width:8px; height:8px; border-radius:50%; background:var(--primary);}
+  .timeline li.tl-edit{color:var(--ink-dim);} .timeline li.tl-edit::before{background:var(--outline);}
+  .tl-note{display:block; color:var(--ink-dim);}
+  .card-dec{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px;}
+  .card-dec select,.card-dec input{width:auto; flex:1 1 140px; margin:0; padding:8px; font-size:12.5px;}
+  .card-dec button{width:auto; margin:0; padding:8px 14px; font-size:12.5px;}
+  .sup-row-note{width:100%; min-width:130px; margin:6px 0 0; padding:6px 8px; font-size:12.5px;}
+  .sup-city{display:flex; align-items:center; gap:8px; margin:8px 0 4px; font-size:12.5px; font-weight:600; color:var(--ink-dim);}
+  .sup-city select{width:auto; min-width:160px; margin:0; padding:6px 8px; font-size:13px;}
+  #seedBtn,#wipeBtn,#importBtn,#demoRole,#demoBanner,#loginEmail{display:none !important;}
+  /* ===== תצוגת טלפון: הכל בתוך המסך, כפתורים בגודל אחיד, יעדי לחיצה נוחים ===== */
+  @media (max-width:699px){
+    body{padding-left:max(8px, env(safe-area-inset-left, 0px)); padding-right:max(8px, env(safe-area-inset-right, 0px)); padding-top:10px; padding-bottom:28px;}
+    .sheet{border-radius:10px;}
+    header{padding:18px 14px 14px;}
+    h1{font-size:23px;}
+    .sub{font-size:14px;}
+    form{padding:6px 14px 22px;}
+    .board{margin:0 6px 10px; padding:14px 10px 16px;}
+    .board-head{flex-direction:column; align-items:stretch; gap:12px;}
+    .board-title-wrap{flex-direction:row; align-items:center; flex-wrap:wrap; gap:8px 10px;}
+    .board h2{font-size:18px;}
+    .board-tools{display:grid; grid-template-columns:repeat(auto-fit, minmax(0, 1fr)); width:100%; gap:8px;}
+    .pdf-btn{width:100%; justify-content:center; height:46px; padding:0 8px; font-size:14px; white-space:nowrap;}
+    .region-filter, #countBreakdown, .sup-chips{display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:8px;}
+    .region-chip{width:100%; min-height:44px; justify-content:space-between; font-size:13.5px; padding:8px 12px;}
+    #countBreakdown > *{width:100%; min-height:40px; display:inline-flex; align-items:center; justify-content:space-between; font-size:13px;}
+    /* כפתורי פעולה: אותו גודל בכל מקום */
+    .stage-actions{display:grid; grid-template-columns:1fr; gap:8px;}
+    .stage-adv, .stage-back, .exit-btn, .edit-rep, .edit-rep.small, .card-dec button, .stage-form .row2 button,
+    .sup-actions button, .row-table .sup-one, .exit-form button, #submitBtn, .edit-dlg .btns button{
+      width:100%; min-height:46px; font-size:14px; padding:10px 14px; margin:0;}
+    .stage-form .row2, .exit-form, .edit-dlg .btns{display:grid; grid-template-columns:1fr 1fr; gap:8px;}
+    .card-dec{display:grid; grid-template-columns:1fr; gap:8px;}
+    .card-dec select, .card-dec input, .stage-form input, .exit-form input, .sup-fields input, .sup-row-note, .sup-dec-sel, .sup-city select, .edit-dlg input, .edit-dlg select, .edit-dlg textarea{
+      width:100%; min-height:46px; font-size:15px; margin:0;}
+    .stage-form{display:grid; gap:8px;}
+    .board-row{padding:14px 12px;}
+    .board-row-meta, .decision, .stage-extra, details.stage-log, .row-table .sub-line{font-size:12.5px;}
+    .timeline{font-size:13px;}
+    /* תפריט מפקח */
+    .sup-city{flex-direction:column; align-items:stretch; gap:6px;}
+    .sup-bar{max-height:48vh; overflow:auto; padding:12px;}
+    .sup-actions{display:grid; grid-template-columns:1fr; gap:8px;}
+    .sup-dec-row{display:grid; grid-template-columns:1fr; gap:8px;}
+    .sup-fields input{flex:1 1 100%;}
+    .row-table-wrap{overflow:visible;}
+    table.row-table.sup, .row-table.sup tbody{display:block; width:100%; background:transparent;}
+    .row-table.sup thead{display:none;}
+    .row-table.sup tr{display:grid; grid-template-columns:34px minmax(0, 1fr); gap:6px 10px; padding:14px 12px; margin-bottom:8px; background:var(--surface); border-radius:8px; border:1px solid var(--outline);}
+    .row-table.sup tr.sel{background:color-mix(in srgb, var(--primary-container) 55%, var(--surface));}
+    .row-table.sup td{display:block; grid-column:2; padding:0; border:none; min-width:0 !important; width:auto !important; background:transparent !important; white-space:normal;}
+    .row-table.sup td:first-child{grid-column:1; grid-row:1 / span 2;}
+    .row-table.sup input.sup-chk, .sup-bar input[type="checkbox"]{width:26px; height:26px;}
+    .row-table.sup td.plate-cell b{font-size:17px;}
+    .row-table.sup td.fault-cell{font-size:14.5px;}
+    .row-table.sup td.decision{font-size:12.5px;}
+    .row-table.sup td:last-child{display:grid; gap:8px; margin-top:4px;}
+    .edit-overlay{padding:10px; align-items:flex-end;}
+    .edit-dlg{max-height:92vh; padding:16px;}
+    .edit-dlg{gap:4px;}
+    .edit-dlg label{margin-top:6px;}
+    .edit-dlg textarea{min-height:92px;}
+    .edit-dlg .btns{margin-top:12px;}
+    .edit-dlg .btns .link-btn{background:transparent; border:1.5px solid var(--outline); color:var(--ink);}
+  }
+  /* ===== כחול כהה למסגרות ולכפתורים ===== */
+  :root{ --navy:#1b3556; --navy-line:#2d4a73; }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --navy:#7ea3d4; --navy-line:#5f86ba; } }
+  :root[data-theme="dark"]{ --navy:#7ea3d4; --navy-line:#5f86ba; }
+  :root[data-theme="light"]{ --navy:#1b3556; --navy-line:#2d4a73; }
+  :root{ --primary:#1b3556; }
+  .sheet{border:2px solid var(--navy-line);}
+  .board{border:1.5px solid var(--navy-line);}
+  .board-row, table.row-table, .sup-bar, .row-table.sup tr, .edit-dlg{border:1.5px solid var(--navy-line);}
+  input[type="text"], input[type="date"], input[type="number"], input[type="email"], input[type="password"], textarea, select{border:1.5px solid var(--navy-line);}
+  input:focus, select:focus, textarea:focus, input[type="text"]:focus, input[type="date"]:focus, textarea:focus, select:focus{border-color:var(--navy); outline:2px solid color-mix(in srgb, var(--navy) 30%, transparent); outline-offset:0;}
+  button, .pdf-btn, .region-chip{border:1.5px solid var(--navy-line);}
+  .pdf-btn, .region-chip, .edit-rep, .sup-back, .stage-cancel, .exit-btn, .link-btn.bordered{color:var(--navy); background:var(--surface);}
+  .region-chip b, .pdf-btn svg{color:var(--navy);}
+  .region-chip.active, .stage-adv, .stage-confirm, .sup-adv, #submitBtn, .card-dec button, .edit-dlg #edSave, .exit-confirm{background:var(--navy); color:#fff; border-color:var(--navy);}
+  :root[data-theme="dark"] .region-chip.active, :root[data-theme="dark"] .stage-adv, :root[data-theme="dark"] .stage-confirm, :root[data-theme="dark"] .sup-adv, :root[data-theme="dark"] #submitBtn, :root[data-theme="dark"] .card-dec button, :root[data-theme="dark"] .edit-dlg #edSave, :root[data-theme="dark"] .exit-confirm{color:#0f1c2e;}
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .region-chip.active, :root:not([data-theme="light"]) .stage-adv, :root:not([data-theme="light"]) .stage-confirm, :root:not([data-theme="light"]) .sup-adv, :root:not([data-theme="light"]) #submitBtn, :root:not([data-theme="light"]) .card-dec button, :root:not([data-theme="light"]) .edit-dlg #edSave, :root:not([data-theme="light"]) .exit-confirm{color:#0f1c2e;} }
+  .region-chip.active b{color:inherit;}
+  .sup-dec{border-color:var(--navy) !important; color:var(--navy) !important;}
+  .row-table .sup-one{background:var(--surface); color:var(--navy); border:1.5px solid var(--navy-line);}
+  .sup-dec-sel, .sup-row-note{border:1.5px solid var(--navy-line);}
+  .link-btn{border:none;}
+  @media (min-width:700px){
+    .row-table.sup td:nth-child(5){white-space:nowrap;}
+    .row-table.sup input.sup-row-note[type="text"]{padding:5px 8px; font-size:12px; min-height:0; height:30px; width:100%; min-width:130px; margin:4px 0 0; border-radius:6px;}
+    .row-table.sup select.sup-dec-sel{padding:4px 8px; height:30px; margin-top:4px;}
+    .row-table.sup td:last-child{min-width:150px;}
+  }
 </style>
 </head>
 <body>
 
+<div class="auth-gate" id="authGate" hidden>
+  <div class="auth-card">
+    <h1>כניסת מפקח / מאשר</h1>
+    <p id="authIntro">הזינו קוד גישה כדי לקבל כלי מפקח. דיווח וצפייה בלוח לא דורשים קוד.</p>
+    <form id="loginForm" novalidate>
+      <input type="text" id="loginEmail" hidden>
+      <input type="password" id="loginPass" placeholder="קוד גישה" autocomplete="off" dir="ltr" style="text-align:right">
+      <button type="submit" id="loginBtn">כניסה</button>
+      <button type="button" id="loginCancel" class="link-btn" style="margin-top:8px;">חזרה בלי כניסה</button>
+      <div style="text-align:center; margin-top:8px;" hidden><button type="button" class="link-btn" id="resetBtn">שכחתי סיסמה</button></div>
+      <div class="auth-msg" id="authMsg"></div>
+    </form>
+  </div>
+</div>
+
 <div class="sheet">
+  <div class="demo-banner" id="demoBanner" hidden>גרסת הדגמה מקומית — הנתונים בדויים ונשמרים בדפדפן הזה בלבד</div>
   <header>
     <div class="badge-row">
       <div class="badge-text">
@@ -672,7 +873,7 @@
       </div>
     </div>
     <h1>דיווח רכבים במוסך</h1>
-    <p class="sub">מלאו את הפרטים בעת כניסת הרכב לטיפול. הדיווח נשמר אוטומטית בגיליון המעקב.</p>
+    <p class="sub">מלאו את הפרטים בעת כניסת הרכב לטיפול. הדיווח נשמר אוטומטית ומתעדכן בזמן אמת אצל כולם.</p>
   </header>
 
   <section class="board" id="board" style="margin-top:4px;">
@@ -682,9 +883,17 @@
         <h2>כלי רכב במוסך כרגע</h2>
       </div>
       <div class="board-tools">
+        <button type="button" class="pdf-btn" id="supBtn" hidden title="מצב מפקח: בחירת כמה רכבים וטיפול במקביל">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg>
+          <span id="supBtnLabel">מצב מפקח</span>
+        </button>
         <button type="button" class="pdf-btn view-btn" id="viewBtn" title="מעבר בין כרטיסים לטבלה">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
           <span id="viewBtnLabel">טבלה</span>
+        </button>
+        <button type="button" class="pdf-btn" id="refreshBtn" title="רענון הנתונים מהגיליון">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg>
+          רענון
         </button>
         <button type="button" class="pdf-btn" id="xlsBtn" title="ייצוא ל-Excel">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
@@ -694,7 +903,6 @@
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 12v6M9 15l3 3 3-3"/></svg>
           PDF
         </button>
-        <button type="button" class="refresh" id="refreshBtn" title="רענון">↻</button>
       </div>
     </div>
 
@@ -711,6 +919,23 @@
 
     <div class="breakdown-label">לפי יחידה</div>
     <div class="count-breakdown" id="countBreakdown"></div>
+
+    <div id="supPanel" hidden>
+      <div class="sup-head"><span class="sup-who" id="supWho"></span></div>
+      <div class="sup-city"><label for="supCity">סינון לפי עיר:</label><select id="supCity"></select></div>
+      <div class="sup-chips" id="supChips"></div>
+      <div class="sup-bar">
+        <div class="sup-bar-top">
+          <label><input type="checkbox" id="supAll"> בחירת הכל</label>
+          <span id="supCount">לא נבחרו רכבים</span>
+        </div>
+        <div class="sup-fields">
+          <input type="number" inputmode="decimal" min="0" id="supAmount" placeholder="סכום הצעת המחיר ב-₪ — נרשם בהחלטה 'הצעת מחיר אושרה' (לא חובה)" hidden>
+          <input type="text" id="supNote" maxlength="200" placeholder="הערת מפקח לכל הנבחרים (לא חובה)">
+        </div>
+        <div class="sup-actions" id="supActions"><span class="sup-hint">סמנו רכבים כדי לפעול על כמה במקביל</span></div>
+      </div>
+    </div>
 
     <div class="board-list" id="boardList">
       <div class="board-empty-state" id="boardEmpty">טוען נתונים...</div>
@@ -749,6 +974,12 @@
     </div>
 
     <div class="field">
+      <label for="city">באיזו עיר נמצא המוסך <span class="req">*</span></label>
+      <input type="text" id="city" name="city" list="cityList" placeholder="שם העיר" autocomplete="off" required>
+      <datalist id="cityList"></datalist>
+    </div>
+
+    <div class="field">
       <label for="entryDate">תאריך כניסה <span class="req">*</span></label>
       <input type="date" id="entryDate" name="entryDate" required>
       <div class="hint">ברירת מחדל: היום. ניתן לשנות במידת הצורך.</div>
@@ -763,21 +994,241 @@
 
     <div class="status" id="status"></div>
   </form>
+
+  <div class="app-footer">
+    <span id="userLabel"></span>
+    <span>
+      <select id="demoRole" hidden style="width:auto; padding:6px 10px; font-size:12.5px; border-radius:6px;">
+        <option value="admin">הצג כ: מנהל</option>
+        <option value="supervisor">הצג כ: מפקח</option>
+        <option value="approver">הצג כ: מאשר (ענבל)</option>
+        <option value="">הצג כ: מדווח</option>
+      </select>
+      <button type="button" class="link-btn" id="seedBtn" hidden>טעינת נתוני דוגמה</button>
+      <button type="button" class="link-btn" id="wipeBtn" hidden>איפוס כל הנתונים</button>
+      <button type="button" class="link-btn" id="importBtn">ייבוא נתונים מהגיליון הישן</button>
+      <button type="button" class="link-btn" id="staffBtn">כניסת מפקח / מאשר</button>
+      <button type="button" class="link-btn" id="signOutBtn" hidden>התנתקות</button>
+    </span>
+  </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <div id="printReport" dir="rtl"></div>
 
-<script>
-  // === הגדרות חיבור ל-Google Sheets ===
-  // יש להחליף את הכתובת למטה בכתובת ה-Web App של Apps Script שפרסמתם.
-  // ראו הוראות ההתקנה שנשלחו בנפרד.
-  // === הגדרות חיבור ל-Google Sheets ===
+<script type="module">
+  // ===== חיבור ל-Google Sheets דרך Apps Script (במקום Firebase) =====
+  // כתובת ה-Web App של Apps Script. אם פרסמתם מחדש עם אותה כתובת — אין מה לשנות.
   const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyuMxCYb48P_TjwlsY7Ryg1ozZbNObuHnrFiThTKO6cu0VKemEKC6atVlkjkKJxDKjo/exec";
+  // false = בלי קודי גישה: כולם מקבלים כלי מפקח, והשם נרשם בהחלטות. true = נדרש קוד (ראו Code.gs).
+  const REQUIRE_CODE = false;
+  // false = בלי קודי גישה: כולם מקבלים כלי מפקח, והשם נרשם בהחלטות. true = נדרש קוד (ראו גם Code.gs).
+  const NAME_KEY = 'garageSupervisorName_v1';
+  const SS_KEY = 'garageStaffCode_v1';
+  const POLL_MS = 25000;
+
+  function gsCall(params){
+    return new Promise((resolve, reject) => {
+      const cbName = 'cb_' + Math.random().toString(36).slice(2);
+      const script = document.createElement('script');
+      const timeout = setTimeout(() => { cleanup(); reject(new Error('timeout')); }, 20000);
+      function cleanup(){ clearTimeout(timeout); delete window[cbName]; script.remove(); }
+      window[cbName] = (data) => { cleanup(); resolve(data); };
+      const query = new URLSearchParams(Object.assign({ name: staff ? staff.name : '' }, params, { callback: cbName })).toString();
+      script.src = APPS_SCRIPT_URL + '?' + query;
+      script.onerror = () => { cleanup(); reject(new Error('network')); };
+      document.body.appendChild(script);
+    });
+  }
+
+  // מפקח/מאשר: הקוד נשמר בדפדפן ונשלח לשרת בכל פעולה; השרת הוא שמאמת ומחליט.
+  let staff = null;  // { code, role, name }
+  if (!REQUIRE_CODE) staff = { code: '', role: 'admin', name: lsGet(NAME_KEY) || 'מפקח' };
+  function lsGet(k){ try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function lsSet(k, v){ try { localStorage.setItem(k, v); } catch (e) {} }
+  function lsDel(k){ try { localStorage.removeItem(k); } catch (e) {} }
+
+  const authObj = { currentUser: { email: staff ? staff.name : '', uid: staff ? 'staff' : 'guest' } };
+  const authCbs = [];
+  const roleCbs = new Set();
+  const colCbs = new Set();
+  let lastDocs = [];
+  let pollTimer = null;
+
+  function guestUser(){ return { email: staff ? staff.name : '', uid: staff ? 'staff' : 'guest' }; }
+  function emitAuth(){ authObj.currentUser = guestUser(); authCbs.forEach(cb => cb(authObj.currentUser)); }
+  function emitRole(){ roleCbs.forEach(cb => cb(roleSnap())); }
+  function roleSnap(){ const d = staff ? { role: staff.role, name: staff.name } : {}; return { exists: () => !!staff, data: () => d }; }
+
+  function toSnap(items){
+    return { docs: items.map(it => ({ id: String(it.row), data: () => Object.assign({}, it, { createdAt: { toMillis: () => it.createdAt || 0 } }) })) };
+  }
+  async function refresh(){
+    try {
+      const r = await gsCall({ action: 'list' });
+      if (r && r.ok !== false){ lastDocs = r.items || []; colCbs.forEach(cb => cb(toSnap(lastDocs))); }
+      else throw new Error('list');
+    } catch (err) {
+      colCbs.forEach(cb => cb.__err && cb.__err(err));
+    }
+  }
+  function startPolling(){
+    if (pollTimer) return;
+    pollTimer = setInterval(() => { if (!document.hidden && colCbs.size) refresh(); }, POLL_MS);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden && colCbs.size) refresh(); });
+  }
+
+  const initializeApp = () => ({});
+  const initializeFirestore = () => ({});
+  const persistentLocalCache = () => ({});
+  const persistentMultipleTabManager = () => ({});
+  const getAuth = () => authObj;
+  const collection = (db, n) => ({ kind: 'c', n: n });
+  const doc = (db, n, id) => ({ kind: 'd', n: n, id: id });
+  const serverTimestamp = () => ({ __ts: true });
+  const arrayUnion = (x) => ({ __au: x });
+  const Timestamp = { fromDate: (d) => d.getTime() };
+
+  function onSnapshot(ref, cb, errCb){
+    if (ref.kind === 'c'){
+      cb.__err = errCb; colCbs.add(cb); startPolling(); refresh();
+      return () => colCbs.delete(cb);
+    }
+    roleCbs.add(cb); setTimeout(() => cb(roleSnap()), 0);
+    return () => roleCbs.delete(cb);
+  }
+  function onAuthStateChanged(a, cb){ authCbs.push(cb); setTimeout(() => cb(authObj.currentUser), 0); }
+
+  async function signInWithEmailAndPassword(a, _unused, code){
+    if (!REQUIRE_CODE){
+      staff = { code: '', role: 'admin', name: String(code || '').trim().slice(0, 60) || 'מפקח' };
+      lsSet(NAME_KEY, staff.name); emitAuth(); emitRole(); return;
+    }
+    const r = await gsCall({ action: 'auth', code: String(code || '').trim() });
+    if (!r || !r.ok) throw Object.assign(new Error('bad'), { code: 'auth/invalid-credential' });
+    staff = { code: String(code).trim(), role: r.role, name: r.name };
+    lsSet(SS_KEY, staff.code);
+    emitAuth(); emitRole();
+  }
+  async function signOut(){ if (!REQUIRE_CODE) return; staff = null; lsDel(SS_KEY); emitAuth(); emitRole(); }
+  async function sendPasswordResetEmail(){}
+  // שחזור כניסה קודמת (השרת מאמת מחדש)
+  (async function restore(){
+    const c = lsGet(SS_KEY);
+    if (!REQUIRE_CODE || !c) return;
+    try {
+      const r = await gsCall({ action: 'auth', code: c });
+      if (r && r.ok){ staff = { code: c, role: r.role, name: r.name }; emitAuth(); emitRole(); }
+      else lsDel(SS_KEY);
+    } catch (e) {}
+  })();
+
+  function check(r){ if (!r || r.ok === false) throw Object.assign(new Error((r && r.error) || 'fail'), { code: (r && r.error) || 'fail' }); return r; }
+  async function applyUpdate(rowId, data){
+    if (Object.prototype.hasOwnProperty.call(data, 'stage')){
+      const lastEntry = data.stageLog && data.stageLog.__au ? data.stageLog.__au : {};
+      const p = { action: 'stage', rows: rowId, to: data.stage, note: data.stageNote || '', code: staff ? staff.code : '' };
+      if (data.quoteAmount !== undefined && data.quoteAmount !== null) p.amount = data.quoteAmount;
+      return check(await gsCall(p));
+    }
+    if (Object.prototype.hasOwnProperty.call(data, 'plate')){
+      const p = { action: 'edit', row: rowId, code: staff ? staff.code : '' };
+      ['plate','fault','unit','region','garage','city','reportedBy'].forEach(k => { if (data[k] !== undefined) p[k] = data[k]; });
+      return check(await gsCall(p));
+    }
+    if (Object.prototype.hasOwnProperty.call(data, 'exitDate')){
+      return check(await gsCall({ action: 'exit', row: rowId, exitDate: data.exitDate }));
+    }
+  }
+  async function setDoc(ref, data){
+    const p = { action: 'submit', submissionId: ref.id };
+    ['plate','fault','entryDate','unit','region','garage','city','reportedBy'].forEach(k => { p[k] = data[k] === undefined ? '' : data[k]; });
+    check(await gsCall(p));
+    refresh();
+  }
+  async function updateDoc(ref, data){ const r = await applyUpdate(ref.id, data); refresh(); return r; }
+  function writeBatch(){
+    const ops = [];
+    return {
+      update: (r, d) => ops.push([r.id, d]),
+      set: () => {}, delete: () => {},
+      commit: async () => {
+        if (!ops.length) return;
+        const first = ops[0][1];
+        const same = ops.every(o => o[1].stage === first.stage && (o[1].stageNote || '') === (first.stageNote || '') && o[1].quoteAmount === first.quoteAmount);
+        if (same && first.stage !== undefined){
+          const p = { action: 'stage', rows: ops.map(o => o[0]).join(','), to: first.stage, note: first.stageNote || '', code: staff ? staff.code : '' };
+          if (first.quoteAmount !== undefined && first.quoteAmount !== null) p.amount = first.quoteAmount;
+          check(await gsCall(p));
+        } else {
+          for (const o of ops) await applyUpdate(o[0], o[1]);
+        }
+        refresh();
+      }
+    };
+  }
+
+
+  // === הגדרות Firebase — להדביק כאן את ה-config מהקונסול (Project settings → Your apps) ===
+  const firebaseConfig = {
+    apiKey: "sheets",
+    authDomain: "PASTE_PROJECT_ID.firebaseapp.com",
+    projectId: "PASTE_PROJECT_ID",
+    storageBucket: "PASTE_PROJECT_ID.firebasestorage.app",
+    messagingSenderId: "PASTE_SENDER_ID",
+    appId: "PASTE_APP_ID"
+  };
+
+  // true = סביבת הדגמה (באנר, כפתורי טעינה/איפוס של נתוני דוגמה). בסביבה האמיתית להשאיר false.
+  const DEMO_MODE = false;
+
+  // כתובת הגיליון הישן — משמשת רק לכפתור "ייבוא נתונים מהגיליון הישן" (אפשר למחוק אחרי הייבוא)
+  const LEGACY_SHEET_URL = "";
 
   // === רשימת המרחבים לבחירה ===
   // לעריכה: הוסיפו/שנו/מחקו שמות בתוך הרשימה (כל שם בגרשיים, מופרד בפסיק)
+  // === שלבי התהליך (לעריכה: אפשר לשנות שמות/סדר; role = מי רשאי לקבוע את השלב: supervisor / approver / '' = כולם) ===
+  // חשוב: אם משנים מזהי שלבים (id) או תפקידים — לעדכן גם את firestore.rules
+  const STAGES = [
+    { id: 'reported',   label: 'דווח / נכנס למוסך',                 short: 'דווח',               role: '' },
+    { id: 'appraiser',  label: 'הוזמן שמאי',                         short: 'הוזמן שמאי',         role: 'supervisor' },
+    { id: 'quote_wait', label: 'ממתין להצעת מחיר',                   short: 'ממתין להצעה',        role: 'supervisor' },
+    { id: 'part',       label: 'הוזמן חלק',                          short: 'הוזמן חלק',          role: 'supervisor' },
+    { id: 'quote_ok',   label: 'הצעת מחיר אושרה (מפקח)',             short: 'הצעה אושרה',         role: 'supervisor' },
+    { id: 'inbal',      label: 'אושר ע"י ענבל',                      short: 'אישור ענבל',         role: 'approver' },
+    { id: 'repair',     label: 'בתיקון',                             short: 'בתיקון',             role: 'supervisor' },
+    { id: 'ready',      label: 'תיקון הסתיים — מוכן לאיסוף',         short: 'מוכן לאיסוף',        role: 'supervisor' }
+  ];
+  // החלטות מפקח: אפשר לבחור כל אחת מהן ישירות, בלי לעבור את השלבים לפי הסדר
+  const DECISION_IDS = ['appraiser', 'quote_wait', 'part', 'quote_ok'];
+  function canEdit(){ return myRole === 'admin' || myRole === 'supervisor'; }
+  const ROLE_LABELS = { admin: REQUIRE_CODE ? 'מנהל' : 'מפקח', supervisor: 'מפקח', approver: 'מאשר (ענבל)', '': 'מדווח' };
+  let myRole = '';
+  let myName = '';
+  let supMode = false;
+  let supFilter = 'mine';
+  let supCity = '';
+  const supSel = new Set();
+  function isPrivileged(){ return myRole === 'admin' || myRole === 'supervisor' || myRole === 'approver'; }
+  function whoAmI(){ return myName || (auth && auth.currentUser && auth.currentUser.email) || ''; }
+  function lastDecision(item){
+    const l = item.stageLog.length ? item.stageLog[item.stageLog.length - 1] : null;
+    if (!l) return '';
+    return (l.byName || l.by || '') + (l.at ? ' · ' + fmtDateTime(l.at) : '');
+  }
+  function nextOf(item){ return STAGES[stageIndex(item.stage) + 1] || null; }
+  function prevOf(item){ return STAGES[stageIndex(item.stage) - 1] || null; }
+  function canAdvance(item){ const n = nextOf(item); return !!n && canSetStage(n.id); }
+
+  function stageIndex(id){ const i = STAGES.findIndex(s => s.id === id); return i === -1 ? 0 : i; }
+  function stageLabel(item){ return STAGES[stageIndex(item.stage)].label; }
+  function canSetStage(id){
+    const st = STAGES.find(s => s.id === id);
+    if (!st) return false;
+    return myRole === 'admin' || (st.role !== '' && st.role === myRole);
+  }
+
   const REGIONS = [
     "מג\"ב ירושלים",
     "מג\"ב יו\"ש",
@@ -835,6 +1286,8 @@
   const printReport = document.getElementById('printReport');
   let lastActive = [];
   const boardList = document.getElementById('boardList');
+  const supPanel = document.getElementById('supPanel');
+  const supBtn = document.getElementById('supBtn');
   let tableMode = false;
   try { tableMode = localStorage.getItem('boardView') === 'table'; } catch (e) {}
   const viewBtn = document.getElementById('viewBtn');
@@ -853,8 +1306,7 @@
   else if (wideMq.addListener) wideMq.addListener(onWideChange);
 
   const boardEmpty = document.getElementById('boardEmpty');
-  const refreshBtn = document.getElementById('refreshBtn');
-
+  
   // ברירת מחדל: תאריך היום
   entryDateInput.value = new Date().toISOString().slice(0,10);
 
@@ -922,6 +1374,74 @@
     return d + '/' + m + '/' + y.slice(-2);
   }
 
+  function fmtDateTime(ms){
+    const d = new Date(ms);
+    if (isNaN(d.getTime())) return '';
+    const p = n => String(n).padStart(2, '0');
+    return p(d.getDate()) + '/' + p(d.getMonth() + 1) + '/' + String(d.getFullYear()).slice(-2) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes());
+  }
+
+  function stageBlock(item){
+    const idx = stageIndex(item.stage);
+    const cur = STAGES[idx];
+    const next = STAGES[idx + 1];
+    const prev = STAGES[idx - 1];
+    const id = escapeHtml(item.row).replace(/"/g, '&quot;');
+    let h = '<div class="stage-box">' +
+      '<div class="stage-top">' +
+        '<span class="stage-pill s' + idx + '">' + escapeHtml(cur.label) + '</span>' +
+        '<span class="stage-dots" title="שלב ' + (idx + 1) + ' מתוך ' + STAGES.length + '">' +
+          STAGES.map((s, i) => '<i class="sdot' + (i <= idx ? ' on' : '') + '"></i>').join('') +
+        '</span>' +
+        (item.quoteAmount !== null ? '<span class="stage-extra">הצעה: ₪' + item.quoteAmount.toLocaleString('he-IL') + '</span>' : '') +
+      '</div>' +
+      (item.stageLog.length > 1 ? '<div class="decision" style="margin-top:6px;">החלטה אחרונה: <b>' + escapeHtml(lastDecision(item)) + '</b></div>' : '') +
+      (item.stageNote ? '<div class="stage-extra" style="margin-top:6px;">הערה: ' + escapeHtml(item.stageNote) + '</div>' : '');
+
+    const canNext = next && canSetStage(next.id);
+    const canPrev = prev && canSetStage(prev.id);
+    if (canNext || canPrev){
+      h += '<div class="stage-actions">';
+      if (canNext) h += '<button type="button" class="stage-adv" data-row="' + id + '" data-to="' + next.id + '">קידום: ' + escapeHtml(next.short) + '</button>';
+      if (canPrev) h += '<button type="button" class="stage-back" data-row="' + id + '" data-to="' + prev.id + '">חזרה: ' + escapeHtml(prev.short) + '</button>';
+      h += '</div>';
+      if (canNext){
+        h += '<div class="stage-form" data-stage-form="' + id + '" hidden>' +
+          (next.id === 'quote_ok' ? '<input type="number" inputmode="decimal" min="0" class="stage-amount" placeholder="סכום הצעת המחיר ב-₪ (לא חובה)">' : '') +
+          '<input type="text" class="stage-note" maxlength="200" placeholder="הערה (לא חובה)">' +
+          '<div class="row2"><button type="button" class="stage-confirm" data-row="' + id + '" data-to="' + next.id + '">אישור: ' + escapeHtml(next.short) + '</button>' +
+          '<button type="button" class="stage-cancel" data-row="' + id + '">ביטול</button></div>' +
+          '<span class="stage-err" hidden></span></div>';
+      }
+    }
+    const decOpts = DECISION_IDS.filter(d => canSetStage(d) && d !== item.stage);
+    if (decOpts.length){
+      h += '<div class="card-dec"><select class="card-dec-sel"><option value="">החלטת מפקח…</option>' +
+        decOpts.map(d => '<option value="' + d + '">' + escapeHtml(STAGES.find(x => x.id === d).label.replace(' (מפקח)', '')) + '</option>').join('') + '</select>' +
+        '<input type="text" class="card-dec-note" maxlength="200" placeholder="הערת מפקח (לא חובה)">' +
+        '<button type="button" class="card-dec-go" data-row="' + id + '">רישום החלטה</button></div>';
+    }
+    // מסלול הטיפול — גלוי לכל המשתמשים (גם מדווח רגיל), כדי לדעת איפה הרכב בתהליך
+    const events = item.stageLog.map(l => ({ at: l.at || 0, kind: 'stage', l: l }))
+      .concat((Array.isArray(item.editLog) ? item.editLog : []).map(e => ({ at: e.at || 0, kind: 'edit', l: e })));
+    events.sort((a, b) => a.at - b.at);
+    if (events.length > 1){
+      h += '<details class="stage-log" open><summary>מסלול הטיפול ברכב (' + events.length + ')</summary><ul class="timeline">' +
+        events.map(ev => {
+          const l = ev.l;
+          if (ev.kind === 'edit'){
+            return '<li class="tl-edit">פרטי הדיווח עודכנו' + (l.fields ? ' (' + escapeHtml(l.fields) + ')' : '') + ' · ' + escapeHtml(fmtDateTime(l.at)) +
+              (l.byName ? ' · ' + escapeHtml(l.byName) : '') + '</li>';
+          }
+          const st = STAGES.find(x => x.id === l.stage);
+          return '<li><b>' + escapeHtml(st ? st.label.replace(' (מפקח)', '') : l.stage) + '</b> · ' + escapeHtml(fmtDateTime(l.at)) +
+            ((l.byName || l.by) ? ' · ' + escapeHtml(l.byName || l.by) : '') + (l.amount ? ' · ₪' + Number(l.amount).toLocaleString('he-IL') : '') +
+            (l.note ? '<span class="tl-note">' + escapeHtml(l.note) + '</span>' : '') + '</li>';
+        }).join('') + '</ul></details>';
+    }
+    return h + '</div>';
+  }
+
   function renderBoard(items){
     // גיליון גוגל ממיר לפעמים ערכים (למשל יחידה "3" או מספר רכב) למספרים — מנרמלים לטקסט
     items = (items || []).map(it => Object.assign({}, it, {
@@ -930,10 +1450,20 @@
       unit: it.unit == null ? '' : String(it.unit),
       reportedBy: it.reportedBy == null ? '' : String(it.reportedBy),
       region: it.region == null ? '' : String(it.region).replace('ימרכז','מרכז'),
-      garage: it.garage == null ? '' : String(it.garage)
+      garage: it.garage == null ? '' : String(it.garage),
+      city: it.city == null ? '' : String(it.city),
+      stage: STAGES.some(x => x.id === it.stage) ? it.stage : 'reported',
+      stageLog: Array.isArray(it.stageLog) ? it.stageLog : [],
+      stageNote: it.stageNote == null ? '' : String(it.stageNote),
+      quoteAmount: typeof it.quoteAmount === 'number' ? it.quoteAmount : null
     }));
     lastItems = items;
 
+    const cityDatalist = document.getElementById('cityList');
+    if (cityDatalist){
+      cityDatalist.innerHTML = [...new Set(items.map(i => (i.city || '').trim()).filter(Boolean))]
+        .map(n => '<option value="' + escapeHtml(n).replace(/"/g, '&quot;') + '"></option>').join('');
+    }
     const garageDatalist = document.getElementById('garageList');
     if (garageDatalist){
       const garageNames = [...new Set(items.map(i => (i.garage || '').toString().trim()).filter(Boolean))];
@@ -976,6 +1506,9 @@
 
     boardList.innerHTML = '';
     boardList.classList.remove('table-mode');
+    boardList.classList.remove('sup-mode');
+    supPanel.hidden = !(supMode && isPrivileged());
+    syncRoleUI();
 
     if (!active.length){
       boardList.innerHTML =
@@ -988,6 +1521,8 @@
 
     const todayStr = new Date().toISOString().slice(0,10);
 
+    if (supMode && isPrivileged()){ supPanel.hidden = false; renderSupPanel(active); return; }
+    boardList.classList.remove('sup-mode');
     boardList.classList.remove('table-mode');
     if (tableMode && wideMq.matches){
       boardList.classList.add('table-mode');
@@ -1008,14 +1543,15 @@
           '<td>' + escapeHtml(item.region || 'ללא מרחב') + '<span class="sub-line">' + escapeHtml(item.unit) + '</span></td>' +
           '<td class="plate-cell"><b>' + escapeHtml(item.plate) + '</b></td>' +
           '<td class="fault-cell">' + escapeHtml(item.fault) + '</td>' +
-          '<td>' + escapeHtml(item.garage) + '</td>' +
+          '<td>' + escapeHtml(item.garage) + (item.city ? '<span class="sub-line">' + escapeHtml(item.city) + '</span>' : '') + '</td>' +
+          '<td class="stage-cell">' + stageBlock(item).replace('class="stage-box"', 'class="stage-box" style="border:none;margin:0;padding:0;"') + '</td>' +
           '<td>' + escapeHtml(formatDate(item.entryDate)) + (ageLabel ? '<span class="sub-line"><span class="age-pill ' + ageClass + '">' + ageLabel + '</span></span>' : '') + '</td>' +
           '<td>' + escapeHtml(item.reportedBy) + '</td>' +
           '<td>' + exitCell(item) + '</td>' +
         '</tr>';
       }).join('');
       boardList.innerHTML = '<div class="row-table-wrap"><table class="row-table"><thead><tr>' +
-        '<th>מרחב / יחידה</th><th>מספר רכב</th><th>תקלה</th><th>מוסך</th><th>כניסה</th><th>דווח ע"י</th><th></th>' +
+        '<th>מרחב / יחידה</th><th>מספר רכב</th><th>תקלה</th><th>מוסך</th><th>שלב</th><th>כניסה</th><th>דווח ע"י</th><th></th>' +
         '</tr></thead><tbody>' + rowsHtml + '</tbody></table></div>';
       return;
     }
@@ -1049,10 +1585,12 @@
           (ageLabel ? '<span class="age-pill ' + ageClass + '">' + ageLabel + '</span>' : '') +
         '</div>' +
         '<div class="board-row-fault">' + escapeHtml(item.fault) + '</div>' +
+        stageBlock(item) +
         '<div class="board-row-meta">' +
-          'נכנס ' + escapeHtml(formatDate(item.entryDate)) + (item.garage ? ' · מוסך: ' + escapeHtml(item.garage) : '') + (item.reportedBy ? ' · דווח ע"י ' + escapeHtml(item.reportedBy) : '') +
+          'נכנס ' + escapeHtml(formatDate(item.entryDate)) + (item.garage ? ' · מוסך: ' + escapeHtml(item.garage) + (item.city ? ', ' + escapeHtml(item.city) : '') : '') + (item.reportedBy ? ' · דווח ע"י ' + escapeHtml(item.reportedBy) : '') + (item.editedByName ? ' · נערך ע"י ' + escapeHtml(item.editedByName) : '') +
         '</div>' +
         '<div class="board-row-actions">' +
+          (canEdit() ? '<button type="button" class="edit-rep" data-row="' + escapeHtml(item.row).replace(/"/g, '&quot;') + '">עריכת פרטי דיווח (מפקח)</button>' : '') +
           '<button type="button" class="exit-btn" data-row="' + item.row + '">סימון יציאה מהמוסך</button>' +
           '<div class="exit-form" data-row-form="' + item.row + '" hidden>' +
             '<input type="date" class="exit-date-input" value="' + todayStr + '">' +
@@ -1087,8 +1625,8 @@
 
     names.forEach(n => {
       html += '<h2>' + escapeHtml(n) + ' · ' + groups[n].length + '</h2>' +
-        '<table><colgroup><col style="width:13%"><col style="width:13%"><col style="width:25%"><col style="width:13%"><col style="width:11%"><col style="width:9%"><col style="width:16%"></colgroup><thead><tr>' +
-        '<th>מספר רכב</th><th>יחידה</th><th>תקלה</th><th>מוסך</th><th>תאריך כניסה</th><th>ימים במוסך</th><th>דווח ע"י</th>' +
+        '<table><colgroup><col style="width:11%"><col style="width:11%"><col style="width:20%"><col style="width:12%"><col style="width:14%"><col style="width:10%"><col style="width:7%"><col style="width:15%"></colgroup><thead><tr>' +
+        '<th>מספר רכב</th><th>יחידה</th><th>תקלה</th><th>מוסך</th><th>שלב</th><th>תאריך כניסה</th><th>ימים</th><th>דווח ע"י</th>' +
         '</tr></thead><tbody>';
       groups[n].forEach(it => {
         const d = daysAgo(it.entryDate);
@@ -1096,7 +1634,8 @@
           '<td>' + escapeHtml(it.plate) + '</td>' +
           '<td>' + escapeHtml(it.unit) + '</td>' +
           '<td>' + escapeHtml(it.fault) + '</td>' +
-          '<td>' + escapeHtml(it.garage) + '</td>' +
+          '<td>' + escapeHtml(it.garage) + (it.city ? ', ' + escapeHtml(it.city) : '') + '</td>' +
+          '<td>' + escapeHtml(stageLabel(it)) + '</td>' +
           '<td>' + escapeHtml(formatDate(it.entryDate)) + '</td>' +
           '<td><span class="pr-days' + (d !== null && d >= 14 ? ' old' : '') + '">' + (d === null ? '' : d) + '</span></td>' +
           '<td>' + escapeHtml(it.reportedBy) + '</td>' +
@@ -1132,6 +1671,8 @@
         plate: it.plate || '',
         fault: it.fault || '',
         garage: it.garage || '',
+        city: it.city || '',
+        stage: stageLabel(it),
         date: (dt && !isNaN(dt.getTime())) ? dt : null,
         days: daysAgo(it.entryDate),
         reportedBy: it.reportedBy || ''
@@ -1145,20 +1686,20 @@
       return;
     }
     const rows = exportRows();
-    const header = ['מרחב', 'יחידה', 'מספר רכב', 'תקלה', 'מוסך', 'תאריך כניסה', 'ימים במוסך', 'דווח ע"י'];
+    const header = ['מרחב', 'יחידה', 'מספר רכב', 'תקלה', 'מוסך', 'עיר', 'שלב', 'תאריך כניסה', 'ימים במוסך', 'דווח ע"י'];
     const filename = 'vehicles-in-garage-' + new Date().toISOString().slice(0, 10);
 
     if (window.XLSX){
       const aoa = [header].concat(rows.map(r => [
-        r.region, r.unit, r.plate, r.fault, r.garage, r.date, r.days === null ? '' : r.days, r.reportedBy
+        r.region, r.unit, r.plate, r.fault, r.garage, r.city, r.stage, r.date, r.days === null ? '' : r.days, r.reportedBy
       ]));
       const ws = XLSX.utils.aoa_to_sheet(aoa, { cellDates: true });
       for (let i = 1; i <= rows.length; i++){
-        const cell = ws[XLSX.utils.encode_cell({ r: i, c: 5 })];
+        const cell = ws[XLSX.utils.encode_cell({ r: i, c: 7 })];
         if (cell && cell.t === 'd') cell.z = 'dd/mm/yy';
       }
-      ws['!cols'] = [{wch:16}, {wch:14}, {wch:14}, {wch:36}, {wch:16}, {wch:13}, {wch:11}, {wch:16}];
-      ws['!autofilter'] = { ref: 'A1:H' + (rows.length + 1) };
+      ws['!cols'] = [{wch:16}, {wch:14}, {wch:14}, {wch:36}, {wch:16}, {wch:14}, {wch:24}, {wch:13}, {wch:11}, {wch:16}];
+      ws['!autofilter'] = { ref: 'A1:J' + (rows.length + 1) };
       const wb = XLSX.utils.book_new();
       wb.Workbook = { Views: [{ RTL: true }] };
       XLSX.utils.book_append_sheet(wb, ws, 'רכבים במוסך');
@@ -1170,7 +1711,7 @@
     const pad = n => String(n).padStart(2, '0');
     const esc = v => '"' + String(v === null || v === undefined ? '' : v).replace(/"/g, '""') + '"';
     const csvRows = [header].concat(rows.map(r => [
-      r.region, r.unit, r.plate, r.fault, r.garage,
+      r.region, r.unit, r.plate, r.fault, r.garage, r.city, r.stage,
       r.date ? pad(r.date.getDate()) + '/' + pad(r.date.getMonth() + 1) + '/' + String(r.date.getFullYear()).slice(-2) : '',
       r.days === null ? '' : r.days,
       r.reportedBy
@@ -1222,8 +1763,221 @@
     }
   });
 
+  async function writeStageMany(ids, toId, note, amount){
+    const batch = writeBatch(db);
+    ids.forEach(rowId => {
+      const entry = { stage: toId, by: (auth.currentUser && auth.currentUser.email) || '', byName: whoAmI(), at: Date.now() };
+      if (note) entry.note = note;
+      const upd = { stage: toId, stageNote: note || '', stageLog: arrayUnion(entry) };
+      if (amount !== null && amount !== undefined && !isNaN(amount)){ upd.quoteAmount = amount; entry.amount = amount; }
+      batch.update(doc(db, 'reports', rowId), upd);
+    });
+    const w = batch.commit();
+    w.catch(() => {});
+    await Promise.race([w, new Promise(res => setTimeout(res, 5000))]);
+  }
+
+  function selectedItems(rows){ return rows.filter(it => supSel.has(it.row)); }
+
+  function decisionBtns(sel){
+    const ids = DECISION_IDS.filter(id => canSetStage(id) && sel.some(i => i.stage !== id));
+    if (!ids.length) return '';
+    return '<div class="sup-dec-row"><span class="lbl">החלטת מפקח:</span>' +
+      ids.map(id => { const st = STAGES.find(x => x.id === id); return '<button type="button" class="sup-dec" data-to="' + id + '">' + escapeHtml(st.label.replace(' (מפקח)', '')) + '</button>'; }).join('') + '</div>';
+  }
+
+  function updateSupBar(rows){
+    const sel = selectedItems(rows);
+    const countEl = document.getElementById('supCount');
+    const actions = document.getElementById('supActions');
+    const amountEl = document.getElementById('supAmount');
+    document.getElementById('supAll').checked = rows.length > 0 && sel.length === rows.length;
+    countEl.textContent = sel.length ? ('נבחרו ' + sel.length + ' רכבים') : 'לא נבחרו רכבים';
+    amountEl.hidden = !(sel.length === 1 && canSetStage('quote_ok'));
+    if (!sel.length){
+      actions.innerHTML = '<span class="sup-hint">סמנו רכבים כדי לפעול על כמה במקביל</span>';
+      return;
+    }
+    let h = '';
+    const stages = new Set(sel.map(i => i.stage));
+    if (stages.size === 1){
+      const idx = stageIndex(sel[0].stage);
+      const next = STAGES[idx + 1], prev = STAGES[idx - 1];
+      if (next && canSetStage(next.id)){
+        h += '<button type="button" class="sup-adv" data-to="' + next.id + '">קידום ל: ' + escapeHtml(next.short) + ' (' + sel.length + ')</button>';
+      }
+      if (prev && canSetStage(prev.id)){
+        h += '<button type="button" class="sup-back" data-to="' + prev.id + '">חזרה ל: ' + escapeHtml(prev.short) + '</button>';
+      }
+    } else {
+      h += '<span class="sup-hint">רכבים בשלבים שונים — אפשר לקבוע להם החלטה משותפת:</span>';
+    }
+    h += decisionBtns(sel);
+    actions.innerHTML = h || '<span class="sup-hint">אין לך הרשאה לקדם את השלב הזה</span>';
+  }
+
+  function renderSupPanel(active){
+    document.getElementById('supWho').textContent = (whoAmI() || '—') + ' · ' + (ROLE_LABELS[myRole] || '');
+    const cityNames = [...new Set(active.map(i => (i.city || '').trim()).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'he'));
+    if (supCity && supCity !== '__none' && !cityNames.includes(supCity)) supCity = '';
+    const citySel = document.getElementById('supCity');
+    citySel.innerHTML = '<option value="">כל הערים (' + active.length + ')</option>' +
+      cityNames.map(c => '<option value="' + escapeHtml(c).replace(/"/g, '&quot;') + '">' + escapeHtml(c) + ' (' + active.filter(i => (i.city || '').trim() === c).length + ')</option>').join('') +
+      (active.some(i => !(i.city || '').trim()) ? '<option value="__none">ללא עיר (' + active.filter(i => !(i.city || '').trim()).length + ')</option>' : '');
+    citySel.value = supCity;
+    if (supCity) active = active.filter(i => supCity === '__none' ? !(i.city || '').trim() : (i.city || '').trim() === supCity);
+    const mineCount = active.filter(canAdvance).length;
+    const counts = {};
+    active.forEach(it => { counts[it.stage] = (counts[it.stage] || 0) + 1; });
+    const chip = (key, label, n) => '<button type="button" class="region-chip' + (supFilter === key ? ' active' : '') + '" data-sup="' + key + '">' + escapeHtml(label) + ' <b>' + n + '</b></button>';
+    document.getElementById('supChips').innerHTML =
+      chip('mine', 'ממתינים להחלטה שלי', mineCount) + chip('all', 'הכל', active.length) +
+      STAGES.filter(st => counts[st.id]).map(st => chip(st.id, st.short, counts[st.id])).join('');
+
+    let rows = active;
+    if (supFilter === 'mine') rows = active.filter(canAdvance);
+    else if (supFilter !== 'all') rows = active.filter(it => it.stage === supFilter);
+    rows = rows.slice().sort((a, b) => (daysAgo(b.entryDate) || 0) - (daysAgo(a.entryDate) || 0));
+
+    const visible = new Set(rows.map(r => r.row));
+    Array.from(supSel).forEach(id => { if (!visible.has(id)) supSel.delete(id); });
+
+    boardList.classList.remove('table-mode');
+    boardList.classList.add('sup-mode');
+    if (!rows.length){
+      boardList.innerHTML = '<div class="board-empty-state"><span>' + (supFilter === 'mine' ? 'אין כרגע רכבים שממתינים להחלטה שלך' : 'אין רכבים בסינון הזה') + '</span></div>';
+      updateSupBar(rows);
+      return;
+    }
+    const body = rows.map(it => {
+      const d = daysAgo(it.entryDate);
+      let ageClass = 'age-fresh';
+      if (d !== null){ if (d >= 7) ageClass = 'age-long'; else if (d >= 3) ageClass = 'age-mid'; }
+      const idx = stageIndex(it.stage);
+      const next = nextOf(it);
+      const rid = escapeHtml(it.row).replace(/"/g, '&quot;');
+      return '<tr class="' + (supSel.has(it.row) ? 'sel' : '') + '">' +
+        '<td><input type="checkbox" class="sup-chk" data-row="' + rid + '"' + (supSel.has(it.row) ? ' checked' : '') + '></td>' +
+        '<td class="plate-cell"><b>' + escapeHtml(it.plate) + '</b><span class="sub-line">' + escapeHtml(it.unit) + ' · ' + escapeHtml(it.region || 'ללא מרחב') + '</span></td>' +
+        '<td class="fault-cell">' + escapeHtml(it.fault) + '<span class="sub-line">מוסך: ' + escapeHtml(it.garage) + (it.city ? ', ' + escapeHtml(it.city) : '') + ' · דווח ע"י ' + escapeHtml(it.reportedBy) + (it.editedByName ? ' · נערך ע"י ' + escapeHtml(it.editedByName) : '') + '</span></td>' +
+        '<td><span class="stage-pill s' + idx + '">' + escapeHtml(STAGES[idx].short) + '</span>' +
+          (it.quoteAmount !== null ? '<span class="sub-line">₪' + it.quoteAmount.toLocaleString('he-IL') + '</span>' : '') + '</td>' +
+        '<td>' + escapeHtml(formatDate(it.entryDate)) + (d !== null ? '<span class="sub-line"><span class="age-pill ' + ageClass + '">' + (d === 0 ? 'היום' : d + ' ימים') + '</span></span>' : '') + '</td>' +
+        '<td class="decision">' + (it.stageLog.length > 1 ? '<b>' + escapeHtml(lastDecision(it)) + '</b>' + (it.stageNote ? '<br>' + escapeHtml(it.stageNote) : '') : '—') + '</td>' +
+        '<td>' + (next && canSetStage(next.id) ? '<button type="button" class="sup-one" data-row="' + rid + '" data-to="' + next.id + '">' + escapeHtml(next.short) + ' ›</button>' : '') +
+          '<input type="text" class="sup-row-note" maxlength="200" placeholder="הערת מפקח (לא חובה)">' +
+          '<select class="sup-dec-sel" data-row="' + rid + '"><option value="">החלטה…</option>' + DECISION_IDS.filter(d => canSetStage(d) && d !== it.stage).map(d => '<option value="' + d + '">' + escapeHtml(STAGES.find(x => x.id === d).short) + '</option>').join('') + '</select>' +
+          (canEdit() ? '<br><button type="button" class="edit-rep small" data-row="' + rid + '">עריכת פרטים</button>' : '') + '</td>' +
+      '</tr>';
+    }).join('');
+    boardList.innerHTML = '<div class="row-table-wrap"><table class="row-table sup"><thead><tr><th></th><th>רכב</th><th>תקלה</th><th>שלב</th><th>כניסה</th><th>החלטה אחרונה</th><th></th></tr></thead><tbody>' + body + '</tbody></table></div>';
+    boardList._supRows = rows;
+    updateSupBar(rows);
+  }
+
+  function syncRoleUI(){
+    const priv = isPrivileged();
+    supBtn.hidden = !priv;
+    const so = document.getElementById('signOutBtn'), sf = document.getElementById('staffBtn');
+    if (so) so.hidden = !priv || !REQUIRE_CODE;
+    if (sf) sf.hidden = REQUIRE_CODE ? priv : false;
+    if (!priv && supMode){ supMode = false; }
+    document.getElementById('supBtnLabel').textContent = supMode ? 'חזרה לתצוגה רגילה' : 'מצב מפקח';
+  }
+  supBtn.addEventListener('click', () => { supMode = !supMode; syncRoleUI(); renderBoard(lastItems); });
+
+  document.getElementById('supCity').addEventListener('change', (e) => { supCity = e.target.value; supSel.clear(); renderBoard(lastItems); });
+  supPanel.addEventListener('click', async (e) => {
+    const t = e.target;
+    const chipEl = t.closest('[data-sup]');
+    if (chipEl){ supFilter = chipEl.dataset.sup; renderBoard(lastItems); return; }
+    if (t.classList.contains('sup-adv') || t.classList.contains('sup-back') || t.classList.contains('sup-dec')){
+      const rows = boardList._supRows || [];
+      const sel = selectedItems(rows);
+      if (!sel.length) return;
+      if (t.classList.contains('sup-back') && !confirm('להחזיר ' + sel.length + ' רכבים לשלב הקודם?')) return;
+      const note = document.getElementById('supNote').value.trim();
+      const amtEl = document.getElementById('supAmount');
+      const amount = !amtEl.hidden && amtEl.value !== '' && t.dataset.to === 'quote_ok' ? Number(amtEl.value) : null;
+      t.disabled = true;
+      try {
+        await writeStageMany(sel.map(i => i.row), t.dataset.to, note, amount);
+        supSel.clear();
+        document.getElementById('supNote').value = '';
+        amtEl.value = '';
+      } catch (err) {
+        alert('אין הרשאה או שגיאת חיבור.');
+      }
+      renderBoard(lastItems);
+    }
+  });
+  document.getElementById('supAll').addEventListener('change', (e) => {
+    const rows = boardList._supRows || [];
+    if (e.target.checked) rows.forEach(r => supSel.add(r.row)); else rows.forEach(r => supSel.delete(r.row));
+    renderBoard(lastItems);
+  });
+  boardList.addEventListener('change', (e) => {
+    if (e.target.classList.contains('sup-dec-sel')){
+      const v = e.target.value; if (!v) return;
+      e.target.disabled = true;
+      const noteEl = e.target.closest('td').querySelector('.sup-row-note');
+      writeStage(e.target.dataset.row, v, noteEl ? noteEl.value.trim() : '', null).catch(() => { e.target.disabled = false; alert('אין הרשאה או שגיאת חיבור.'); });
+      return;
+    }
+    if (!e.target.classList.contains('sup-chk')) return;
+    if (e.target.checked) supSel.add(e.target.dataset.row); else supSel.delete(e.target.dataset.row);
+    const tr = e.target.closest('tr'); if (tr) tr.classList.toggle('sel', e.target.checked);
+    updateSupBar(boardList._supRows || []);
+  });
+  boardList.addEventListener('click', async (e) => {
+    const b = e.target.closest('.sup-one');
+    if (!b) return;
+    b.disabled = true;
+    try { await writeStage(b.dataset.row, b.dataset.to, '', null); } catch (err) { b.disabled = false; alert('אין הרשאה או שגיאת חיבור.'); }
+  });
+
+  async function writeStage(rowId, toId, note, amount){
+    const entry = { stage: toId, by: (auth.currentUser && auth.currentUser.email) || '', byName: whoAmI(), at: Date.now() };
+    if (note) entry.note = note;
+    const upd = { stage: toId, stageNote: note || '', stageLog: arrayUnion(entry) };
+    if (amount !== null && amount !== undefined && !isNaN(amount)){ upd.quoteAmount = amount; entry.amount = amount; }
+    const w = updateDoc(doc(db, 'reports', rowId), upd);
+    w.catch(() => {});
+    await Promise.race([w, new Promise(res => setTimeout(res, 4000))]);
+  }
+
   boardList.addEventListener('click', async (e) => {
     const target = e.target;
+
+    if (target.classList.contains('stage-adv')){
+      const f = boardList.querySelector('.stage-form[data-stage-form="' + target.dataset.row + '"]');
+      if (f){ f.hidden = false; target.hidden = true; }
+      return;
+    }
+    if (target.classList.contains('stage-cancel')){
+      const f = target.closest('.stage-form');
+      f.hidden = true;
+      const adv = boardList.querySelector('.stage-adv[data-row="' + target.dataset.row + '"]');
+      if (adv) adv.hidden = false;
+      return;
+    }
+    if (target.classList.contains('stage-confirm') || target.classList.contains('stage-back')){
+      const isBack = target.classList.contains('stage-back');
+      if (isBack && !confirm('להחזיר את הרכב לשלב הקודם?')) return;
+      const f = target.closest('.stage-form');
+      const note = f ? f.querySelector('.stage-note').value.trim() : '';
+      const amtEl = f ? f.querySelector('.stage-amount') : null;
+      const amount = amtEl && amtEl.value !== '' ? Number(amtEl.value) : null;
+      target.disabled = true;
+      try {
+        await writeStage(target.dataset.row, target.dataset.to, note, amount);
+      } catch (err) {
+        target.disabled = false;
+        const er = f && f.querySelector('.stage-err');
+        if (er){ er.textContent = 'אין הרשאה או שגיאת חיבור.'; er.hidden = false; } else alert('אין הרשאה או שגיאת חיבור.');
+      }
+      return;
+    }
 
     if (target.classList.contains('exit-btn')){
       const form = boardList.querySelector('.exit-form[data-row-form="' + target.dataset.row + '"]');
@@ -1256,56 +2010,155 @@
       target.textContent = 'שומר...';
 
       try {
-        const result = await jsonp(APPS_SCRIPT_URL, { action: 'exit', row: rowNum, exitDate: exitDate });
-        if (result && result.ok !== false){
-          loadBoard();
-        } else {
-          target.disabled = false;
-          target.textContent = 'אישור';
-          errEl.textContent = 'שגיאה בעדכון תאריך היציאה.';
-          errEl.hidden = false;
-        }
+        const w = updateDoc(doc(db, 'reports', rowNum), { exitDate: exitDate });
+        w.catch(() => {});
+        await Promise.race([w, new Promise(res => setTimeout(res, 4000))]);
+        // הלוח מתעדכן לבד דרך ההאזנה בזמן אמת
       } catch (err) {
         target.disabled = false;
         target.textContent = 'אישור';
-        errEl.textContent = 'שגיאת חיבור. נסו שוב.';
+        errEl.textContent = 'לא ניתן היה לעדכן. בדקו הרשאות/חיבור ונסו שוב.';
         errEl.hidden = false;
       }
     }
   });
 
-  async function loadBoard(){
-    if (APPS_SCRIPT_URL.includes('REPLACE_WITH')){
-      boardEmpty.textContent = 'לא הוגדר חיבור לגיליון.';
-      countNum.textContent = '–';
-      return;
-    }
-    try {
-      const result = await jsonp(APPS_SCRIPT_URL, { action: 'list' });
-      if (result && result.ok !== false){
-        renderBoard(result.items || []);
-      } else {
-        boardEmpty.textContent = 'שגיאה בטעינת תמונת המצב.';
-      }
-    } catch (err) {
-      boardEmpty.textContent = 'לא ניתן היה לטעון תמונת מצב כרגע.';
-    }
+  // ===== Firebase: אתחול, התחברות והאזנה בזמן אמת =====
+  const CONFIGURED = !firebaseConfig.apiKey.startsWith('PASTE');
+  let app, auth, db, unsubscribe = null;
+
+  const authGate = document.getElementById('authGate');
+  const authMsg = document.getElementById('authMsg');
+  const loginForm = document.getElementById('loginForm');
+  const loginBtn = document.getElementById('loginBtn');
+  const userLabel = document.getElementById('userLabel');
+
+  function authSay(text, kind){
+    authMsg.textContent = text;
+    authMsg.className = 'auth-msg show ' + kind;
+  }
+  function authErrorText(err){
+    const c = (err && err.code) || '';
+    if (c.includes('invalid-credential') || c.includes('wrong-password') || c.includes('user-not-found')) return 'קוד הגישה שגוי.';
+    if (c.includes('invalid-email')) return 'כתובת האימייל אינה תקינה.';
+    if (c.includes('too-many-requests')) return 'יותר מדי ניסיונות. נסו שוב בעוד כמה דקות.';
+    if (c.includes('network')) return 'אין חיבור לאינטרנט.';
+    return 'שגיאה בהתחברות. נסו שוב.';
   }
 
-  refreshBtn.addEventListener('click', () => {
-    refreshBtn.classList.remove('spin');
-    void refreshBtn.offsetWidth;
-    refreshBtn.classList.add('spin');
-    loadBoard();
+  if (!CONFIGURED){
+    document.getElementById('authIntro').textContent = 'לא הוגדר חיבור ל-Firebase. יש להדביק את ה-config בקוד.';
+    loginBtn.disabled = true;
+  } else {
+    app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    db = initializeFirestore(app, {
+      localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() })
+    });
+  }
+
+  let unsubRole = null;
+  function startListening(){
+    if (unsubscribe) unsubscribe();
+    if (unsubRole){ unsubRole(); unsubRole = null; }
+    if (!DEMO_MODE){
+      unsubRole = onSnapshot(doc(db, 'users', auth.currentUser.uid), (snap) => {
+        const ud = snap.exists() ? snap.data() : {};
+        myRole = ud.role || '';
+        myName = ud.name || '';
+        userLabel.textContent = (myName || myRole) ? 'מחובר: ' + (myName || auth.currentUser.email || '') + ' · תפקיד: ' + (ROLE_LABELS[myRole] || 'מדווח') : '';
+        syncRoleUI();
+        renderBoard(lastItems);
+      }, () => { myRole = ''; });
+    }
+    unsubscribe = onSnapshot(collection(db, 'reports'), (snap) => {
+      const items = snap.docs.map(d => {
+        const x = d.data();
+        const ms = x.createdAt && x.createdAt.toMillis ? x.createdAt.toMillis() : Number.MAX_SAFE_INTEGER;
+        return Object.assign({}, x, { row: d.id, _ms: ms, exitDate: x.exitDate || '' });
+      });
+      items.sort((a, b) => a._ms - b._ms);
+      renderBoard(items);
+    }, (err) => {
+      boardEmpty.textContent = 'אין הרשאה או חיבור לטעינת תמונת המצב.';
+      console.error(err);
+    });
+  }
+
+  if (CONFIGURED){
+    onAuthStateChanged(auth, (user) => {
+      if (user){
+        document.body.classList.remove('locked');
+        authGate.hidden = true;
+        userLabel.textContent = user.email ? 'מחובר: ' + user.email : '';
+        if (DEMO_MODE){ const drs = document.getElementById('demoRole'); if (user.demoRole !== undefined) drs.value = user.demoRole; myRole = drs.value; myName = user.demoName || 'משתמש הדגמה'; syncRoleUI(); }
+        startListening();
+      } else {
+        if (unsubscribe){ unsubscribe(); unsubscribe = null; }
+        if (unsubRole){ unsubRole(); unsubRole = null; }
+        myRole = ''; myName = ''; supMode = false;
+        document.body.classList.add('locked');
+        authGate.hidden = false;
+        userLabel.textContent = '';
+      }
+    });
+  }
+
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!CONFIGURED) return;
+    const email = document.getElementById('loginEmail').value.trim();
+    const pass = document.getElementById('loginPass').value;
+    if (!pass){ authSay('יש להזין קוד גישה.', 'err'); return; }
+    loginBtn.disabled = true; loginBtn.textContent = 'מתחבר...';
+    authMsg.className = 'auth-msg';
+    try {
+      await signInWithEmailAndPassword(auth, email, pass);
+      document.getElementById('loginPass').value = '';
+      authGate.hidden = true;
+    } catch (err) {
+      authSay(authErrorText(err), 'err');
+    } finally {
+      loginBtn.disabled = false; loginBtn.textContent = 'כניסה';
+    }
   });
 
-  loadBoard();
+  document.getElementById('resetBtn').addEventListener('click', async () => {
+    if (!CONFIGURED) return;
+    const email = document.getElementById('loginEmail').value.trim();
+    if (!email){ authSay('הזינו אימייל ואז לחצו שוב על "שכחתי סיסמה".', 'err'); return; }
+    try {
+      await sendPasswordResetEmail(auth, email);
+      authSay('נשלח אימייל לאיפוס סיסמה (אם המשתמש קיים).', 'ok');
+    } catch (err) {
+      authSay(authErrorText(err), 'err');
+    }
+  });
 
+  document.getElementById('signOutBtn').addEventListener('click', () => { signOut(auth); });
+  document.getElementById('staffBtn').addEventListener('click', () => { authGate.hidden = false; setTimeout(() => document.getElementById('loginPass').focus(), 50); });
+  document.getElementById('loginCancel').addEventListener('click', () => { authGate.hidden = true; });
+  if (!REQUIRE_CODE){
+    document.querySelector('.auth-card h1').textContent = 'שם המפקח';
+    document.getElementById('authIntro').textContent = 'השם יירשם בכל החלטה ועריכה שתבצעו, ויוצג בכרטיס הרכב.';
+    const lp = document.getElementById('loginPass'); lp.type = 'text'; lp.placeholder = 'שם מלא'; lp.value = staff ? staff.name : '';
+    document.getElementById('loginBtn').textContent = 'שמירה';
+    document.getElementById('loginCancel').textContent = 'ביטול';
+    document.getElementById('staffBtn').textContent = 'שינוי שם מפקח';
+  }
+
+  document.getElementById('refreshBtn').addEventListener('click', () => { refresh(); });
+
+  // ===== שליחת דיווח =====
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    if (!CONFIGURED || !auth.currentUser){
+      showStatus('יש להתחבר לפני שליחת דיווח.', 'err');
+      return;
+    }
 
-    if (APPS_SCRIPT_URL.includes('REPLACE_WITH')){
-      showStatus('לא הוגדרה כתובת חיבור ל-Google Sheets. יש להשלים את ההגדרה בקוד.', 'err');
+    if (!document.getElementById('garage').value.trim() || !document.getElementById('city').value.trim()){
+      showStatus('חובה להזין שם מוסך ועיר.', 'err');
       return;
     }
 
@@ -1313,16 +2166,21 @@
       pendingSubmissionId = makeId();
     }
 
-    const payload = {
-      action: 'submit',
-      submissionId: pendingSubmissionId,
+    const data = {
       plate: document.getElementById('plate').value.trim(),
       fault: document.getElementById('fault').value.trim(),
       entryDate: entryDateInput.value,
       unit: document.getElementById('unit').value.trim(),
       region: (regionSelect.value === OTHER_REGION ? regionOtherInput.value : regionSelect.value).trim(),
       garage: document.getElementById('garage').value.trim(),
-      reportedBy: document.getElementById('reportedBy').value.trim()
+      city: document.getElementById('city').value.trim(),
+      reportedBy: document.getElementById('reportedBy').value.trim(),
+      exitDate: '',
+      stage: 'reported',
+      stageLog: [{ stage: 'reported', by: auth.currentUser.email || '', at: Date.now() }],
+      stageNote: '',
+      createdAt: serverTimestamp(),
+      createdBy: auth.currentUser.email || ''
     };
 
     submitBtn.disabled = true;
@@ -1330,22 +2188,179 @@
     statusEl.className = 'status';
 
     try {
-      const result = await jsonp(APPS_SCRIPT_URL, payload);
-      if (result && result.ok !== false){
+      // מזהה המסמך = מזהה השליחה, ולכן שליחה חוזרת לא יוצרת כפילות
+      const w = setDoc(doc(db, 'reports', pendingSubmissionId), data);
+      w.catch(() => {});
+      const outcome = await Promise.race([
+        w.then(() => 'saved'),
+        new Promise(res => setTimeout(() => res('queued'), 5000))
+      ]);
+      if (outcome === 'saved'){
         showStatus('הדיווח נשמר בהצלחה.', 'ok');
-        pendingSubmissionId = null;
-        form.reset();
-        regionSelect.dispatchEvent(new Event('change'));
-        entryDateInput.value = new Date().toISOString().slice(0,10);
-        loadBoard();
       } else {
-        showStatus('שגיאה בשמירת הדיווח: ' + (result && result.error ? result.error : 'לא ידוע'), 'err');
+        showStatus('אין חיבור כרגע — הדיווח נשמר במכשיר ויישלח אוטומטית כשהחיבור יחזור.', 'ok');
       }
+      pendingSubmissionId = null;
+      form.reset();
+      regionSelect.dispatchEvent(new Event('change'));
+      entryDateInput.value = new Date().toISOString().slice(0,10);
     } catch (err) {
-      showStatus('לא ניתן היה להתחבר לגיליון. הדיווח נשמר אוטומטית עם ניסיון חוזר — אפשר ללחוץ "שלח דיווח" שוב בביטחון, לא תיווצר כפילות.', 'err');
+      const denied = err && err.code === 'permission-denied';
+      showStatus(denied ? 'אין הרשאה לשמירת הדיווח.' : 'שגיאה בשמירת הדיווח. אפשר ללחוץ "שלח דיווח" שוב — לא תיווצר כפילות.', 'err');
     } finally {
       submitBtn.disabled = false;
       submitBtn.textContent = 'שלח דיווח';
+    }
+  });
+
+
+  boardList.addEventListener('click', async (e) => {
+    const b = e.target.closest('.card-dec-go');
+    if (!b) return;
+    const box = b.closest('.card-dec');
+    const to = box.querySelector('.card-dec-sel').value;
+    if (!to) return;
+    b.disabled = true;
+    try { await writeStage(b.dataset.row, to, box.querySelector('.card-dec-note').value.trim(), null); }
+    catch (err) { b.disabled = false; alert('אין הרשאה או שגיאת חיבור.'); }
+  });
+
+  // ===== עריכת פרטי דיווח — למפקח בלבד =====
+  const EDIT_FIELDS = [['plate','מספר רכב'],['unit','יחידה'],['region','מרחב'],['garage','מוסך'],['reportedBy','דווח ע"י']];
+  function closeEdit(){ const o = document.getElementById('editOverlay'); if (o) o.remove(); }
+  function openEdit(rowId){
+    const it = (lastItems || []).find(x => x.row === rowId);
+    if (!it || !canEdit()) return;
+    closeEdit();
+    const o = document.createElement('div');
+    o.className = 'edit-overlay'; o.id = 'editOverlay';
+    const regionOpts = ['', ...REGIONS].map(r => '<option value="' + escapeHtml(r).replace(/"/g, '&quot;') + '"' + (r === it.region ? ' selected' : '') + '>' + (r || 'ללא מרחב') + '</option>').join('');
+    o.innerHTML = '<div class="edit-dlg" role="dialog" aria-label="עריכת פרטי דיווח"><h3>עריכת פרטי דיווח</h3>' +
+      '<label>מספר רכב</label><input type="text" id="edPlate">' +
+      '<label>תקלה</label><textarea id="edFault" rows="3"></textarea>' +
+      '<label>יחידה</label><input type="text" id="edUnit">' +
+      '<label>מרחב</label><select id="edRegion">' + regionOpts + '</select>' +
+      '<label>מוסך</label><input type="text" id="edGarage">' +
+      '<label>עיר</label><input type="text" id="edCity">' +
+      '<label>דווח ע"י</label><input type="text" id="edBy">' +
+      '<div class="edit-err" id="edErr" hidden></div>' +
+      '<div class="btns"><button type="button" id="edSave">שמירה</button><button type="button" id="edCancel" class="link-btn">ביטול</button></div></div>';
+    document.body.appendChild(o);
+    document.getElementById('edPlate').value = it.plate; document.getElementById('edFault').value = it.fault;
+    document.getElementById('edUnit').value = it.unit; document.getElementById('edGarage').value = it.garage; document.getElementById('edCity').value = it.city; document.getElementById('edBy').value = it.reportedBy;
+    o.addEventListener('click', ev => { if (ev.target === o) closeEdit(); });
+    document.getElementById('edCancel').addEventListener('click', closeEdit);
+    document.getElementById('edSave').addEventListener('click', async () => {
+      const v = { plate: document.getElementById('edPlate').value.trim(), fault: document.getElementById('edFault').value.trim(),
+                  unit: document.getElementById('edUnit').value.trim(), region: document.getElementById('edRegion').value,
+                  garage: document.getElementById('edGarage').value.trim(), city: document.getElementById('edCity').value.trim(), reportedBy: document.getElementById('edBy').value.trim() };
+      const err = document.getElementById('edErr');
+      if (!v.plate || !v.fault){ err.textContent = 'מספר רכב ותקלה הם שדות חובה.'; err.hidden = false; return; }
+      const changed = Object.keys(v).filter(k => v[k] !== (it[k] || ''));
+      if (!changed.length){ closeEdit(); return; }
+      const names = { plate: 'מספר רכב', fault: 'תקלה', unit: 'יחידה', region: 'מרחב', garage: 'מוסך', city: 'עיר', reportedBy: 'דווח ע"י' };
+      const upd = Object.assign({}, v, { editedByName: whoAmI(), editedAt: Date.now(),
+        editLog: arrayUnion({ byName: whoAmI(), at: Date.now(), fields: changed.map(k => names[k]).join(', ') }) });
+      document.getElementById('edSave').disabled = true;
+      try {
+        const w = updateDoc(doc(db, 'reports', rowId), upd); w.catch(() => {});
+        await Promise.race([w, new Promise(res => setTimeout(res, 4000))]);
+        closeEdit();
+      } catch (e2){ err.textContent = 'אין הרשאה או שגיאת חיבור.'; err.hidden = false; document.getElementById('edSave').disabled = false; }
+    });
+  }
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('.edit-rep');
+    if (b) openEdit(b.dataset.row);
+  });
+
+  // ===== סביבת הדגמה: טעינה ואיפוס של נתוני דוגמה =====
+  if (DEMO_MODE){
+    document.getElementById('demoBanner').hidden = false;
+    document.getElementById('seedBtn').hidden = false;
+    const dr = document.getElementById('demoRole');
+    dr.hidden = false;
+    myRole = 'admin';
+    dr.addEventListener('change', () => { myRole = dr.value; myName = (auth.currentUser && auth.currentUser.demoName) || 'משתמש הדגמה'; syncRoleUI(); renderBoard(lastItems); });
+    document.getElementById('wipeBtn').hidden = false;
+    document.getElementById('importBtn').hidden = true;
+    
+  }
+
+  document.getElementById('seedBtn').addEventListener('click', async () => {
+    if (!CONFIGURED || !auth.currentUser) return;
+    const rows = [
+      ['מג"ב ירושלים','סיירות','בלמים שחוקים, רעש בעצירה','מוסך הר חוצבים',4],
+      ['מג"ב ירושלים','כלבנים','נורת מנוע דולקת','מוסך מרכזי',1],
+      ['מג"ב יו"ש','פלחוד','דליפת שמן מהמנוע','מוסך צפון',9],
+      ['מג"ב דרום','סיירות','החלפת צמיגים','מוסך באר שבע',2],
+      ['מג"ב עוטף','אג"ם','תקלה במזגן','מוסך אשקלון',12],
+      ['מג"ב חוף','מילואים','תאונה — נזק בפח קדמי','מוסך חיפה',6],
+      ['מג"ב צפון','סיירות','מצבר חלש, לא מניע','מוסך כרמיאל',0],
+      ['מטה מג"ב','רכב מפקד','טיפול תקופתי 60 אלף','מוסך מרכזי',3],
+      ['משמר לאומי','סיור','תקלה בהיגוי','מוסך מרכזי',15],
+      ['חטיבה טקטית','תחבורה','רעידות בנסיעה','מוסך ירושלים',7]
+    ];
+    const batch = writeBatch(db);
+    rows.forEach((f, k) => {
+      const d = new Date(Date.now() - f[4] * 86400000);
+      batch.set(doc(db, 'reports', 'demo-' + (k + 1)), {
+        plate: String(1000000 + k * 7919), fault: f[2], entryDate: d.toISOString().slice(0, 10),
+        unit: f[1], region: f[0], garage: f[3], city: ({'מוסך הר חוצבים':'ירושלים','מוסך מרכזי':'ירושלים','מוסך צפון':'נצרת','מוסך באר שבע':'באר שבע','מוסך אשקלון':'אשקלון','מוסך חיפה':'חיפה','מוסך כרמיאל':'כרמיאל','מוסך פתח תקווה':'פתח תקווה','מוסך ירושלים':'ירושלים'})[f[3]] || '', reportedBy: ['דני','רון','מיכל','יוסי'][k % 4],
+        exitDate: '', createdAt: serverTimestamp(), createdBy: auth.currentUser.email || '',
+        stage: STAGES[k % STAGES.length].id,
+        stageLog: STAGES.slice(0, (k % STAGES.length) + 1).map((st, j) => ({ stage: st.id, by: 'demo@example.com', at: Date.now() - (f[4] - j * 0.5) * 86400000 })),
+        stageNote: ''
+      });
+    });
+    try { await batch.commit(); } catch (err) { alert('הטעינה נכשלה. בדקו הרשאות/חיבור.'); console.error(err); }
+  });
+
+  document.getElementById('wipeBtn').addEventListener('click', async () => {
+    if (!CONFIGURED || !auth.currentUser) return;
+    if (!confirm('למחוק את כל הנתונים בסביבת ההדגמה?')) return;
+    try {
+      for (let i = 0; i < lastItems.length; i += 400){
+        const batch = writeBatch(db);
+        lastItems.slice(i, i + 400).forEach(it => batch.delete(doc(db, 'reports', it.row)));
+        await batch.commit();
+      }
+    } catch (err) { alert('המחיקה נכשלה. ודאו שהודבקו כללי ההדגמה.'); console.error(err); }
+  });
+
+  // ===== ייבוא חד-פעמי מהגיליון הישן =====
+  document.getElementById('importBtn').addEventListener('click', async () => {
+    if (!CONFIGURED || !auth.currentUser) return;
+    if (!confirm('לייבא את כל הדיווחים מהגיליון הישן? רשומות שכבר יובאו לא יוכפלו.')) return;
+    const btn = document.getElementById('importBtn');
+    btn.disabled = true; btn.textContent = 'מייבא...';
+    try {
+      const result = await jsonp(LEGACY_SHEET_URL, { action: 'list' });
+      const items = (result && result.items) || [];
+      const have = new Set(lastItems.map(i => i.row));
+      const str = v => v == null ? '' : String(v);
+      const todo = items.filter(it => !have.has('sheet-' + it.row));
+      for (let i = 0; i < todo.length; i += 400){
+        const batch = writeBatch(db);
+        todo.slice(i, i + 400).forEach(it => {
+          const d = new Date(str(it.entryDate).slice(0, 10) + 'T00:00:00');
+          batch.set(doc(db, 'reports', 'sheet-' + it.row), {
+            plate: str(it.plate), fault: str(it.fault), entryDate: str(it.entryDate).slice(0, 10),
+            unit: str(it.unit), region: str(it.region).replace('ימרכז', 'מרכז'), garage: str(it.garage), city: str(it.city),
+            reportedBy: str(it.reportedBy), exitDate: str(it.exitDate).slice(0, 10),
+            createdAt: Timestamp.fromDate(isNaN(d.getTime()) ? new Date() : d),
+            createdBy: auth.currentUser.email || '', source: 'sheet-import',
+            stage: 'reported', stageLog: [], stageNote: ''
+          });
+        });
+        await batch.commit();
+      }
+      alert('הייבוא הסתיים. יובאו ' + todo.length + ' רשומות' + (items.length - todo.length ? ' (' + (items.length - todo.length) + ' כבר היו קיימות).' : '.'));
+    } catch (err) {
+      alert('הייבוא נכשל. בדקו חיבור והרשאות.');
+      console.error(err);
+    } finally {
+      btn.disabled = false; btn.textContent = 'ייבוא נתונים מהגיליון הישן';
     }
   });
 </script>
