@@ -6,7 +6,7 @@
 <title>דיווח רכבים במוסך</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
       --bg:#f3f4f6;
@@ -1065,7 +1065,144 @@
   .view-nav #tabReport::before{content:"+"; font-size:22px; font-weight:500; line-height:1;}
   .view-nav #tabReport[aria-selected="true"]{background:var(--sup); color:var(--sup-ink);}
   .view-nav #tabBoard[aria-selected="true"]{background:var(--primary); color:var(--primary-ink);}
+
+  .app-toast{position:fixed; inset-inline:16px; bottom:calc(20px + env(safe-area-inset-bottom,0px)); margin-inline:auto; max-width:460px; background:var(--ink); color:var(--bg); border-radius:16px; padding:14px 18px; font-size:15px; font-weight:500; text-align:center; box-shadow:0 6px 24px rgba(0,0,0,.28); z-index:50; opacity:0; transform:translateY(16px); pointer-events:none; transition:opacity .2s, transform .2s;}
+  .app-toast.show{opacity:1; transform:none;}
+
+  .dup-dlg h3{margin:0 0 10px; font-size:20px; font-weight:500; color:var(--sup);}
+  .dup-main{font-size:17px; margin:0 0 8px; line-height:1.5;}
+  .dup-sub{font-size:13.5px; color:var(--ink-dim); margin:0 0 16px; line-height:1.6;}
+  .dup-dlg .btns{display:grid; gap:8px;}
+  .dup-dlg #dupNo{background:var(--sup); color:var(--sup-ink); min-height:50px; font-size:15.5px;}
+  .dup-dlg #dupYes{border:1px solid var(--outline); color:var(--primary); min-height:48px; font-size:14.5px;}
+
+  /* חיפוש מפקח */
+  .sup-search{background:var(--tonal); border-radius:24px; padding:14px 16px; margin:0 0 12px;}
+  .sup-search-title{display:flex; justify-content:space-between; align-items:center; font-size:14px; font-weight:500; color:var(--ink); margin-bottom:10px;}
+  .sup-search-title .link-btn{font-size:13px; min-height:32px; padding:0 8px; width:auto;}
+  .sup-search-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px;}
+  .sup-search-grid input{margin:0; min-height:46px; border-radius:999px; padding:10px 18px; font-size:15px; background:var(--surface); border:2px solid transparent; width:100%; min-width:0;}
+  .sup-search-grid input:focus{border-color:var(--sup);}
+  .sup-search-res{margin-top:10px; font-size:13px; color:var(--on-sup-container); background:var(--sup-container); border-radius:999px; padding:6px 14px; display:inline-block;}
+  @media (max-width:699px){ .sup-search-grid{grid-template-columns:1fr 1fr;} .sup-search{padding:12px;} }
+
+  /* כפתור התקנה PWA */
+  header .badge-row{display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+  .pwa-btn{background:rgba(255,255,255,.18); color:#fff; border:1.5px solid rgba(255,255,255,.55); border-radius:999px; min-height:42px; padding:0 18px; font-size:14px; font-weight:500; width:auto; margin:0; display:inline-flex; align-items:center; gap:6px;}
+  .pwa-btn:not(:disabled):hover{background:rgba(255,255,255,.28); opacity:1;}
+  .pwa-steps{margin:0 0 12px; padding-inline-start:22px; line-height:1.9; font-size:15.5px;}
+  @media (max-width:699px){ .pwa-btn{width:100%; justify-content:center; min-height:46px;} }
+  @media (display-mode: standalone){ .pwa-btn{display:none !important;} body{padding-top:calc(10px + env(safe-area-inset-top,0px));} }
+
+  .undo-btn{background:transparent; color:var(--ink-dim); border:1px solid var(--outline); border-radius:999px; min-height:40px; padding:9px 18px; font-size:13.5px; font-weight:500; width:100%;}
+  .undo-btn.small{width:auto; min-height:34px; padding:6px 14px; font-size:12.5px; margin-top:6px;}
+  .undo-btn:disabled{opacity:.45;}
+  .undo-btn.armed{background:var(--sup); color:var(--sup-ink); border-color:var(--sup);}
+
+  .back-arrow{background:var(--secondary-container); color:var(--on-secondary-container); border:none; border-radius:999px; min-height:44px; padding:0 18px 0 20px; font-size:15px; font-weight:500; display:inline-flex; align-items:center; gap:8px; width:auto; margin:0 0 12px;}
+  .back-arrow span{font-size:22px; line-height:1;}
+  .sup-head{display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom:8px;}
+  .sup-head .back-arrow{margin:0;}
+  .edit-dlg .back-arrow{margin:0 0 8px;}
+
+  /* ===================== סגנון "נייבי + טורקיז" (בהשראת הצילומים) ===================== */
+  :root{
+    --page:#0c1b33; --teal:#14877e;
+    --primary:#14877e; --primary-ink:#ffffff; --primary-container:#d6f1ee; --on-primary-container:#063b36;
+    --navy:#14877e; --navy-line:#cfd5df; --hdr:transparent;
+    --field-bd:#cfd5df; --field-bg:#ffffff; --label:#0f1e3a;
+  }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+    --primary:#2bb7a9; --primary-ink:#06231f; --primary-container:#103e44; --on-primary-container:#9be8df;
+    --navy:#2bb7a9; --field-bd:#34496d; --field-bg:transparent; --label:#e8eef9; } }
+  :root[data-theme="dark"]{
+    --primary:#2bb7a9; --primary-ink:#06231f; --primary-container:#103e44; --on-primary-container:#9be8df;
+    --navy:#2bb7a9; --field-bd:#34496d; --field-bg:transparent; --label:#e8eef9; }
+
+  body{background:var(--page) !important; font-family:'Inter','Heebo','Noto Sans Hebrew',system-ui,sans-serif;}
+  button, input, select, textarea{font-family:inherit;}
+
+  /* כותרת — על הרקע הכהה, ממורכזת כמו בדף הנחיתה */
+  header{background:transparent !important; text-align:center; padding:26px 8px 18px; margin-bottom:4px;}
+  header .badge-row{justify-content:center !important; flex-direction:column; align-items:center; gap:14px;}
+  header .badge-text{display:flex; flex-direction:column; align-items:center; gap:10px;}
+  header .org-name{color:#3fc9bb; font-size:13px; font-weight:700; letter-spacing:.14em;}
+  header .tag{background:transparent; border:1px solid #2c4066; color:#c8d3e6; font-weight:500;}
+  header h1{color:#fff !important; font-size:34px; font-weight:800; letter-spacing:-.01em; margin-top:2px;}
+  header .sub{color:#aebbd1 !important; font-size:16px; line-height:1.6; max-width:640px; margin-inline:auto;}
+  .pwa-btn{background:transparent; border:1.5px solid #3fc9bb; color:#9be8df; width:auto;}
+
+  /* מתג תצוגות */
+  .view-nav{background:#16243d; border:1px solid #243a5e;}
+  .view-nav button{color:#aebbd1;}
+  .view-nav #tabBoard[aria-selected="true"]{background:#1d8a82; color:#fff;}
+
+  /* לוח הרכבים — כרטיסי נייבי כהים */
+  .board{
+    --card:#16243d; --tonal:#1c2d4a; --surface:#16243d; --surface-2:#22355a; --outline:#2c4066;
+    --ink:#f1f5fb; --ink-dim:#a9b6cc; --shadow:none;
+    --primary:#2bb7a9; --primary-ink:#06231f; --primary-container:#103e44; --on-primary-container:#9be8df;
+    --secondary-container:#223555; --on-secondary-container:#e3ebf8; --navy:#2bb7a9; --navy-line:#2c4066;
+    --sup:#ff9a52; --sup-ink:#3a1700; --sup-container:#5a2d0a; --on-sup-container:#ffd9bd;
+    --fault:#ffb4ab; --ok:#8ed7a6; --ok-container:#1a4b2d; --fault-container:#5d1a17;
+    background:#16243d !important; border:1px solid #243a5e !important; color:var(--ink); box-shadow:none !important;
+    color-scheme:dark;
+  }
+  .board h2{font-weight:700; font-size:22px;}
+  .board-row{border:1px solid #2c4066 !important; background:#1c2d4a !important;}
+  .board-row:hover{background:#21355a !important;}
+  .stage-box{background:#16243d !important; border:1px solid #2c4066 !important;}
+  .count-chip{background:#103e44 !important; color:#9be8df !important;}
+  .age-pill{background:#3a3217; color:#ffd98a;}
+  .region-chip{border-color:#34496d; color:#e3ebf8;}
+  .region-chip.active{background:#103e44; color:#9be8df; border-color:#1d8a82;}
+  .pdf-btn{background:#223555; color:#e3ebf8;}
+  #supBtn{background:#ff9a52 !important; color:#3a1700 !important;}
+  .board input[type="text"], .board input[type="number"], .board input[type="search"], .board select{background:#16243d; border:1px solid #34496d; color:#f1f5fb;}
+  .board input:focus, .board select:focus{border-color:#2bb7a9;}
+  .row-table td{background:#1c2d4a;}
+  .row-table th{color:#a9b6cc;}
+
+  /* טופס הדיווח + חלונות — כרטיס לבן בסגנון המודאל, שדות עם מסגרת */
+  .sheet > form, .edit-dlg, .auth-card{background:var(--card) !important; border:none !important; border-radius:20px !important;}
+  .form-title{font-size:28px !important; font-weight:800 !important; color:var(--label) !important; letter-spacing:-.01em;}
+  .form-title small{font-size:15px !important; color:var(--ink-dim) !important; font-weight:400 !important; margin-top:6px !important; line-height:1.5;}
+  label{color:var(--label) !important; font-size:15px !important; font-weight:600 !important;}
+  .sheet > form input[type="text"], .sheet > form input[type="date"], .sheet > form textarea, .sheet > form select,
+  .edit-dlg input, .edit-dlg select, .edit-dlg textarea, .auth-card input{
+    background:var(--field-bg) !important; border:1px solid var(--field-bd) !important; border-radius:10px !important; min-height:54px; color:var(--ink);}
+  .sheet > form input:focus, .sheet > form textarea:focus, .sheet > form select:focus,
+  .edit-dlg input:focus, .edit-dlg select:focus, .edit-dlg textarea:focus{border-color:var(--primary) !important; box-shadow:0 0 0 3px color-mix(in srgb, var(--primary) 22%, transparent);}
+  #submitBtn{background:var(--teal) !important; color:#fff !important; border-radius:10px !important; min-height:56px; font-size:17px; font-weight:700;}
+  #submitBtn::after{content:" ←";}
+  .edit-dlg #edSave, .edit-dlg .btns button:not(.link-btn){border-radius:10px;}
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) #submitBtn{background:#1d8a82 !important; color:#fff !important;} :root:not([data-theme="light"]) .sheet > form, :root:not([data-theme="light"]) .edit-dlg{background:#16243d !important;} }
+  :root[data-theme="dark"] #submitBtn{background:#1d8a82 !important; color:#fff !important;}
+  :root[data-theme="dark"] .sheet > form, :root[data-theme="dark"] .edit-dlg{background:#16243d !important;}
+
+  .app-footer, .app-footer *{color:#8fa0bb;}
+  .app-footer .link-btn, #staffBtn{color:#9be8df !important;}
+
+  @media (max-width:699px){
+    header h1{font-size:28px !important;}
+    header .sub{font-size:15px !important;}
+    .form-title{font-size:25px !important;}
+  }
+
+  .board label{color:var(--ink-dim) !important; font-size:13.5px !important; font-weight:500 !important;}
+  .board .sup-bar-top label, .board .sup-search-title{color:var(--ink) !important;}
+  .sup-search-res[hidden], .sup-search-title .link-btn[hidden]{display:none !important;}
+  .board .region-chip.active, .board .region-chip.active b{color:#9be8df !important; background:#103e44 !important; border-color:#1d8a82 !important;}
+  .board .region-chip.active::before{color:#9be8df;}
 </style>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0c1b33">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="רכבים במוסך">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 <body>
 
@@ -1092,6 +1229,7 @@
         <span class="org-name">משטרת ישראל · משמר הגבול</span>
         <span class="tag">כניסת רכב למוסך</span>
       </div>
+      <button type="button" class="pwa-btn" id="pwaBtn" hidden>📲 התקנה כאפליקציה</button>
     </div>
     <h1>דיווח רכבים במוסך</h1>
     <p class="sub">מלאו את הפרטים בעת כניסת הרכב לטיפול. הדיווח נשמר אוטומטית ומתעדכן בזמן אמת אצל כולם.</p>
@@ -1143,8 +1281,18 @@
     <div class="count-breakdown" id="countBreakdown"></div>
 
     <div id="supPanel" hidden>
-      <div class="sup-head"><span class="sup-who" id="supWho"></span></div>
+      <div class="sup-head"><button type="button" class="back-arrow" id="supBack" aria-label="חזרה לתמונת מצב"><span aria-hidden="true">→</span> תמונת מצב</button><span class="sup-who" id="supWho"></span></div>
       <div class="sup-city"><label for="supCity">סינון לפי עיר:</label><select id="supCity"></select></div>
+      <div class="sup-search" id="supSearch">
+        <div class="sup-search-title">חיפוש <button type="button" id="supSearchClear" class="link-btn" hidden>נקה חיפוש</button></div>
+        <div class="sup-search-grid">
+          <input type="search" data-q="plate" inputmode="numeric" placeholder="מספר רכב" autocomplete="off" aria-label="חיפוש לפי מספר רכב">
+          <input type="search" data-q="garage" placeholder="מוסך" autocomplete="off" aria-label="חיפוש לפי מוסך">
+          <input type="search" data-q="city" placeholder="עיר" autocomplete="off" aria-label="חיפוש לפי עיר">
+          <input type="search" data-q="unit" placeholder="יחידה" autocomplete="off" aria-label="חיפוש לפי יחידה">
+        </div>
+        <div class="sup-search-res" id="supSearchRes" hidden></div>
+      </div>
       <div class="sup-chips" id="supChips"></div>
       <div class="sup-bar">
         <div class="sup-bar-top">
@@ -1349,6 +1497,17 @@
 
   function check(r){ if (!r || r.ok === false) throw Object.assign(new Error((r && r.error) || 'fail'), { code: (r && r.error) || 'fail' }); return r; }
   async function applyUpdate(rowId, data){
+    const r = await applyUpdate0(rowId, data);
+    if (r && !r.v) throw Object.assign(new Error('old-script'), { code: 'old-script' });
+    return r;
+  }
+  async function applyUpdate0(rowId, data){
+    if (data && data.undo === true){
+      return check(await gsCall({ action: 'undo', row: rowId, code: staff ? staff.code : '' }));
+    }
+    if (Object.prototype.hasOwnProperty.call(data, 'freeDecision')){
+      return check(await gsCall({ action: 'decide', rows: rowId, note: data.freeDecision, code: staff ? staff.code : '' }));
+    }
     if (Object.prototype.hasOwnProperty.call(data, 'stage')){
       const lastEntry = data.stageLog && data.stageLog.__au ? data.stageLog.__au : {};
       const p = { action: 'stage', rows: rowId, to: data.stage, note: data.stageNote || '', code: staff ? staff.code : '' };
@@ -1432,13 +1591,33 @@
   let supMode = false;
   let supFilter = 'mine';
   let supCity = '';
+  const supQ = { plate: '', garage: '', city: '', unit: '' };
   const supSel = new Set();
+  function undoInfo(item){
+    const s = Array.isArray(item.stageLog) && item.stageLog.length > 1 ? item.stageLog[item.stageLog.length - 1] : null;
+    const eAll = Array.isArray(item.editLog) ? item.editLog : [];
+    const e = eAll.length && eAll[eAll.length - 1].old ? eAll[eAll.length - 1] : null;
+    if (!s && !e) return null;
+    if (s && (!e || (s.at || 0) >= (e.at || 0))){
+      const st = STAGES.find(x => x.id === s.stage);
+      return { kind: 'stage', label: s.free ? 'החלטה חופשית: ' + (s.note || '') : (st ? st.label.replace(' (מפקח)', '') : s.stage) };
+    }
+    return { kind: 'edit', label: 'עריכת פרטים (' + (e.fields || '') + ')' };
+  }
+  function undoBtn(item, small){
+    return ''; // כפתור ביטול הצעד האחרון הוסר לבקשת המשתמש (הפונקציונליות נשארת בשרת)
+    if (!canEdit()) return '';
+    const u = undoInfo(item);
+    const row = escapeHtml(item.row).replace(/"/g, '&quot;');
+    if (!u) return '<button type="button" class="undo-btn' + (small ? ' small' : '') + '" disabled title="אין צעד לביטול">↶ צעד אחורה</button>';
+    return '<button type="button" class="undo-btn' + (small ? ' small' : '') + '" data-row="' + row + '" data-label="' + escapeHtml(u.label).replace(/"/g, '&quot;') + '" title="יבטל: ' + escapeHtml(u.label).replace(/"/g, '&quot;') + '">↶ צעד אחורה</button>';
+  }
   function isPrivileged(){ return myRole === 'admin' || myRole === 'supervisor' || myRole === 'approver'; }
   function whoAmI(){ return myName || (auth && auth.currentUser && auth.currentUser.email) || ''; }
   function lastDecision(item){
     const l = item.stageLog.length ? item.stageLog[item.stageLog.length - 1] : null;
     if (!l) return '';
-    return (l.byName || l.by || '') + (l.at ? ' · ' + fmtDateTime(l.at) : '');
+    return (l.free && l.note ? '«' + l.note + '» · ' : '') + (l.byName || l.by || '') + (l.at ? ' · ' + fmtDateTime(l.at) : '');
   }
   function nextOf(item){ return STAGES[stageIndex(item.stage) + 1] || null; }
   function prevOf(item){ return STAGES[stageIndex(item.stage) - 1] || null; }
@@ -1640,9 +1819,9 @@
       }
     }
     const decOpts = DECISION_IDS.filter(d => canSetStage(d) && d !== item.stage);
-    if (decOpts.length){
+    if (canEdit()){
       h += '<div class="card-dec"><select class="card-dec-sel"><option value="">החלטת מפקח…</option>' +
-        decOpts.map(d => '<option value="' + d + '">' + escapeHtml(STAGES.find(x => x.id === d).label.replace(' (מפקח)', '')) + '</option>').join('') + '</select>' +
+        decOpts.map(d => '<option value="' + d + '">' + escapeHtml(STAGES.find(x => x.id === d).label.replace(' (מפקח)', '')) + '</option>').join('') + '<option value="__free">✎ החלטה חופשית (הקלדה)</option></select>' +
         '<input type="text" class="card-dec-note" maxlength="200" placeholder="הערת מפקח (לא חובה)">' +
         '<button type="button" class="card-dec-go" data-row="' + id + '">רישום החלטה</button></div>';
     }
@@ -1660,7 +1839,7 @@
               (l.byName ? ' · ' + escapeHtml(l.byName) : '') + '</li>';
           }
           const st = STAGES.find(x => x.id === l.stage);
-          return '<li><b>' + escapeHtml(st ? st.label.replace(' (מפקח)', '') : l.stage) + '</b> · ' + escapeHtml(fmtDateTime(l.at)) +
+          return '<li><b>' + escapeHtml(l.free ? 'החלטת מפקח' : (st ? st.label.replace(' (מפקח)', '') : l.stage)) + '</b> · ' + escapeHtml(fmtDateTime(l.at)) +
             ((l.byName || l.by) ? ' · ' + escapeHtml(l.byName || l.by) : '') + (l.amount ? ' · ₪' + Number(l.amount).toLocaleString('he-IL') : '') +
             (l.note ? '<span class="tl-note">' + escapeHtml(l.note) + '</span>' : '') + '</li>';
         }).join('') + '</ul></details>';
@@ -1817,6 +1996,7 @@
         '</div>' +
         '<div class="board-row-actions">' +
           (canEdit() ? '<button type="button" class="edit-rep" data-row="' + escapeHtml(item.row).replace(/"/g, '&quot;') + '">עריכת פרטי דיווח (מפקח)</button>' : '') +
+          undoBtn(item, false) +
           '<button type="button" class="exit-btn" data-row="' + item.row + '">סימון יציאה מהמוסך</button>' +
           '<div class="exit-form" data-row-form="' + item.row + '" hidden>' +
             '<input type="date" class="exit-date-input" value="' + todayStr + '">' +
@@ -1991,6 +2171,12 @@
 
   async function writeStageMany(ids, toId, note, amount){
     const batch = writeBatch(db);
+    if (toId === '__free'){
+      ids.forEach(rowId => batch.update(doc(db, 'reports', rowId), { freeDecision: note }));
+      const wf = batch.commit(); wf.catch(() => {});
+      await Promise.race([wf, new Promise(res => setTimeout(res, 5000))]);
+      return;
+    }
     ids.forEach(rowId => {
       const entry = { stage: toId, by: (auth.currentUser && auth.currentUser.email) || '', byName: whoAmI(), at: Date.now() };
       if (note) entry.note = note;
@@ -2007,9 +2193,8 @@
 
   function decisionBtns(sel){
     const ids = DECISION_IDS.filter(id => canSetStage(id) && sel.some(i => i.stage !== id));
-    if (!ids.length) return '';
     return '<div class="sup-dec-row"><span class="lbl">החלטת מפקח:</span>' +
-      ids.map(id => { const st = STAGES.find(x => x.id === id); return '<button type="button" class="sup-dec" data-to="' + id + '">' + escapeHtml(st.label.replace(' (מפקח)', '')) + '</button>'; }).join('') + '</div>';
+      ids.map(id => { const st = STAGES.find(x => x.id === id); return '<button type="button" class="sup-dec" data-to="' + id + '">' + escapeHtml(st.label.replace(' (מפקח)', '')) + '</button>'; }).join('') + '<button type="button" class="sup-dec" data-to="__free" title="הקלידו את ההחלטה בשדה ההערה ולחצו">✎ החלטה חופשית</button></div>';
   }
 
   function updateSupBar(rows){
@@ -2051,6 +2236,20 @@
       cityNames.map(c => '<option value="' + escapeHtml(c).replace(/"/g, '&quot;') + '">' + escapeHtml(c) + ' (' + active.filter(i => (i.city || '').trim() === c).length + ')</option>').join('') +
       (active.some(i => !(i.city || '').trim()) ? '<option value="__none">ללא עיר (' + active.filter(i => !(i.city || '').trim()).length + ')</option>' : '');
     citySel.value = supCity;
+    const normTxt = v => String(v == null ? '' : v).toLowerCase().replace(/[\u0591-\u05C7"'״׳]/g, '').trim();
+    const hasQ = Object.keys(supQ).some(k => supQ[k].trim());
+    const beforeQ = active.length;
+    if (hasQ){
+      const pq = supQ.plate.replace(/\D/g, '');
+      active = active.filter(i =>
+        (!supQ.plate.trim() || (pq && String(i.plate).replace(/\D/g, '').includes(pq))) &&
+        (!supQ.garage.trim() || normTxt(i.garage).includes(normTxt(supQ.garage))) &&
+        (!supQ.city.trim() || normTxt(i.city).includes(normTxt(supQ.city))) &&
+        (!supQ.unit.trim() || normTxt(i.unit).includes(normTxt(supQ.unit))));
+    }
+    const resEl = document.getElementById('supSearchRes');
+    resEl.hidden = !hasQ; document.getElementById('supSearchClear').hidden = !hasQ;
+    if (hasQ) resEl.textContent = active.length ? ('נמצאו ' + active.length + ' רכבים מתוך ' + beforeQ) : 'לא נמצאו רכבים התואמים לחיפוש';
     if (supCity) active = active.filter(i => supCity === '__none' ? !(i.city || '').trim() : (i.city || '').trim() === supCity);
     const mineCount = active.filter(canAdvance).length;
     const counts = {};
@@ -2091,9 +2290,9 @@
         '<td>' + escapeHtml(formatDate(it.entryDate)) + (d !== null ? '<span class="sub-line"><span class="age-pill ' + ageClass + '">' + (d === 0 ? 'היום' : d + ' ימים') + '</span></span>' : '') + '</td>' +
         '<td class="decision">' + (it.stageLog.length > 1 ? '<b>' + escapeHtml(lastDecision(it)) + '</b>' + (it.stageNote ? '<br>' + escapeHtml(it.stageNote) : '') : '—') + '</td>' +
         '<td>' + (next && canSetStage(next.id) && !DECISION_IDS.includes(next.id) ? '<button type="button" class="sup-one" data-row="' + rid + '" data-to="' + next.id + '">' + escapeHtml(next.short) + ' ›</button>' : '') +
-          '<select class="sup-dec-sel" data-row="' + rid + '"><option value="">החלטה…</option>' + DECISION_IDS.filter(d => canSetStage(d) && d !== it.stage).map(d => '<option value="' + d + '">' + escapeHtml(STAGES.find(x => x.id === d).short) + '</option>').join('') + '</select>' +
+          '<select class="sup-dec-sel" data-row="' + rid + '"><option value="">החלטה…</option>' + DECISION_IDS.filter(d => canSetStage(d) && d !== it.stage).map(d => '<option value="' + d + '">' + escapeHtml(STAGES.find(x => x.id === d).short) + '</option>').join('') + '<option value="__free">✎ הקלדה חופשית</option></select>' +
           '<div class="sup-row-confirm" hidden><input type="text" class="sup-row-note" maxlength="200" placeholder="הערת מפקח (לא חובה)"><div class="row2"><button type="button" class="sup-row-ok" data-row="' + rid + '">אישור</button><button type="button" class="sup-row-x">ביטול</button></div></div>' +
-          (canEdit() ? '<br><button type="button" class="edit-rep small" data-row="' + rid + '">עריכת פרטים</button>' : '') + '</td>' +
+          (canEdit() ? '<br><button type="button" class="edit-rep small" data-row="' + rid + '">עריכת פרטים</button>' : '') + (canEdit() ? '<br>' + undoBtn(it, true) : '') + '</td>' +
       '</tr>';
     }).join('');
     boardList.innerHTML = '<div class="row-table-wrap"><table class="row-table sup"><thead><tr><th></th><th>רכב</th><th>תקלה</th><th>שלב</th><th>כניסה</th><th>החלטה אחרונה</th><th></th></tr></thead><tbody>' + body + '</tbody></table></div>';
@@ -2110,8 +2309,20 @@
     if (!priv && supMode){ supMode = false; }
     document.getElementById('supBtnLabel').textContent = supMode ? 'חזרה לתצוגה רגילה' : 'מצב מפקח';
   }
+  document.getElementById('supBack').addEventListener('click', () => { supMode = false; syncRoleUI(); renderBoard(lastItems); window.scrollTo({ top: 0, behavior: 'smooth' }); });
   supBtn.addEventListener('click', () => { supMode = !supMode; syncRoleUI(); renderBoard(lastItems); });
 
+  document.getElementById('supSearch').addEventListener('input', (e) => {
+    const k = e.target.dataset && e.target.dataset.q; if (!k) return;
+    supQ[k] = e.target.value;
+    if (Object.keys(supQ).some(x => supQ[x].trim()) && supFilter === 'mine') supFilter = 'all';
+    supSel.clear(); renderBoard(lastItems);
+  });
+  document.getElementById('supSearchClear').addEventListener('click', () => {
+    Object.keys(supQ).forEach(k => supQ[k] = '');
+    document.querySelectorAll('#supSearch input').forEach(i => i.value = '');
+    renderBoard(lastItems);
+  });
   document.getElementById('supCity').addEventListener('change', (e) => { supCity = e.target.value; supSel.clear(); renderBoard(lastItems); });
   supPanel.addEventListener('click', async (e) => {
     const t = e.target;
@@ -2123,6 +2334,7 @@
       if (!sel.length) return;
       if (t.classList.contains('sup-back') && !confirm('להחזיר ' + sel.length + ' רכבים לשלב הקודם?')) return;
       const note = document.getElementById('supNote').value.trim();
+      if (t.dataset.to === '__free' && !note){ const sn = document.getElementById('supNote'); sn.placeholder = 'הקלידו כאן את ההחלטה החופשית ואז לחצו שוב'; sn.focus(); return; }
       const amtEl = document.getElementById('supAmount');
       const amount = !amtEl.hidden && amtEl.value !== '' && t.dataset.to === 'quote_ok' ? Number(amtEl.value) : null;
       t.disabled = true;
@@ -2146,7 +2358,7 @@
     if (e.target.classList.contains('sup-dec-sel')){
       const v = e.target.value;
       const box = e.target.closest('td').querySelector('.sup-row-confirm');
-      if (box){ box.hidden = !v; box.dataset.to = v; if (v) box.querySelector('.sup-row-note').focus(); }
+      if (box){ box.hidden = !v; box.dataset.to = v; if (v){ const ni = box.querySelector('.sup-row-note'); ni.placeholder = v === '__free' ? 'הקלידו את ההחלטה (חובה)' : 'הערת מפקח (לא חובה)'; ni.focus(); } }
       return;
     }
     if (!e.target.classList.contains('sup-chk')) return;
@@ -2162,6 +2374,12 @@
   });
 
   async function writeStage(rowId, toId, note, amount){
+    if (toId === '__free'){
+      const wf = updateDoc(doc(db, 'reports', rowId), { freeDecision: note });
+      wf.catch(() => {});
+      await Promise.race([wf, new Promise(res => setTimeout(res, 4000))]);
+      return;
+    }
     const entry = { stage: toId, by: (auth.currentUser && auth.currentUser.email) || '', byName: whoAmI(), at: Date.now() };
     if (note) entry.note = note;
     const upd = { stage: toId, stageNote: note || '', stageLog: arrayUnion(entry) };
@@ -2374,6 +2592,72 @@
 
   document.getElementById('refreshBtn').addEventListener('click', () => { refresh(); });
 
+  // ===== התקנה כאפליקציה (PWA) =====
+  (function(){
+    const btn = document.getElementById('pwaBtn'); if (!btn) return;
+    const standalone = () => (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
+    if (standalone()) return;
+    let deferred = null;
+    const ua = navigator.userAgent || '';
+    const isIOS = /iphone|ipad|ipod/i.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+    btn.hidden = false;
+    window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferred = e; btn.hidden = false; });
+    window.addEventListener('appinstalled', () => { btn.hidden = true; deferred = null; if (window.__toast) window.__toast('✓ האפליקציה הותקנה'); });
+    function help(){
+      const o = document.createElement('div'); o.className = 'edit-overlay';
+      const steps = isIOS
+        ? ['לחצו על כפתור השיתוף <b>⬆︎</b> בתחתית Safari', 'גללו ובחרו <b>"הוסף למסך הבית"</b>', 'לחצו <b>"הוסף"</b> — האייקון יופיע במסך הבית']
+        : ['פתחו את תפריט הדפדפן <b>⋮</b> (שלוש נקודות)', 'בחרו <b>"התקן אפליקציה"</b> או <b>"הוסף למסך הבית"</b>', 'אשרו — האייקון יופיע במסך הבית'];
+      o.innerHTML = '<div class="edit-dlg" role="dialog" aria-modal="true"><h3>התקנה כאפליקציה</h3><ol class="pwa-steps">' + steps.map(x => '<li>' + x + '</li>').join('') +
+        '</ol><p class="dup-sub">בדפדפן שלכם אין חלון התקנה אוטומטי, לכן ההתקנה ידנית. ודאו שהדף פתוח מכתובת האתר (לא כקובץ).</p><div class="btns"><button type="button" id="pwaClose">הבנתי</button></div></div>';
+      document.body.appendChild(o);
+      const close = () => o.remove();
+      o.addEventListener('click', ev => { if (ev.target === o) close(); });
+      o.querySelector('#pwaClose').addEventListener('click', close);
+    }
+    btn.addEventListener('click', async () => {
+      if (deferred){ deferred.prompt(); try { await deferred.userChoice; } catch (e) {} deferred = null; }
+      else help();
+    });
+    if ('serviceWorker' in navigator && /^https?:/.test(location.protocol)){
+      window.addEventListener('load', () => { try { navigator.serviceWorker.register('sw.js').catch(() => {}); } catch (e) {} });
+    }
+  })();
+
+  // ===== זיהוי רכב שכבר נמצא במוסך =====
+  const plateKey = v => String(v == null ? '' : v).replace(/\D/g, '');
+  let ackPlate = '';
+  function inGarage(plate){
+    const k = plateKey(plate); if (k.length < 5) return null;
+    return (lastItems || []).find(it => !it.exitDate && plateKey(it.plate) === k) || null;
+  }
+  function fmtEntry(d){
+    const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(d || ''));
+    return m ? (m[3] + '/' + m[2] + '/' + m[1]) : String(d || 'לא ידוע');
+  }
+  function askDup(it){
+    return new Promise(resolve => {
+      const o = document.createElement('div'); o.className = 'edit-overlay'; o.id = 'dupOverlay';
+      const st = (STAGES.find(x => x.id === it.stage) || {}).short || '';
+      o.innerHTML = '<div class="edit-dlg dup-dlg" role="alertdialog" aria-modal="true"><h3>⚠ רכב נמצא במוסך</h3>' +
+        '<p class="dup-main">רכב <b>' + escapeHtml(String(it.plate)) + '</b> נמצא במוסך מתאריך <b>' + escapeHtml(fmtEntry(it.entryDate)) + '</b>.</p>' +
+        '<p class="dup-sub">' + [it.garage ? 'מוסך: ' + escapeHtml(it.garage) : '', it.city ? escapeHtml(it.city) : '', st ? 'שלב: ' + escapeHtml(st) : '', it.fault ? 'תקלה: ' + escapeHtml(it.fault) : ''].filter(Boolean).join(' · ') + '</p>' +
+        '<div class="btns"><button type="button" id="dupNo">ביטול — לא לשלוח</button><button type="button" id="dupYes" class="link-btn">זה דיווח חדש — המשך</button></div></div>';
+      document.body.appendChild(o);
+      const done = v => { o.remove(); resolve(v); };
+      o.querySelector('#dupYes').addEventListener('click', () => done(true));
+      o.querySelector('#dupNo').addEventListener('click', () => done(false));
+      o.querySelector('#dupNo').focus();
+    });
+  }
+  const plateInput = document.getElementById('plate');
+  plateInput.addEventListener('change', async () => {
+    const it = inGarage(plateInput.value);
+    if (!it || ackPlate === plateKey(plateInput.value)) return;
+    if (await askDup(it)) ackPlate = plateKey(plateInput.value);
+    else { plateInput.value = ''; plateInput.focus(); }
+  });
+
   // ===== שליחת דיווח =====
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -2387,6 +2671,13 @@
       return;
     }
 
+    {
+      const dupIt = inGarage(document.getElementById('plate').value);
+      if (dupIt && ackPlate !== plateKey(document.getElementById('plate').value)){
+        if (!(await askDup(dupIt))) return;
+        ackPlate = plateKey(document.getElementById('plate').value);
+      }
+    }
     if (!pendingSubmissionId){
       pendingSubmissionId = makeId();
     }
@@ -2426,7 +2717,9 @@
         showStatus('אין חיבור כרגע — הדיווח נשמר במכשיר ויישלח אוטומטית כשהחיבור יחזור.', 'ok');
       }
       pendingSubmissionId = null;
+      const sentPlate = data.plate; ackPlate = '';
       form.reset();
+      if (window.__setView){ window.__setView('board'); statusEl.className = 'status'; window.__toast('✓ הדיווח נשמר — רכב ' + sentPlate + (outcome === 'saved' ? '' : ' (יישלח כשהחיבור יחזור)')); }
       regionSelect.dispatchEvent(new Event('change'));
       entryDateInput.value = new Date().toISOString().slice(0,10);
     } catch (err) {
@@ -2445,8 +2738,10 @@
     const box = b.closest('.card-dec');
     const to = box.querySelector('.card-dec-sel').value;
     if (!to) return;
+    const cn = box.querySelector('.card-dec-note').value.trim();
+    if (to === '__free' && !cn){ box.querySelector('.card-dec-note').focus(); return; }
     b.disabled = true;
-    try { await writeStage(b.dataset.row, to, box.querySelector('.card-dec-note').value.trim(), null); }
+    try { await writeStage(b.dataset.row, to, cn, null); }
     catch (err) { b.disabled = false; alert('אין הרשאה או שגיאת חיבור.'); }
   });
 
@@ -2455,6 +2750,7 @@
     if (x){ const box = x.closest('.sup-row-confirm'); const td = box.closest('td'); box.hidden = true; const sel = td.querySelector('.sup-dec-sel'); if (sel) sel.value = ''; return; }
     if (!ok) return;
     const box = ok.closest('.sup-row-confirm'); if (!box.dataset.to) return;
+    if (box.dataset.to === '__free' && !box.querySelector('.sup-row-note').value.trim()){ box.querySelector('.sup-row-note').focus(); return; }
     ok.disabled = true;
     try { await writeStage(ok.dataset.row, box.dataset.to, box.querySelector('.sup-row-note').value.trim(), null); }
     catch (err) { ok.disabled = false; alert('אין הרשאה או שגיאת חיבור.'); }
@@ -2466,13 +2762,19 @@
     function setView(v){
       sheetEl.dataset.view = v;
       document.querySelectorAll('.view-nav button').forEach(b => b.setAttribute('aria-selected', b.dataset.view === v ? 'true' : 'false'));
-      try { localStorage.setItem(KEY, v); } catch(e){}
+      try { if (v === 'board') localStorage.setItem(KEY, v); else localStorage.removeItem(KEY); } catch(e){}
       window.scrollTo({top:0});
     }
     document.querySelectorAll('.view-nav button').forEach(b => b.addEventListener('click', () => setView(b.dataset.view)));
     let v0 = 'report'; try { v0 = localStorage.getItem(KEY) || 'report'; } catch(e){}
     setView(v0 === 'board' ? 'board' : 'report');
     window.__setView = setView;
+    let toastEl = null, toastT = null;
+    window.__toast = function(msg){
+      if (!toastEl){ toastEl = document.createElement('div'); toastEl.className = 'app-toast'; toastEl.setAttribute('role', 'status'); document.body.appendChild(toastEl); }
+      toastEl.textContent = msg; toastEl.classList.add('show');
+      clearTimeout(toastT); toastT = setTimeout(() => toastEl.classList.remove('show'), 5000);
+    };
     const cntEl = document.getElementById('tabCnt');
     const upd = () => { const n = document.querySelector('.count-num'); if (n && cntEl) cntEl.textContent = n.textContent.trim(); };
     new MutationObserver(upd).observe(document.getElementById('board'), {subtree:true, childList:true, characterData:true}); upd();
@@ -2488,7 +2790,7 @@
     const o = document.createElement('div');
     o.className = 'edit-overlay'; o.id = 'editOverlay';
     const regionOpts = ['', ...REGIONS].map(r => '<option value="' + escapeHtml(r).replace(/"/g, '&quot;') + '"' + (r === it.region ? ' selected' : '') + '>' + (r || 'ללא מרחב') + '</option>').join('');
-    o.innerHTML = '<div class="edit-dlg" role="dialog" aria-label="עריכת פרטי דיווח"><h3>עריכת פרטי דיווח</h3>' +
+    o.innerHTML = '<div class="edit-dlg" role="dialog" aria-label="עריכת פרטי דיווח"><button type="button" class="back-arrow" id="edBack" aria-label="חזרה לתמונת מצב"><span aria-hidden="true">→</span> תמונת מצב</button><h3>עריכת פרטי דיווח</h3>' +
       '<label>מספר רכב</label><input type="text" id="edPlate">' +
       '<label>תקלה</label><textarea id="edFault" rows="3"></textarea>' +
       '<label>יחידה</label><input type="text" id="edUnit">' +
@@ -2503,6 +2805,7 @@
     document.getElementById('edUnit').value = it.unit; document.getElementById('edGarage').value = it.garage; document.getElementById('edCity').value = it.city; document.getElementById('edBy').value = it.reportedBy;
     o.addEventListener('click', ev => { if (ev.target === o) closeEdit(); });
     document.getElementById('edCancel').addEventListener('click', closeEdit);
+    document.getElementById('edBack').addEventListener('click', closeEdit);
     document.getElementById('edSave').addEventListener('click', async () => {
       const v = { plate: document.getElementById('edPlate').value.trim(), fault: document.getElementById('edFault').value.trim(),
                   unit: document.getElementById('edUnit').value.trim(), region: document.getElementById('edRegion').value,
@@ -2519,9 +2822,22 @@
         const w = updateDoc(doc(db, 'reports', rowId), upd); w.catch(() => {});
         await Promise.race([w, new Promise(res => setTimeout(res, 4000))]);
         closeEdit();
-      } catch (e2){ err.textContent = 'אין הרשאה או שגיאת חיבור.'; err.hidden = false; document.getElementById('edSave').disabled = false; }
+      } catch (e2){ err.textContent = (e2 && e2.code === 'old-script') ? 'הסקריפט ב-Google עדיין ישן — צריך להדביק את Code.gs החדש ולפרסם "גרסה חדשה". לא נשמר דבר.' : 'אין הרשאה או שגיאת חיבור.'; err.hidden = false; document.getElementById('edSave').disabled = false; }
     });
   }
+  document.addEventListener('click', async (e) => {
+    const ub = e.target.closest('.undo-btn');
+    if (!ub || ub.disabled) return;
+    if (!ub.dataset.armed){
+      ub.dataset.armed = '1'; const old = ub.textContent; ub.textContent = 'לחצו שוב לאישור ↶'; ub.classList.add('armed');
+      setTimeout(() => { if (ub.isConnected){ delete ub.dataset.armed; ub.textContent = old; ub.classList.remove('armed'); } }, 4000);
+      if (window.__toast) window.__toast('יבוטל: ' + (ub.dataset.label || 'הצעד האחרון'));
+      return;
+    }
+    ub.disabled = true;
+    try { await updateDoc(doc(db, 'reports', ub.dataset.row), { undo: true }); if (window.__toast) window.__toast('↶ הצעד האחרון בוטל'); }
+    catch (err) { ub.disabled = false; alert(err && err.code === 'old-script' ? 'הסקריפט ב-Google עדיין ישן — צריך לעדכן את Code.gs.' : 'לא ניתן לבטל (אין הרשאה, שגיאת חיבור או אין צעד לביטול).'); }
+  });
   document.addEventListener('click', (e) => {
     const b = e.target.closest('.edit-rep');
     if (b) openEdit(b.dataset.row);
