@@ -6,7 +6,7 @@
 <title>דיווח רכבים במוסך</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
       --bg:#f3f4f6;
@@ -844,6 +844,187 @@
     .row-table.sup select.sup-dec-sel{padding:4px 8px; height:30px; margin-top:4px;}
     .row-table.sup td:last-child{min-width:150px;}
   }
+  /* ===================== עיצוב Google Pixel (Material You / Material 3) ===================== */
+  :root{
+    --bg:#f6f7fc; --surface:#ffffff; --surface-2:#eceef5; --outline:#c6cad4;
+    --ink:#191c22; --ink-dim:#4a4f5a;
+    --primary:#1a4a8a; --primary-ink:#ffffff; --primary-container:#d8e4ff; --on-primary-container:#001a41;
+    --secondary-container:#dce3f3; --on-secondary-container:#151c2c;
+    --fault:#ba1a1a; --fault-container:#ffdad6; --ok:#146c3a; --ok-container:#c9efd5;
+    --navy:#1a4a8a; --navy-line:#c6cad4; --hdr:#1a4a8a;
+    --card:#ffffff; --tonal:#eef1f8; --shadow:0 1px 2px rgba(25,28,34,.08), 0 2px 8px rgba(25,28,34,.06);
+  }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+    --bg:#10131a; --surface:#1b1f28; --surface-2:#262b36; --outline:#444a57;
+    --ink:#e3e5ee; --ink-dim:#b4b9c6;
+    --primary:#a9c7ff; --primary-ink:#00306a; --primary-container:#1b3f73; --on-primary-container:#d8e4ff;
+    --secondary-container:#33394a; --on-secondary-container:#dbe2f4;
+    --fault:#ffb4ab; --fault-container:#5d1a17; --ok:#8ed7a6; --ok-container:#1a4b2d;
+    --navy:#a9c7ff; --navy-line:#444a57; --hdr:#1b3f73;
+    --card:#1b1f28; --tonal:#222733; --shadow:none; } }
+  :root[data-theme="dark"]{
+    --bg:#10131a; --surface:#1b1f28; --surface-2:#262b36; --outline:#444a57; --ink:#e3e5ee; --ink-dim:#b4b9c6;
+    --primary:#a9c7ff; --primary-ink:#00306a; --primary-container:#1b3f73; --on-primary-container:#d8e4ff;
+    --secondary-container:#33394a; --on-secondary-container:#dbe2f4; --fault:#ffb4ab; --fault-container:#5d1a17; --ok:#8ed7a6; --ok-container:#1a4b2d;
+    --navy:#a9c7ff; --navy-line:#444a57; --hdr:#1b3f73; --card:#1b1f28; --tonal:#222733; --shadow:none; }
+
+  body, button, input, select, textarea{font-family:'Roboto','Heebo','Noto Sans Hebrew',system-ui,sans-serif;}
+  body{background:var(--bg); padding-top:20px;}
+  /* מכל ראשי שקוף — כרטיסים טונליים בסגנון Pixel */
+  .sheet{background:transparent; border:none; box-shadow:none; border-radius:0; overflow:visible;}
+  header{background:var(--hdr); color:#fff; border-radius:28px; padding:22px 24px 20px; margin-bottom:12px; border:none;}
+  header .org-name{color:rgba(255,255,255,.78); font-size:12.5px; font-weight:500; letter-spacing:.02em;}
+  header .tag{background:rgba(255,255,255,.16); color:#fff; border:none; border-radius:999px; font-size:12px; font-weight:500; padding:5px 14px;}
+  header h1{color:#fff; font-size:28px; font-weight:500; letter-spacing:0; margin-top:6px;}
+  header .sub{color:rgba(255,255,255,.82); font-size:14px; margin-top:6px;}
+  :root[data-theme="dark"] header h1{color:#e8f0ff;}
+
+  .board, .sheet > form{background:var(--card); border:none; border-radius:28px; box-shadow:var(--shadow);}
+  .board{padding:20px 20px 22px; margin:0 0 12px;}
+  .sheet > form{padding:22px 20px 22px; margin:0 0 12px; display:grid; grid-template-columns:1fr; gap:14px 14px; align-content:start;}
+  .form-title{grid-column:1 / -1; font-size:19px; font-weight:500; color:var(--ink); margin:0 0 2px;}
+  .form-title small{display:block; font-size:13px; color:var(--ink-dim); font-weight:400; margin-top:3px;}
+  .sheet > form .field{margin:0; min-width:0;}
+  label{font-size:13px; font-weight:500; color:var(--ink-dim); margin-bottom:6px; letter-spacing:.01em;}
+  label .req{color:var(--fault);}
+
+  /* שדות טקסט — מלאים ומעוגלים (Material 3 filled) */
+  input[type="text"], input[type="date"], input[type="number"], textarea, select{
+    background:var(--surface-2); border:2px solid transparent; border-radius:16px; color:var(--ink);
+    min-height:54px; padding:14px 16px; font-size:16px; box-shadow:none;}
+  textarea{min-height:96px;}
+  input[type="text"]:focus, input[type="date"]:focus, input[type="number"]:focus, textarea:focus, select:focus{
+    border-color:var(--primary); background:var(--surface); outline:none;}
+  input::placeholder, textarea::placeholder{color:var(--ink-dim); opacity:.7;}
+  .hint{font-size:12px; color:var(--ink-dim); margin-top:6px;}
+
+  /* כפתורים — Pill */
+  button{border-radius:999px; font-weight:500; letter-spacing:.01em; box-shadow:none; border:none;}
+  button:not(:disabled):hover{filter:none; box-shadow:none; opacity:.94;}
+  button:active{transform:none; opacity:.88;}
+  #submitBtn{background:var(--primary); color:var(--primary-ink); min-height:52px; font-size:16px; margin:0; grid-column:1 / -1; border:none;}
+  .pdf-btn{background:var(--secondary-container); color:var(--on-secondary-container); border:none; height:40px; padding:0 18px; border-radius:999px; font-size:13.5px; font-weight:500; box-shadow:none; letter-spacing:.01em;}
+  .pdf-btn:not(:disabled):hover{color:var(--on-secondary-container); filter:none; box-shadow:none; opacity:.92;}
+  #supBtn{background:var(--primary); color:var(--primary-ink);}
+  .link-btn{background:none; color:var(--primary); font-weight:500; border:none;}
+
+  /* שבבי סינון — Filter chips */
+  .region-chip{background:transparent; color:var(--ink); border:1px solid var(--outline); border-radius:10px; box-shadow:none; min-height:34px; padding:5px 14px; font-size:13px; font-weight:500;}
+  .region-chip b{color:var(--ink-dim); font-weight:500;}
+  .region-chip:not(:disabled):hover{border-color:var(--primary); box-shadow:none; filter:none;}
+  .region-chip.active{background:var(--secondary-container); color:var(--on-secondary-container); border-color:transparent;}
+  .region-chip.active::before{content:"✓"; font-weight:700; margin-inline-end:2px;}
+  .region-chip.active b{color:var(--on-secondary-container);}
+  .unit-chip{background:var(--surface-2); color:var(--ink-dim); border-radius:8px; box-shadow:none; font-size:12px; padding:4px 11px;}
+  .unit-chip b{color:var(--ink);}
+
+  .board h2{font-size:20px; font-weight:500;}
+  .board .tag{background:var(--primary-container); color:var(--on-primary-container); border-radius:999px; font-size:12px; font-weight:500; padding:4px 12px;}
+  .breakdown-label{font-size:12.5px; font-weight:500; color:var(--ink-dim); margin:2px 2px 8px; letter-spacing:.01em;}
+  .count-row{margin:16px 0 14px; gap:14px;}
+  .count-chip{background:var(--primary-container); color:var(--on-primary-container); border-radius:20px; width:60px; height:60px; box-shadow:none;}
+  .count-num{font-size:28px; font-weight:500;}
+  .count-label{font-size:15px; font-weight:500;}
+
+  /* כרטיסי רכב */
+  .board-list{gap:12px; max-height:none; overflow:visible;}
+  .board-row{background:var(--tonal); border:none; border-radius:20px; box-shadow:none; padding:16px; border-inline-start:none;}
+  .board-row:hover{box-shadow:none; background:color-mix(in srgb, var(--tonal) 92%, var(--primary) 8%);}
+  .plate-num{font-size:18px; font-weight:600; letter-spacing:.02em;}
+  .board-row-unit{background:var(--secondary-container); color:var(--on-secondary-container); border-radius:8px; font-weight:500; font-size:12px; padding:3px 10px;}
+  .board-row-region{background:transparent; color:var(--ink-dim); padding-inline:2px;}
+  .board-row-fault{font-size:15px; margin-top:10px;}
+  .board-row-meta{font-size:12.5px; margin-top:10px;}
+  .age-pill{border-radius:8px; font-weight:600; font-size:12px; padding:4px 10px;}
+  .board-row-actions{border-top:1px solid var(--outline); margin-top:12px; padding-top:12px;}
+  .stage-box{background:var(--card); border:none; border-radius:16px; padding:12px 14px; margin-top:12px;}
+  .stage-pill{border-radius:8px; font-size:12.5px; font-weight:600; padding:5px 12px;}
+  .stage-dots{gap:3px;} .sdot{height:6px; width:16px; border-radius:3px; background:var(--outline); opacity:.55;} .sdot.on{background:var(--primary); opacity:1;}
+  .decision{font-size:12.5px;}
+
+  /* פעולות מפקח מקופלות בכרטיס */
+  details.sup-tools{margin-top:12px; border-top:1px dashed var(--outline); padding-top:10px;}
+  details.sup-tools > summary{list-style:none; cursor:pointer; display:inline-flex; align-items:center; gap:6px; background:var(--primary-container); color:var(--on-primary-container); border-radius:999px; padding:7px 16px; font-size:13px; font-weight:500;}
+  details.sup-tools > summary::-webkit-details-marker{display:none;}
+  details.sup-tools[open] > summary{background:var(--primary); color:var(--primary-ink);}
+  details.sup-tools > .stage-actions, details.sup-tools > .card-dec, details.sup-tools > .stage-form{margin-top:10px;}
+  .stage-adv, .stage-confirm, .card-dec button, .sup-adv, .exit-confirm{background:var(--primary); color:var(--primary-ink); border:none; border-radius:999px; min-height:40px; padding:9px 20px; font-size:13.5px;}
+  .stage-back, .stage-cancel, .sup-back, .exit-cancel, .edit-rep, .exit-btn{background:transparent; color:var(--primary); border:1px solid var(--outline); border-radius:999px; min-height:40px; padding:9px 18px; font-size:13.5px; font-weight:500;}
+  .sup-dec{background:transparent !important; color:var(--primary) !important; border:1px solid var(--primary) !important; border-radius:999px; min-height:40px;}
+  .exit-btn{width:100%;}
+  details.stage-log{margin-top:10px;}
+  details.stage-log > summary{cursor:pointer; color:var(--primary); font-weight:500; font-size:13px;}
+  .timeline{border-right-color:var(--outline);} .timeline li::before{background:var(--primary);}
+
+  /* מצב מפקח */
+  #supPanel{margin:12px 0;}
+  .sup-who{background:var(--primary-container); color:var(--on-primary-container); border-radius:999px; font-weight:500; padding:6px 14px;}
+  .sup-bar{background:var(--tonal); border:none; border-radius:24px; box-shadow:var(--shadow); padding:14px 16px;}
+  .sup-fields input{border-radius:16px; min-height:46px; font-size:14.5px;}
+  .sup-city select{border-radius:12px; min-height:42px;}
+  table.row-table{background:transparent; border-radius:0; overflow:visible; border-collapse:separate; border-spacing:0 8px;}
+  .row-table th{background:transparent; color:var(--ink-dim); font-weight:500; font-size:12.5px; border:none; position:static;}
+  .row-table td{background:var(--tonal); border:none; padding:12px 10px;}
+  .row-table td:first-child{border-radius:0 16px 16px 0;} .row-table td:last-child{border-radius:16px 0 0 16px;}
+  .row-table tr:hover td{background:color-mix(in srgb, var(--tonal) 90%, var(--primary) 10%);}
+  .row-table tr.sel td{background:var(--primary-container);}
+  .row-table .sup-one{background:var(--primary); color:var(--primary-ink); border:none; border-radius:999px; min-height:34px; padding:6px 14px; font-size:12.5px; font-weight:500;}
+  .sup-row-confirm{display:grid; gap:6px; margin-top:6px;}
+  .sup-row-confirm[hidden]{display:none;}
+  .sup-row-confirm .row2{display:flex; gap:6px;}
+  .sup-row-confirm button{min-height:34px; padding:6px 14px; font-size:12.5px;}
+  .sup-row-ok{background:var(--primary); color:var(--primary-ink);}
+  .sup-row-x{background:transparent; color:var(--ink-dim); border:1px solid var(--outline);}
+  .row-table.sup select.sup-dec-sel{min-height:34px; height:34px; padding:4px 12px; border-radius:999px; font-size:12.5px; border:1px solid var(--outline); background:transparent; margin-top:6px;}
+  .row-table.sup input.sup-row-note[type="text"]{min-height:36px; height:36px; border-radius:12px; font-size:12.5px; padding:6px 12px; margin:0;}
+
+  /* חלון עריכה — Dialog */
+  .edit-overlay{background:rgba(10,14,22,.5);}
+  .edit-dlg{border-radius:28px; border:none; background:var(--card); box-shadow:0 8px 32px rgba(0,0,0,.25);}
+  .auth-card{border-radius:28px; box-shadow:var(--shadow);}
+  .app-footer{background:transparent; border:none; color:var(--ink-dim); font-size:12.5px;}
+  .status{border-radius:16px; grid-column:1 / -1;}
+
+  /* סדר שדות הטופס */
+  form .form-title{order:0;}
+  form .field:has(#region){order:1;} form .field:has(#unit){order:2;}
+  form .field:has(#plate){order:3;} form .field:has(#entryDate){order:4;}
+  form .field:has(#fault){order:5; grid-column:1 / -1;}
+  form .field:has(#garage){order:6;} form .field:has(#city){order:7;}
+  form .field:has(#reportedBy){order:8; grid-column:1 / -1;}
+  form #submitBtn{order:9;} form .status{order:10;}
+  @media (min-width:700px){ .sheet > form{grid-template-columns:1fr 1fr;} }
+
+  @media (min-width:1000px){
+    body{padding:28px 32px 48px;}
+    .sheet{max-width:1240px; gap:0 16px; column-gap:16px;}
+    .sheet > header{grid-column:1 / -1; padding:26px 32px 24px;}
+    .sheet > .board{margin:0 0 16px; padding:24px 24px 26px;}
+    .sheet > form{margin:0 0 16px; padding:24px 22px; display:grid; grid-template-columns:1fr 1fr; column-gap:14px; row-gap:14px; align-content:start;}
+    .sheet .board-list{max-height:none; min-height:0; overflow:visible; display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+    .sheet .board-list.table-mode, .sheet .board-list.sup-mode{display:block;}
+  }
+  @media (max-width:699px){
+    body{padding-left:max(10px, env(safe-area-inset-left, 0px)); padding-right:max(10px, env(safe-area-inset-right, 0px)); padding-top:10px;}
+    header{border-radius:24px; padding:18px 18px 16px;} header h1{font-size:24px;}
+    .board, .sheet > form{border-radius:24px; padding:16px 14px 18px;}
+    .board-row{border-radius:18px; padding:14px 12px;}
+    .pdf-btn{width:100%; height:46px; justify-content:center; padding:0 8px; font-size:14px;}
+    .region-chip{min-height:44px; border-radius:12px; width:100%; justify-content:space-between;}
+    #submitBtn{min-height:54px;}
+    .stage-adv, .stage-back, .stage-confirm, .stage-cancel, .exit-btn, .edit-rep, .card-dec button, .sup-actions button, .sup-dec{width:100%; min-height:48px; font-size:14.5px;}
+    .row-table.sup tr{border-radius:20px; background:var(--tonal); border:none;}
+    .row-table.sup td{background:transparent !important; border-radius:0 !important;}
+    .row-table .sup-one, .sup-row-confirm button, .row-table.sup select.sup-dec-sel{width:100%; min-height:46px; height:46px; font-size:14px;}
+    .row-table.sup input.sup-row-note[type="text"]{height:46px; min-height:46px; font-size:15px;}
+  }
+
+  @media (max-width:699px){
+    .board-tools{grid-template-columns:1fr 1fr !important;}
+    #supBtn{grid-column:1 / -1; white-space:normal; height:auto; min-height:46px;}
+    .board-list.sup-mode, .board-list.table-mode, .table-scroll{border:none !important; padding:0;}
+  }
+  .board-list > table, .board-list .row-table-wrap, .sup-table-wrap{border:none !important; box-shadow:none !important; background:transparent !important;}
 </style>
 </head>
 <body>
@@ -943,6 +1124,7 @@
   </section>
 
   <form id="faultForm">
+    <div class="form-title">דיווח חדש<small>מלאו את הפרטים בעת כניסת הרכב לטיפול</small></div>
     <div class="field">
       <label for="region">מרחב <span class="req">*</span></label>
       <select id="region" name="region" required>
@@ -1398,6 +1580,8 @@
       (item.stageLog.length > 1 ? '<div class="decision" style="margin-top:6px;">החלטה אחרונה: <b>' + escapeHtml(lastDecision(item)) + '</b></div>' : '') +
       (item.stageNote ? '<div class="stage-extra" style="margin-top:6px;">הערה: ' + escapeHtml(item.stageNote) + '</div>' : '');
 
+    const hasTools = (next && canSetStage(next.id)) || (prev && canSetStage(prev.id)) || DECISION_IDS.some(d => canSetStage(d) && d !== item.stage);
+    if (hasTools) h += '<details class="sup-tools"><summary>פעולות מפקח</summary>';
     const canNext = next && canSetStage(next.id);
     const canPrev = prev && canSetStage(prev.id);
     if (canNext || canPrev){
@@ -1421,12 +1605,13 @@
         '<input type="text" class="card-dec-note" maxlength="200" placeholder="הערת מפקח (לא חובה)">' +
         '<button type="button" class="card-dec-go" data-row="' + id + '">רישום החלטה</button></div>';
     }
+    if (hasTools) h += '</details>';
     // מסלול הטיפול — גלוי לכל המשתמשים (גם מדווח רגיל), כדי לדעת איפה הרכב בתהליך
     const events = item.stageLog.map(l => ({ at: l.at || 0, kind: 'stage', l: l }))
       .concat((Array.isArray(item.editLog) ? item.editLog : []).map(e => ({ at: e.at || 0, kind: 'edit', l: e })));
     events.sort((a, b) => a.at - b.at);
     if (events.length > 1){
-      h += '<details class="stage-log" open><summary>מסלול הטיפול ברכב (' + events.length + ')</summary><ul class="timeline">' +
+      h += '<details class="stage-log"><summary>מסלול הטיפול ברכב (' + events.length + ')</summary><ul class="timeline">' +
         events.map(ev => {
           const l = ev.l;
           if (ev.kind === 'edit'){
@@ -1486,7 +1671,7 @@
     const attr = s => escapeHtml(s).replace(/"/g, '&quot;');
     regionFilter.innerHTML =
       '<button type="button" class="region-chip' + (selectedRegion === '' ? ' active' : '') + '" data-region="">הצג הכל <b>' + allActive.length + '</b></button>' +
-      Object.entries(regionCounts).map(([r, c]) =>
+      Object.entries(regionCounts).filter(([r, c]) => c > 0 || selectedRegion === r).map(([r, c]) =>
         '<button type="button" class="region-chip' + (selectedRegion === r ? ' active' : '') + '" data-region="' + attr(r) + '">' + escapeHtml(r) + ' <b>' + c + '</b></button>'
       ).join('');
 
@@ -1865,8 +2050,8 @@
         '<td>' + escapeHtml(formatDate(it.entryDate)) + (d !== null ? '<span class="sub-line"><span class="age-pill ' + ageClass + '">' + (d === 0 ? 'היום' : d + ' ימים') + '</span></span>' : '') + '</td>' +
         '<td class="decision">' + (it.stageLog.length > 1 ? '<b>' + escapeHtml(lastDecision(it)) + '</b>' + (it.stageNote ? '<br>' + escapeHtml(it.stageNote) : '') : '—') + '</td>' +
         '<td>' + (next && canSetStage(next.id) ? '<button type="button" class="sup-one" data-row="' + rid + '" data-to="' + next.id + '">' + escapeHtml(next.short) + ' ›</button>' : '') +
-          '<input type="text" class="sup-row-note" maxlength="200" placeholder="הערת מפקח (לא חובה)">' +
           '<select class="sup-dec-sel" data-row="' + rid + '"><option value="">החלטה…</option>' + DECISION_IDS.filter(d => canSetStage(d) && d !== it.stage).map(d => '<option value="' + d + '">' + escapeHtml(STAGES.find(x => x.id === d).short) + '</option>').join('') + '</select>' +
+          '<div class="sup-row-confirm" hidden><input type="text" class="sup-row-note" maxlength="200" placeholder="הערת מפקח (לא חובה)"><div class="row2"><button type="button" class="sup-row-ok" data-row="' + rid + '">אישור</button><button type="button" class="sup-row-x">ביטול</button></div></div>' +
           (canEdit() ? '<br><button type="button" class="edit-rep small" data-row="' + rid + '">עריכת פרטים</button>' : '') + '</td>' +
       '</tr>';
     }).join('');
@@ -1918,10 +2103,9 @@
   });
   boardList.addEventListener('change', (e) => {
     if (e.target.classList.contains('sup-dec-sel')){
-      const v = e.target.value; if (!v) return;
-      e.target.disabled = true;
-      const noteEl = e.target.closest('td').querySelector('.sup-row-note');
-      writeStage(e.target.dataset.row, v, noteEl ? noteEl.value.trim() : '', null).catch(() => { e.target.disabled = false; alert('אין הרשאה או שגיאת חיבור.'); });
+      const v = e.target.value;
+      const box = e.target.closest('td').querySelector('.sup-row-confirm');
+      if (box){ box.hidden = !v; box.dataset.to = v; if (v) box.querySelector('.sup-row-note').focus(); }
       return;
     }
     if (!e.target.classList.contains('sup-chk')) return;
@@ -2223,6 +2407,16 @@
     b.disabled = true;
     try { await writeStage(b.dataset.row, to, box.querySelector('.card-dec-note').value.trim(), null); }
     catch (err) { b.disabled = false; alert('אין הרשאה או שגיאת חיבור.'); }
+  });
+
+  boardList.addEventListener('click', async (e) => {
+    const ok = e.target.closest('.sup-row-ok'), x = e.target.closest('.sup-row-x');
+    if (x){ const box = x.closest('.sup-row-confirm'); const td = box.closest('td'); box.hidden = true; const sel = td.querySelector('.sup-dec-sel'); if (sel) sel.value = ''; return; }
+    if (!ok) return;
+    const box = ok.closest('.sup-row-confirm'); if (!box.dataset.to) return;
+    ok.disabled = true;
+    try { await writeStage(ok.dataset.row, box.dataset.to, box.querySelector('.sup-row-note').value.trim(), null); }
+    catch (err) { ok.disabled = false; alert('אין הרשאה או שגיאת חיבור.'); }
   });
 
   // ===== עריכת פרטי דיווח — למפקח בלבד =====
