@@ -1043,6 +1043,28 @@
   details.sup-tools[open] > summary{background:var(--sup); color:var(--sup-ink);}
   .edit-rep, .edit-rep.small{color:var(--sup); border-color:var(--sup);}
   .sup-chk, input[type="checkbox"]{accent-color:var(--sup);}
+
+  /* ===== הפרדה: הזנת דיווח / צפייה ועריכה ===== */
+  .view-nav{display:flex; gap:6px; background:var(--surface-2); border-radius:999px; padding:5px; margin:0 0 12px; position:sticky; top:env(safe-area-inset-top,0px); z-index:5;}
+  .view-nav button{flex:1; min-height:48px; border-radius:999px; background:transparent; color:var(--ink-dim); font-size:15px; font-weight:500; display:inline-flex; align-items:center; justify-content:center; gap:8px; border:none;}
+  .view-nav button[aria-selected="true"]{background:var(--primary); color:var(--primary-ink);}
+  .view-nav .cnt{background:rgba(127,127,127,.22); border-radius:999px; padding:1px 9px; font-size:12px; font-weight:600;}
+  .sheet[data-view="report"] > .board{display:none;}
+  .sheet[data-view="board"] > form{display:none;}
+  @media (min-width:1000px){
+    .view-nav{grid-column:1 / -1; grid-row:2; max-width:520px; justify-self:center; width:100%;}
+    .sheet > .board, .sheet > form{grid-column:1 / -1 !important; grid-row:3 !important;}
+    .sheet > form{max-width:760px; width:100%; justify-self:center;}
+    .sheet > .app-footer{grid-row:4 !important;}
+    .sheet .board-list{grid-template-columns:repeat(3, 1fr); max-height:calc(100vh - 340px);}
+  }
+  @media (min-width:700px) and (max-width:999px){ .sheet > form{max-width:760px; margin-inline:auto;} }
+
+  /* כפתור "דיווח חדש" — כתום, בראש העמוד */
+  .view-nav #tabReport{background:var(--sup); color:var(--sup-ink); font-weight:600;}
+  .view-nav #tabReport::before{content:"+"; font-size:22px; font-weight:500; line-height:1;}
+  .view-nav #tabReport[aria-selected="true"]{background:var(--sup); color:var(--sup-ink);}
+  .view-nav #tabBoard[aria-selected="true"]{background:var(--primary); color:var(--primary-ink);}
 </style>
 </head>
 <body>
@@ -1062,7 +1084,7 @@
   </div>
 </div>
 
-<div class="sheet">
+<div class="sheet" data-view="report">
   <div class="demo-banner" id="demoBanner" hidden>גרסת הדגמה מקומית — הנתונים בדויים ונשמרים בדפדפן הזה בלבד</div>
   <header>
     <div class="badge-row">
@@ -1075,6 +1097,7 @@
     <p class="sub">מלאו את הפרטים בעת כניסת הרכב לטיפול. הדיווח נשמר אוטומטית ומתעדכן בזמן אמת אצל כולם.</p>
   </header>
 
+  <nav class="view-nav" role="tablist" aria-label="תצוגה"><button type="button" role="tab" id="tabReport" data-view="report" aria-selected="true">דיווח חדש</button><button type="button" role="tab" id="tabBoard" data-view="board" aria-selected="false">צפייה ועריכה <span class="cnt" id="tabCnt">0</span></button></nav>
   <section class="board" id="board" style="margin-top:4px;">
     <div class="board-head">
       <div class="board-title-wrap">
@@ -2436,6 +2459,24 @@
     try { await writeStage(ok.dataset.row, box.dataset.to, box.querySelector('.sup-row-note').value.trim(), null); }
     catch (err) { ok.disabled = false; alert('אין הרשאה או שגיאת חיבור.'); }
   });
+
+  // ===== מעבר בין הזנת דיווח לצפייה ועריכה =====
+  (function(){
+    const sheetEl = document.querySelector('.sheet'); const KEY = 'garageView_v1';
+    function setView(v){
+      sheetEl.dataset.view = v;
+      document.querySelectorAll('.view-nav button').forEach(b => b.setAttribute('aria-selected', b.dataset.view === v ? 'true' : 'false'));
+      try { localStorage.setItem(KEY, v); } catch(e){}
+      window.scrollTo({top:0});
+    }
+    document.querySelectorAll('.view-nav button').forEach(b => b.addEventListener('click', () => setView(b.dataset.view)));
+    let v0 = 'report'; try { v0 = localStorage.getItem(KEY) || 'report'; } catch(e){}
+    setView(v0 === 'board' ? 'board' : 'report');
+    window.__setView = setView;
+    const cntEl = document.getElementById('tabCnt');
+    const upd = () => { const n = document.querySelector('.count-num'); if (n && cntEl) cntEl.textContent = n.textContent.trim(); };
+    new MutationObserver(upd).observe(document.getElementById('board'), {subtree:true, childList:true, characterData:true}); upd();
+  })();
 
   // ===== עריכת פרטי דיווח — למפקח בלבד =====
   const EDIT_FIELDS = [['plate','מספר רכב'],['unit','יחידה'],['region','מרחב'],['garage','מוסך'],['reportedBy','דווח ע"י']];
