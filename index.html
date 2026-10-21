@@ -1421,7 +1421,28 @@
   const POLL_MS = 25000;
 
   const URL_KEY = 'garageScriptUrl_v1';
-  function gsCall(params, urlOverride){
+  // קודם fetch בלי עוגיות (עוקף בעיות של כמה חשבונות Google מחוברים), ואם נכשל — JSONP רגיל
+  let gsMode = '';
+  async function gsCall(params, urlOverride){
+    const cb = 'cb_' + Math.random().toString(36).slice(2);
+    const q = new URLSearchParams(Object.assign({ name: staff ? staff.name : '' }, params, { callback: cb })).toString();
+    const base = (urlOverride || lsGet(URL_KEY) || APPS_SCRIPT_URL);
+    const idem = (params.action === 'list' || params.action === 'submit');
+    if (gsMode === 'jsonp' || (gsMode === '' && !idem)) return gsCallJsonp(params, urlOverride);
+    try {
+      const ctl = new AbortController(); const tm = setTimeout(() => ctl.abort(), 20000);
+      let txt;
+      try { const res = await fetch(base + '?' + q, { credentials: 'omit', redirect: 'follow', signal: ctl.signal }); txt = await res.text(); }
+      finally { clearTimeout(tm); }
+      const m = txt.match(/^[^(]*\(([\s\S]*)\)\s*;?\s*$/);
+      if (!m) throw new Error('bad-response');
+      const out = JSON.parse(m[1]); if (!urlOverride) gsMode = 'fetch'; return out;
+    } catch (e1) {
+      if (gsMode !== 'fetch') { if (!urlOverride) gsMode = 'jsonp'; return gsCallJsonp(params, urlOverride); }
+      throw e1;
+    }
+  }
+  function gsCallJsonp(params, urlOverride){
     return new Promise((resolve, reject) => {
       const cbName = 'cb_' + Math.random().toString(36).slice(2);
       const script = document.createElement('script');
