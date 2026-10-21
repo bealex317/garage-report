@@ -1051,6 +1051,16 @@
   .view-nav .cnt{background:rgba(127,127,127,.22); border-radius:999px; padding:1px 9px; font-size:12px; font-weight:600;}
   .sheet[data-view="report"] > .board{display:none;}
   .sheet[data-view="board"] > form{display:none;}
+  .sheet[data-view="board"] > #history, .sheet[data-view="report"] > #history{display:none;}
+  .sheet[data-view="history"] > form, .sheet[data-view="history"] > #board{display:none;}
+  .sheet[data-view="history"] > #history{display:block;}
+  .view-nav #tabHist[aria-selected="true"]{background:#1d8a82; color:#fff;}
+  .hist-q{width:100%; box-sizing:border-box; min-height:48px; border-radius:14px; border:1px solid rgba(127,127,127,.35); background:rgba(127,127,127,.12); color:inherit; padding:0 14px; font:inherit; margin:6px 0 10px;}
+  .hist-list{display:grid; gap:8px; max-height:min(70vh,640px); overflow-y:auto;}
+  .hist-item{border:1px solid rgba(127,127,127,.28); border-radius:14px; padding:10px 12px; background:rgba(127,127,127,.08);}
+  .hist-item b{font-size:16px;} .hist-item .h2{font-size:13px; opacity:.8; margin-top:3px;}
+  .hist-item .pill{display:inline-block; border-radius:999px; padding:1px 9px; font-size:12px; background:rgba(127,127,127,.22); margin-inline-start:6px;}
+  .hist-count{font-size:13px; opacity:.8;}
   @media (min-width:1000px){
     .view-nav{grid-column:1 / -1; grid-row:2; max-width:520px; justify-self:center; width:100%;}
     .sheet > .board, .sheet > form{grid-column:1 / -1 !important; grid-row:3 !important;}
@@ -1239,7 +1249,7 @@
     <p class="sub">מלאו את הפרטים בעת כניסת הרכב לטיפול. הדיווח נשמר אוטומטית ומתעדכן בזמן אמת אצל כולם.</p>
   </header>
 
-  <nav class="view-nav" role="tablist" aria-label="תצוגה"><button type="button" role="tab" id="tabReport" data-view="report" aria-selected="true">דיווח חדש</button><button type="button" role="tab" id="tabBoard" data-view="board" aria-selected="false">צפייה ועריכה <span class="cnt" id="tabCnt">0</span></button></nav>
+  <nav class="view-nav" role="tablist" aria-label="תצוגה"><button type="button" role="tab" id="tabReport" data-view="report" aria-selected="true">דיווח חדש</button><button type="button" role="tab" id="tabBoard" data-view="board" aria-selected="false">צפייה ועריכה <span class="cnt" id="tabCnt">0</span></button><button type="button" role="tab" id="tabHist" data-view="history" aria-selected="false">היסטוריה</button></nav>
   <section class="board" id="board" style="margin-top:4px;">
     <div class="board-head">
       <div class="board-title-wrap">
@@ -1314,6 +1324,11 @@
     <div class="board-list" id="boardList">
       <div class="board-empty-state" id="boardEmpty">טוען נתונים...</div>
     </div>
+  </section>
+  <section class="board hist" id="history" style="margin-top:4px;">
+    <div class="board-head"><div class="board-title-wrap"><span class="tag">היסטוריה</span><h2>רכבים שיצאו מהמוסך</h2></div><span class="hist-count" id="histCount"></span></div>
+    <input type="search" id="histQ" class="hist-q" placeholder="חיפוש: מספר רכב / מוסך / עיר / יחידה / תקלה" autocomplete="off">
+    <div id="histList" class="hist-list"></div>
   </section>
 
   <form id="faultForm">
@@ -1935,6 +1950,7 @@
       quoteAmount: typeof it.quoteAmount === 'number' ? it.quoteAmount : null
     }));
     lastItems = items;
+    if (window.__histRender) window.__histRender();
 
     const cityDatalist = document.getElementById('cityList');
     if (cityDatalist){
@@ -2796,7 +2812,8 @@
       entryDateInput.value = new Date().toISOString().slice(0,10);
     } catch (err) {
       const denied = err && err.code === 'permission-denied';
-      showStatus(denied ? 'אין הרשאה לשמירת הדיווח.' : 'שגיאה בשמירת הדיווח. אפשר ללחוץ "שלח דיווח" שוב — לא תיווצר כפילות.', 'err');
+      showStatus(denied ? 'אין הרשאה לשמירת הדיווח.' : 'שגיאה בשמירת הדיווח' + (err && err.message ? ' (' + (err.message === 'timeout' ? 'אין תשובה מהשרת' : err.message === 'network' ? 'אין חיבור לשרת' : String(err.message).slice(0, 120)) + ')' : '') + '. אפשר ללחוץ "שלח דיווח" שוב — לא תיווצר כפילות.', 'err');
+      try { console.error('submit failed', err); } catch (e3) {}
     } finally {
       submitBtn.disabled = false;
       submitBtn.textContent = 'שלח דיווח';
@@ -2850,6 +2867,31 @@
     const cntEl = document.getElementById('tabCnt');
     const upd = () => { const n = document.querySelector('.count-num'); if (n && cntEl) cntEl.textContent = n.textContent.trim(); };
     new MutationObserver(upd).observe(document.getElementById('board'), {subtree:true, childList:true, characterData:true}); upd();
+  })();
+
+
+  // ===== היסטוריה: רכבים שיצאו מהמוסך =====
+  (function(){
+    const listEl = document.getElementById('histList'), qEl = document.getElementById('histQ'), cEl = document.getElementById('histCount');
+    if (!listEl) return;
+    const fd = d => { const p = String(d || '').slice(0,10).split('-'); return p.length === 3 ? p[2] + '/' + p[1] + '/' + p[0].slice(-2) : ''; };
+    function render(){
+      const q = (qEl.value || '').trim().toLowerCase();
+      let rows = (lastItems || []).filter(it => it.exitDate);
+      rows.sort((a, b) => String(b.exitDate).localeCompare(String(a.exitDate)));
+      if (q) rows = rows.filter(it => [it.plate, it.garage, it.city, it.unit, it.fault, it.region, it.reportedBy].join(' ').toLowerCase().indexOf(q) !== -1);
+      cEl.textContent = rows.length + ' רשומות';
+      listEl.innerHTML = rows.length ? rows.map(it => {
+        const a = new Date(String(it.entryDate).slice(0,10) + 'T00:00:00'), z = new Date(String(it.exitDate).slice(0,10) + 'T00:00:00');
+        const days = (isNaN(a) || isNaN(z)) ? null : Math.max(0, Math.round((z - a) / 86400000));
+        return '<div class="hist-item"><b>' + escapeHtml(it.plate) + '</b><span class="pill">' + (days === null ? '' : days + ' ימים') + '</span>' +
+          '<div class="h2">' + escapeHtml(it.fault) + '</div>' +
+          '<div class="h2">נכנס ' + fd(it.entryDate) + ' · יצא ' + fd(it.exitDate) + (it.garage ? ' · ' + escapeHtml(it.garage) : '') + (it.city ? ', ' + escapeHtml(it.city) : '') + '</div>' +
+          '<div class="h2">' + escapeHtml([it.unit, it.region].filter(Boolean).join(' · ')) + (it.reportedBy ? ' · דווח ע"י ' + escapeHtml(it.reportedBy) : '') + '</div></div>';
+      }).join('') : '<p class="h2" style="opacity:.8">אין רשומות להצגה.</p>';
+    }
+    qEl.addEventListener('input', render);
+    window.__histRender = render; render();
   })();
 
   // ===== עריכת פרטי דיווח — למפקח בלבד =====
