@@ -1194,6 +1194,10 @@
   .sup-search-res[hidden], .sup-search-title .link-btn[hidden]{display:none !important;}
   .board .region-chip.active, .board .region-chip.active b{color:#9be8df !important; background:#103e44 !important; border-color:#1d8a82 !important;}
   .board .region-chip.active::before{color:#9be8df;}
+
+  .ver-info{font-size:12px; color:#8fa0bb;}
+  .ver-info.ok{color:#6fdccf;}
+  .ver-info.bad{color:#ffb4ab; font-weight:700;}
 </style>
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#0c1b33">
@@ -1368,6 +1372,7 @@
 
   <div class="app-footer">
     <span id="userLabel"></span>
+    <span id="verInfo" class="ver-info" dir="rtl">דף 21.10-א · שרת: בודק…</span>
     <span>
       <select id="demoRole" hidden style="width:auto; padding:6px 10px; font-size:12.5px; border-radius:6px;">
         <option value="admin">הצג כ: מנהל</option>
@@ -1496,7 +1501,28 @@
   })();
 
   function check(r){ if (!r || r.ok === false) throw Object.assign(new Error((r && r.error) || 'fail'), { code: (r && r.error) || 'fail' }); return r; }
+  let serverChecked = false;
+  async function ensureNewServer(){
+    if (serverChecked) return;
+    const r0 = await gsCall({ action: 'list' });
+    if (!r0 || !r0.v) throw Object.assign(new Error('old-script'), { code: 'old-script' });
+    serverChecked = true;
+  }
+  (async function(){
+    const el = document.getElementById('verInfo'); if (!el) return;
+    try {
+      const r = await gsCall({ action: 'list' });
+      if (r && r.v){ serverChecked = true; el.textContent = 'דף 21.10-א · שרת: מעודכן ✓'; el.classList.add('ok'); }
+      else { el.textContent = 'דף 21.10-א · שרת: ישן ✗ — עדכנו Code.gs'; el.classList.add('bad'); }
+    } catch (e) { el.textContent = 'דף 21.10-א · שרת: אין חיבור'; }
+  })();
+  window.__errText = function(err){
+    return (err && err.code === 'old-script')
+      ? 'הסקריפט ב-Google עדיין ישן — לא נשלח ולא נשמר דבר. יש להדביק את Code.gs החדש ולפרסם "גרסה חדשה".'
+      : 'אין הרשאה או שגיאת חיבור.';
+  };
   async function applyUpdate(rowId, data){
+    if (!Object.prototype.hasOwnProperty.call(data, 'exitDate')) await ensureNewServer();
     const r = await applyUpdate0(rowId, data);
     if (r && !r.v) throw Object.assign(new Error('old-script'), { code: 'old-script' });
     return r;
@@ -1537,6 +1563,7 @@
       set: () => {}, delete: () => {},
       commit: async () => {
         if (!ops.length) return;
+        await ensureNewServer();
         const first = ops[0][1];
         const same = ops.every(o => o[1].stage === first.stage && (o[1].stageNote || '') === (first.stageNote || '') && o[1].quoteAmount === first.quoteAmount);
         if (same && first.stage !== undefined){
@@ -2344,7 +2371,7 @@
         document.getElementById('supNote').value = '';
         amtEl.value = '';
       } catch (err) {
-        alert('אין הרשאה או שגיאת חיבור.');
+        alert(window.__errText(typeof err !== 'undefined' ? err : null));
       }
       renderBoard(lastItems);
     }
@@ -2370,7 +2397,7 @@
     const b = e.target.closest('.sup-one');
     if (!b) return;
     b.disabled = true;
-    try { await writeStage(b.dataset.row, b.dataset.to, '', null); } catch (err) { b.disabled = false; alert('אין הרשאה או שגיאת חיבור.'); }
+    try { await writeStage(b.dataset.row, b.dataset.to, '', null); } catch (err) { b.disabled = false; alert(window.__errText(typeof err !== 'undefined' ? err : null)); }
   });
 
   async function writeStage(rowId, toId, note, amount){
@@ -2417,7 +2444,7 @@
       } catch (err) {
         target.disabled = false;
         const er = f && f.querySelector('.stage-err');
-        if (er){ er.textContent = 'אין הרשאה או שגיאת חיבור.'; er.hidden = false; } else alert('אין הרשאה או שגיאת חיבור.');
+        if (er){ er.textContent = 'אין הרשאה או שגיאת חיבור.'; er.hidden = false; } else alert(window.__errText(typeof err !== 'undefined' ? err : null));
       }
       return;
     }
@@ -2742,7 +2769,7 @@
     if (to === '__free' && !cn){ box.querySelector('.card-dec-note').focus(); return; }
     b.disabled = true;
     try { await writeStage(b.dataset.row, to, cn, null); }
-    catch (err) { b.disabled = false; alert('אין הרשאה או שגיאת חיבור.'); }
+    catch (err) { b.disabled = false; alert(window.__errText(typeof err !== 'undefined' ? err : null)); }
   });
 
   boardList.addEventListener('click', async (e) => {
@@ -2753,7 +2780,7 @@
     if (box.dataset.to === '__free' && !box.querySelector('.sup-row-note').value.trim()){ box.querySelector('.sup-row-note').focus(); return; }
     ok.disabled = true;
     try { await writeStage(ok.dataset.row, box.dataset.to, box.querySelector('.sup-row-note').value.trim(), null); }
-    catch (err) { ok.disabled = false; alert('אין הרשאה או שגיאת חיבור.'); }
+    catch (err) { ok.disabled = false; alert(window.__errText(typeof err !== 'undefined' ? err : null)); }
   });
 
   // ===== מעבר בין הזנת דיווח לצפייה ועריכה =====
