@@ -1301,8 +1301,8 @@
         <div class="sup-search-title">חיפוש <button type="button" id="supSearchClear" class="link-btn" hidden>נקה חיפוש</button></div>
         <div class="sup-search-grid">
           <input type="search" data-q="plate" inputmode="numeric" placeholder="מספר רכב" autocomplete="off" aria-label="חיפוש לפי מספר רכב">
-          <input type="search" data-q="garage" placeholder="מוסך" autocomplete="off" aria-label="חיפוש לפי מוסך">
-          <input type="search" data-q="city" placeholder="עיר" autocomplete="off" aria-label="חיפוש לפי עיר">
+          <input type="search" data-q="garage" list="garageList" placeholder="מוסך" autocomplete="off" aria-label="חיפוש לפי מוסך">
+          <input type="search" data-q="city" list="cityList" placeholder="עיר" autocomplete="off" aria-label="חיפוש לפי עיר">
           <input type="search" data-q="unit" placeholder="יחידה" autocomplete="off" aria-label="חיפוש לפי יחידה">
         </div>
         <div class="sup-search-res" id="supSearchRes" hidden></div>
@@ -1387,7 +1387,7 @@
 
   <div class="app-footer">
     <span id="userLabel"></span>
-    <span id="verInfo" class="ver-info" dir="rtl">דף 21.10-ה · שרת: בודק…</span>
+    <span id="verInfo" class="ver-info" dir="rtl">דף 21.10-ו · שרת: בודק…</span>
     <button type="button" id="urlBtn" class="link-btn" style="width:auto;min-height:32px;padding:0 6px;">כתובת שרת</button>
     <span>
       <select id="demoRole" hidden style="width:auto; padding:6px 10px; font-size:12.5px; border-radius:6px;">
@@ -1568,9 +1568,9 @@
     const el = document.getElementById('verInfo'); if (!el) return;
     try {
       const r = await gsCall({ action: 'list' });
-      if (r && r.v){ serverChecked = true; el.textContent = 'דף 21.10-ה · שרת: מעודכן ✓'; el.classList.add('ok'); }
-      else { el.textContent = 'דף 21.10-ה · שרת: ישן ✗ — עדכנו Code.gs ' + (function(){ try { return JSON.stringify(r).slice(0, 60); } catch (e) { return ''; } })(); el.classList.add('bad'); }
-    } catch (e) { el.textContent = 'דף 21.10-ה · שרת: אין חיבור ✗ — בדקו "כתובת שרת"'; el.classList.add('bad'); }
+      if (r && r.v){ serverChecked = true; el.textContent = 'דף 21.10-ו · שרת: מעודכן ✓'; el.classList.add('ok'); }
+      else { el.textContent = 'דף 21.10-ו · שרת: ישן ✗ — עדכנו Code.gs ' + (function(){ try { return JSON.stringify(r).slice(0, 60); } catch (e) { return ''; } })(); el.classList.add('bad'); }
+    } catch (e) { el.textContent = 'דף 21.10-ו · שרת: אין חיבור ✗ — בדקו "כתובת שרת"'; el.classList.add('bad'); }
   })();
   document.getElementById('urlBtn').addEventListener('click', () => {
     const cur = lsGet(URL_KEY) || APPS_SCRIPT_URL;
@@ -1865,6 +1865,7 @@
       .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
 
+  const IL_CITIES = 'אבו גוש,אבו סנאן,אופקים,אור יהודה,אור עקיבא,אילת,אלעד,אריאל,אשדוד,אשקלון,באר שבע,באקה אל-גרבייה,בית שאן,בית שמש,בית אל,ביתר עילית,בני ברק,בנימינה,בת ים,גבעת שמואל,גבעתיים,גדרה,גן יבנה,דימונה,הוד השרון,הרצליה,זכרון יעקב,חדרה,חיפה,חולון,חריש,טבריה,טייבה,טירת הכרמל,טמרה,יבנה,יהוד-מונוסון,יוקנעם עילית,ירוחם,ירושלים,כפר סבא,כפר קאסם,כפר יונה,כרמיאל,לוד,מבשרת ציון,מגדל העמק,מודיעין-מכבים-רעות,מודיעין עילית,מעלה אדומים,מעלות-תרשיחא,מצפה רמון,נס ציונה,נצרת,נצרת עילית (נוף הגליל),נשר,נתיבות,נתניה,סחנין,עכו,עפולה,ערד,פתח תקווה,צפת,קדימה-צורן,קלנסוואה,קריית אונו,קריית ארבע,קריית אתא,קריית גת,קריית ביאליק,קריית מוצקין,קריית מלאכי,קריית שמונה,קריית ים,ראש העין,ראש פינה,ראשון לציון,רהט,רחובות,רמלה,רמת גן,רמת השרון,רעננה,שדרות,שוהם,שפרעם,תל אביב-יפו,תל שבע,אום אל-פחם,עראבה,כפר כנא,מגאר,דאלית אל-כרמל,עספיא,יפיע,כסייפה,ערערה בנגב,חורה,לקיה,שגב שלום,אבן יהודה,אלפי מנשה,אורנית,קדומים,אפרת,גוש עציון,אלון שבות,בית שמש,מבוא חורון,חברון,מיתר,להבים,עומר,כוכב יאיר,קיסריה,פרדס חנה-כרכור,אור הנר,נחל עוז,ניר עם,עין השלושה,נירים,בארי,רעים,ארז,סעד,כפר עזה,יד מרדכי,זיקים,מרחבים,אשכול,חוף אשקלון'.split(',');
   function daysAgo(dateStr){
     if (!dateStr) return null;
     const then = new Date(dateStr.slice(0, 10) + 'T00:00:00');
@@ -1975,7 +1976,7 @@
 
     const cityDatalist = document.getElementById('cityList');
     if (cityDatalist){
-      cityDatalist.innerHTML = [...new Set(items.map(i => (i.city || '').trim()).filter(Boolean))]
+      cityDatalist.innerHTML = [...new Set(items.map(i => (i.city || '').trim()).filter(Boolean).concat(IL_CITIES))]
         .map(n => '<option value="' + escapeHtml(n).replace(/"/g, '&quot;') + '"></option>').join('');
     }
     const garageDatalist = document.getElementById('garageList');
@@ -2930,8 +2931,8 @@
       '<label>תקלה</label><textarea id="edFault" rows="3"></textarea>' +
       '<label>יחידה</label><input type="text" id="edUnit">' +
       '<label>מרחב</label><select id="edRegion">' + regionOpts + '</select>' +
-      '<label>מוסך</label><input type="text" id="edGarage">' +
-      '<label>עיר</label><input type="text" id="edCity">' +
+      '<label>מוסך</label><input type="text" id="edGarage" list="garageList" autocomplete="off">' +
+      '<label>עיר</label><input type="text" id="edCity" list="cityList" autocomplete="off">' +
       '<label>דווח ע"י</label><input type="text" id="edBy">' +
       '<div class="edit-err" id="edErr" hidden></div>' +
       '<div class="btns"><button type="button" id="edSave">שמירה</button><button type="button" id="edCancel" class="link-btn">ביטול</button></div></div>';
