@@ -1439,13 +1439,31 @@
   function emitRole(){ roleCbs.forEach(cb => cb(roleSnap())); }
   function roleSnap(){ const d = staff ? { role: staff.role, name: staff.name } : {}; return { exists: () => !!staff, data: () => d }; }
 
+  const MON = { Jan:1, Feb:2, Mar:3, Apr:4, May:5, Jun:6, Jul:7, Aug:8, Sep:9, Oct:10, Nov:11, Dec:12 };
+  function normDate(v){
+    if (v == null || v === '') return '';
+    const s = String(v);
+    if (/^\d{4}-\d{2}-\d{2}/.test(s)) return s.slice(0, 10);
+    const m = s.match(/^[A-Za-z]{3} ([A-Za-z]{3}) (\d{1,2}) (\d{4})/);
+    if (m && MON[m[1]]) return m[3] + '-' + String(MON[m[1]]).padStart(2, '0') + '-' + String(m[2]).padStart(2, '0');
+    const d = new Date(s);
+    if (!isNaN(d.getTime())) return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    return '';
+  }
+  function normItem(it){
+    const o = Object.assign({}, it);
+    o.entryDate = normDate(it.entryDate);
+    o.exitDate = normDate(it.exitDate);
+    ['plate','unit','garage','city','region','fault','reportedBy'].forEach(k => { o[k] = it[k] == null ? '' : String(it[k]); });
+    return o;
+  }
   function toSnap(items){
     return { docs: items.map(it => ({ id: String(it.row), data: () => Object.assign({}, it, { createdAt: { toMillis: () => it.createdAt || 0 } }) })) };
   }
   async function refresh(){
     try {
       const r = await gsCall({ action: 'list' });
-      if (r && r.ok !== false){ lastDocs = r.items || []; colCbs.forEach(cb => cb(toSnap(lastDocs))); }
+      if (r && r.ok !== false){ lastDocs = (r.items || []).map(normItem);  colCbs.forEach(cb => cb(toSnap(lastDocs))); }
       else throw new Error('list');
     } catch (err) {
       colCbs.forEach(cb => cb.__err && cb.__err(err));
