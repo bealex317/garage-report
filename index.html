@@ -1387,7 +1387,7 @@
 
   <div class="app-footer">
     <span id="userLabel"></span>
-    <span id="verInfo" class="ver-info" dir="rtl">דף 21.10-א · שרת: בודק…</span>
+    <span id="verInfo" class="ver-info" dir="rtl">דף 21.10-ד · שרת: בודק…</span>
     <button type="button" id="urlBtn" class="link-btn" style="width:auto;min-height:32px;padding:0 6px;">כתובת שרת</button>
     <span>
       <select id="demoRole" hidden style="width:auto; padding:6px 10px; font-size:12.5px; border-radius:6px;">
@@ -1436,7 +1436,7 @@
       finally { clearTimeout(tm); }
       const m = txt.match(/^[^(]*\(([\s\S]*)\)\s*;?\s*$/);
       if (!m) throw new Error('bad-response');
-      const out = JSON.parse(m[1]); if (!urlOverride) gsMode = 'fetch'; return out;
+      const out = JSON.parse(m[1]); if (!out || !out.v) throw new Error('no-v'); if (!urlOverride) gsMode = 'fetch'; return out;
     } catch (e1) {
       if (gsMode !== 'fetch') { if (!urlOverride) gsMode = 'jsonp'; return gsCallJsonp(params, urlOverride); }
       throw e1;
@@ -1568,9 +1568,9 @@
     const el = document.getElementById('verInfo'); if (!el) return;
     try {
       const r = await gsCall({ action: 'list' });
-      if (r && r.v){ serverChecked = true; el.textContent = 'דף 21.10-א · שרת: מעודכן ✓'; el.classList.add('ok'); }
-      else { el.textContent = 'דף 21.10-א · שרת: ישן ✗ — עדכנו Code.gs'; el.classList.add('bad'); }
-    } catch (e) { el.textContent = 'דף 21.10-א · שרת: אין חיבור ✗ — בדקו "כתובת שרת"'; el.classList.add('bad'); }
+      if (r && r.v){ serverChecked = true; el.textContent = 'דף 21.10-ד · שרת: מעודכן ✓'; el.classList.add('ok'); }
+      else { el.textContent = 'דף 21.10-ד · שרת: ישן ✗ — עדכנו Code.gs ' + (function(){ try { return JSON.stringify(r).slice(0, 60); } catch (e) { return ''; } })(); el.classList.add('bad'); }
+    } catch (e) { el.textContent = 'דף 21.10-ד · שרת: אין חיבור ✗ — בדקו "כתובת שרת"'; el.classList.add('bad'); }
   })();
   document.getElementById('urlBtn').addEventListener('click', () => {
     const cur = lsGet(URL_KEY) || APPS_SCRIPT_URL;
