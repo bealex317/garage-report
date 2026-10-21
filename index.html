@@ -1387,7 +1387,7 @@
 
   <div class="app-footer">
     <span id="userLabel"></span>
-    <span id="verInfo" class="ver-info" dir="rtl">דף 21.10-ד · שרת: בודק…</span>
+    <span id="verInfo" class="ver-info" dir="rtl">דף 21.10-ה · שרת: בודק…</span>
     <button type="button" id="urlBtn" class="link-btn" style="width:auto;min-height:32px;padding:0 6px;">כתובת שרת</button>
     <span>
       <select id="demoRole" hidden style="width:auto; padding:6px 10px; font-size:12.5px; border-radius:6px;">
@@ -1412,7 +1412,7 @@
 <script type="module">
   // ===== חיבור ל-Google Sheets דרך Apps Script (במקום Firebase) =====
   // כתובת ה-Web App של Apps Script. אם פרסמתם מחדש עם אותה כתובת — אין מה לשנות.
-  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyuMxCYb48P_TjwlsY7Ryg1ozZbNObuHnrFiThTKO6cu0VKemEKC6atVlkjkKJxDKjo/exec";
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwU3pEFHYwszoA2bptHp7s_r-2cm2M6B4WJb0mxSxl4aRwp9ajMvx16-kN-4Q6Y1wZE/exec";
   // false = בלי קודי גישה: כולם מקבלים כלי מפקח, והשם נרשם בהחלטות. true = נדרש קוד (ראו Code.gs).
   const REQUIRE_CODE = false;
   // false = בלי קודי גישה: כולם מקבלים כלי מפקח, והשם נרשם בהחלטות. true = נדרש קוד (ראו גם Code.gs).
@@ -1568,9 +1568,9 @@
     const el = document.getElementById('verInfo'); if (!el) return;
     try {
       const r = await gsCall({ action: 'list' });
-      if (r && r.v){ serverChecked = true; el.textContent = 'דף 21.10-ד · שרת: מעודכן ✓'; el.classList.add('ok'); }
-      else { el.textContent = 'דף 21.10-ד · שרת: ישן ✗ — עדכנו Code.gs ' + (function(){ try { return JSON.stringify(r).slice(0, 60); } catch (e) { return ''; } })(); el.classList.add('bad'); }
-    } catch (e) { el.textContent = 'דף 21.10-ד · שרת: אין חיבור ✗ — בדקו "כתובת שרת"'; el.classList.add('bad'); }
+      if (r && r.v){ serverChecked = true; el.textContent = 'דף 21.10-ה · שרת: מעודכן ✓'; el.classList.add('ok'); }
+      else { el.textContent = 'דף 21.10-ה · שרת: ישן ✗ — עדכנו Code.gs ' + (function(){ try { return JSON.stringify(r).slice(0, 60); } catch (e) { return ''; } })(); el.classList.add('bad'); }
+    } catch (e) { el.textContent = 'דף 21.10-ה · שרת: אין חיבור ✗ — בדקו "כתובת שרת"'; el.classList.add('bad'); }
   })();
   document.getElementById('urlBtn').addEventListener('click', () => {
     const cur = lsGet(URL_KEY) || APPS_SCRIPT_URL;
