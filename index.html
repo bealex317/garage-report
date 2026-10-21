@@ -1599,13 +1599,13 @@
   });
   window.__errText = function(err){
     return (err && err.code === 'old-script')
-      ? 'הסקריפט ב-Google עדיין ישן — לא נשלח ולא נשמר דבר. יש להדביק את Code.gs החדש ולפרסם "גרסה חדשה".'
+      ? 'השרת החזיר תשובה לא צפויה (' + (function(){ try { return JSON.stringify(err.resp || window.__lastBad || {}).slice(0, 140); } catch (e) { return ''; } })() + ') — ייתכן שהסקריפט ב-Google ישן. שלחו לי את הטקסט הזה.'
       : 'אין הרשאה או שגיאת חיבור.';
   };
   async function applyUpdate(rowId, data){
     if (!Object.prototype.hasOwnProperty.call(data, 'exitDate')) await ensureNewServer();
     const r = await applyUpdate0(rowId, data);
-    if (r && !r.v) throw Object.assign(new Error('old-script'), { code: 'old-script' });
+    if (r && !r.v){ window.__lastBad = r; throw Object.assign(new Error('old-script'), { code: 'old-script', resp: r }); }
     return r;
   }
   async function applyUpdate0(rowId, data){
@@ -2957,7 +2957,7 @@
         const w = updateDoc(doc(db, 'reports', rowId), upd); w.catch(() => {});
         await Promise.race([w, new Promise(res => setTimeout(res, 4000))]);
         closeEdit();
-      } catch (e2){ err.textContent = (e2 && e2.code === 'old-script') ? 'הסקריפט ב-Google עדיין ישן — צריך להדביק את Code.gs החדש ולפרסם "גרסה חדשה". לא נשמר דבר.' : 'אין הרשאה או שגיאת חיבור.'; err.hidden = false; document.getElementById('edSave').disabled = false; }
+      } catch (e2){ err.textContent = (e2 && e2.code === 'old-script') ? window.__errText(e2) : 'אין הרשאה או שגיאת חיבור.'; err.hidden = false; document.getElementById('edSave').disabled = false; }
     });
   }
   document.addEventListener('click', async (e) => {
