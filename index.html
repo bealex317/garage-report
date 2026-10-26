@@ -446,7 +446,7 @@
   details.stage-log li{margin:3px 0;}
   details.stage-log ul{margin:6px 0 0; padding-inline-start:18px;}
   .role-note{font-size:11.5px; color:var(--ink-dim);}
-  /* --- מצב מפקח --- */
+  /* --- רמה ממונה --- */
   #supPanel[hidden]{display:none;}
   #supBtn[hidden]{display:none !important;}
   #supPanel{margin:6px 0 12px;}
@@ -942,7 +942,7 @@
   .stage-dots{gap:3px;} .sdot{height:6px; width:16px; border-radius:3px; background:var(--outline); opacity:.55;} .sdot.on{background:var(--primary); opacity:1;}
   .decision{font-size:12.5px;}
 
-  /* פעולות מפקח מקופלות בכרטיס */
+  /* פעולות רמה ממונה מקופלות בכרטיס */
   details.sup-tools{margin-top:12px; border-top:1px dashed var(--outline); padding-top:10px;}
   details.sup-tools > summary{list-style:none; cursor:pointer; display:inline-flex; align-items:center; gap:6px; background:var(--primary-container); color:var(--on-primary-container); border-radius:999px; padding:7px 16px; font-size:13px; font-weight:500;}
   details.sup-tools > summary::-webkit-details-marker{display:none;}
@@ -956,7 +956,7 @@
   details.stage-log > summary{cursor:pointer; color:var(--primary); font-weight:500; font-size:13px;}
   .timeline{border-right-color:var(--outline);} .timeline li::before{background:var(--primary);}
 
-  /* מצב מפקח */
+  /* רמה ממונה */
   #supPanel{margin:12px 0;}
   .sup-who{background:var(--primary-container); color:var(--on-primary-container); border-radius:999px; font-weight:500; padding:6px 14px;}
   .sup-bar{background:var(--tonal); border:none; border-radius:24px; box-shadow:var(--shadow); padding:14px 16px;}
@@ -1026,7 +1026,7 @@
   }
   .board-list > table, .board-list .row-table-wrap, .sup-table-wrap{border:none !important; box-shadow:none !important; background:transparent !important;}
 
-  /* ===== מצב מפקח — כתום ===== */
+  /* ===== רמה ממונה — כתום ===== */
   :root{--sup:#c2570c; --sup-ink:#ffffff; --sup-container:#ffe0c7; --on-sup-container:#4a1f00;}
   @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--sup:#ffb784; --sup-ink:#4a1f00; --sup-container:#6b3400; --on-sup-container:#ffdcc5;} }
   :root[data-theme="dark"]{--sup:#ffb784; --sup-ink:#4a1f00; --sup-container:#6b3400; --on-sup-container:#ffdcc5;}
@@ -1055,6 +1055,20 @@
   .sheet[data-view="history"] > form, .sheet[data-view="history"] > #board{display:none;}
   .sheet[data-view="history"] > #history{display:block;}
   .view-nav #tabHist[aria-selected="true"]{background:#1d8a82; color:#fff;}
+
+  .list-toggle{display:flex; align-items:center; justify-content:center; gap:8px; width:100%; min-height:48px; margin:10px 0 4px; border-radius:14px; border:1px solid rgba(127,127,127,.35); background:rgba(127,127,127,.12); color:inherit; font:inherit; font-weight:600; cursor:pointer;}
+  .list-all{margin-top:0; min-height:44px; font-weight:500;}
+  .list-toggle .lt-arrow{transition:transform .2s;} .list-toggle.open .lt-arrow{transform:rotate(180deg);}
+  button.unit-chip{border:none; font:inherit; cursor:pointer; color:inherit;}
+  button.unit-chip:active{transform:scale(.97);}
+  .unit-group{flex:0 0 auto; min-height:50px; border:1px solid rgba(127,127,127,.3); border-radius:14px; margin:0 0 8px; background:rgba(127,127,127,.07); overflow:hidden;}
+  .unit-group > summary{list-style:none; display:flex; align-items:center; gap:10px; min-height:48px; padding:0 14px; cursor:pointer; font-weight:600;}
+  .unit-group > summary::-webkit-details-marker{display:none;}
+  .unit-group .ug-name{flex:1; min-width:0;}
+  .unit-group .ug-count{background:rgba(127,127,127,.25); border-radius:999px; padding:1px 10px; font-size:13px;}
+  .unit-group .ug-arrow{transition:transform .2s;} .unit-group[open] .ug-arrow{transform:rotate(180deg);}
+  .unit-group .ug-body{display:grid; gap:10px; padding:4px 10px 12px;}
+  #boardList[hidden]{display:none !important;}
   .hist-q{width:100%; box-sizing:border-box; min-height:48px; border-radius:14px; border:1px solid rgba(127,127,127,.35); background:rgba(127,127,127,.12); color:inherit; padding:0 14px; font:inherit; margin:6px 0 10px;}
   .hist-list{display:grid; gap:8px; max-height:min(70vh,640px); overflow-y:auto;}
   .hist-item{border:1px solid rgba(127,127,127,.28); border-radius:14px; padding:10px 12px; background:rgba(127,127,127,.08);}
@@ -1257,9 +1271,9 @@
         <h2>כלי רכב במוסך כרגע</h2>
       </div>
       <div class="board-tools">
-        <button type="button" class="pdf-btn" id="supBtn" hidden title="מצב מפקח: בחירת כמה רכבים וטיפול במקביל">
+        <button type="button" class="pdf-btn" id="supBtn" hidden title="רמה ממונה: בחירת כמה רכבים וטיפול במקביל">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg>
-          <span id="supBtnLabel">מצב מפקח</span>
+          <span id="supBtnLabel">רמה ממונה</span>
         </button>
         <button type="button" class="pdf-btn view-btn" id="viewBtn" title="מעבר בין כרטיסים לטבלה">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -1291,8 +1305,10 @@
       </div>
     </div>
 
-    <div class="breakdown-label">לפי יחידה</div>
-    <div class="count-breakdown" id="countBreakdown"></div>
+    <button type="button" class="list-toggle" id="listToggle" aria-expanded="false"><span id="listToggleLabel">הצג כלי רכב מדווחים</span> <span class="lt-arrow" aria-hidden="true">▾</span></button>
+    <button type="button" class="list-toggle list-all" id="expandAll">הצג הכל</button>
+
+    <div class="count-breakdown" id="countBreakdown" hidden style="display:none"></div>
 
     <div id="supPanel" hidden>
       <div class="sup-head"><button type="button" class="back-arrow" id="supBack" aria-label="חזרה לתמונת מצב"><span aria-hidden="true">→</span> תמונת מצב</button><span class="sup-who" id="supWho"></span></div>
@@ -1315,7 +1331,7 @@
         </div>
         <div class="sup-fields">
           <input type="number" inputmode="decimal" min="0" id="supAmount" placeholder="סכום הצעת המחיר ב-₪ — נרשם בהחלטה 'הצעת מחיר אושרה' (לא חובה)" hidden>
-          <input type="text" id="supNote" maxlength="200" placeholder="הערת מפקח לכל הנבחרים (לא חובה)">
+          <input type="text" id="supNote" maxlength="200" placeholder="הערות רמה ממונה לכל הנבחרים (לא חובה)">
         </div>
         <div class="sup-actions" id="supActions"><span class="sup-hint">סמנו רכבים כדי לפעול על כמה במקביל</span></div>
       </div>
@@ -1387,7 +1403,7 @@
 
   <div class="app-footer">
     <span id="userLabel"></span>
-    <span id="verInfo" class="ver-info" dir="rtl">דף 21.10-ו · שרת: בודק…</span>
+    <span id="verInfo" class="ver-info" dir="rtl">דף 26.10-ד · שרת: בודק…</span>
     <button type="button" id="urlBtn" class="link-btn" style="width:auto;min-height:32px;padding:0 6px;">כתובת שרת</button>
     <span>
       <select id="demoRole" hidden style="width:auto; padding:6px 10px; font-size:12.5px; border-radius:6px;">
@@ -1568,9 +1584,9 @@
     const el = document.getElementById('verInfo'); if (!el) return;
     try {
       const r = await gsCall({ action: 'list' });
-      if (r && r.v){ serverChecked = true; el.textContent = 'דף 21.10-ו · שרת: מעודכן ✓'; el.classList.add('ok'); }
-      else { el.textContent = 'דף 21.10-ו · שרת: ישן ✗ — עדכנו Code.gs ' + (function(){ try { return JSON.stringify(r).slice(0, 60); } catch (e) { return ''; } })(); el.classList.add('bad'); }
-    } catch (e) { el.textContent = 'דף 21.10-ו · שרת: אין חיבור ✗ — בדקו "כתובת שרת"'; el.classList.add('bad'); }
+      if (r && r.v){ serverChecked = true; el.textContent = 'דף 26.10-ד · שרת: מעודכן ✓'; el.classList.add('ok'); }
+      else { el.textContent = 'דף 26.10-ד · שרת: ישן ✗ — עדכנו Code.gs ' + (function(){ try { return JSON.stringify(r).slice(0, 60); } catch (e) { return ''; } })(); el.classList.add('bad'); }
+    } catch (e) { el.textContent = 'דף 26.10-ד · שרת: אין חיבור ✗ — בדקו "כתובת שרת"'; el.classList.add('bad'); }
   })();
   document.getElementById('urlBtn').addEventListener('click', () => {
     const cur = lsGet(URL_KEY) || APPS_SCRIPT_URL;
@@ -1791,6 +1807,7 @@
   const regionFilter = document.getElementById('regionFilter');
   let lastItems = [];
   let selectedRegion = '';
+  let listOpen = false; const openUnits = new Set();
   const pdfBtn = document.getElementById('pdfBtn');
   const xlsBtn = document.getElementById('xlsBtn');
   const printReport = document.getElementById('printReport');
@@ -1910,7 +1927,7 @@
       (item.stageNote ? '<div class="stage-extra" style="margin-top:6px;">הערה: ' + escapeHtml(item.stageNote) + '</div>' : '');
 
     const hasTools = (next && canSetStage(next.id)) || (prev && canSetStage(prev.id)) || DECISION_IDS.some(d => canSetStage(d) && d !== item.stage);
-    if (hasTools) h += '<details class="sup-tools"><summary>פעולות מפקח</summary>';
+    if (hasTools) h += '<details class="sup-tools"><summary>פעולות רמה ממונה</summary>';
     const canNext = next && canSetStage(next.id);
     const canPrev = prev && canSetStage(prev.id);
     if (canNext || canPrev){
@@ -1931,7 +1948,7 @@
     if (canEdit()){
       h += '<div class="card-dec"><select class="card-dec-sel"><option value="">החלטת מפקח…</option>' +
         decOpts.map(d => '<option value="' + d + '">' + escapeHtml(STAGES.find(x => x.id === d).label.replace(' (מפקח)', '')) + '</option>').join('') + '<option value="__free">✎ החלטה חופשית (הקלדה)</option></select>' +
-        '<input type="text" class="card-dec-note" maxlength="200" placeholder="הערת מפקח (לא חובה)">' +
+        '<input type="text" class="card-dec-note" maxlength="200" placeholder="הערות רמה ממונה (לא חובה)">' +
         '<button type="button" class="card-dec-go" data-row="' + id + '">רישום החלטה</button></div>';
     }
     if (hasTools) h += '</details>';
@@ -2016,12 +2033,20 @@
     });
     const breakdown = Object.entries(counts).sort((a, b) => b[1] - a[1]);
     countBreakdown.innerHTML = breakdown
-      .map(([u, c]) => '<span class="unit-chip">' + escapeHtml(u) + ' <b>' + c + '</b></span>')
+      .map(([u, c]) => '<button type="button" class="unit-chip" data-unit="' + attr(u) + '">' + escapeHtml(u) + ' <b>' + c + '</b></button>')
       .join('');
 
     boardList.innerHTML = '';
     boardList.classList.remove('table-mode');
     boardList.classList.remove('sup-mode');
+    (function(){
+      const open = listOpen || (supMode && isPrivileged());
+      boardList.hidden = !open;
+      const t = document.getElementById('listToggle');
+      if (t){ t.setAttribute('aria-expanded', open ? 'true' : 'false'); t.classList.toggle('open', open);
+              (function(){ const ea = document.getElementById('expandAll'); if (ea){ ea.hidden = !!(supMode && isPrivileged()); const us = new Set(active.map(it => (it.unit || '').trim() || 'ללא יחידה')); ea.dataset.units = JSON.stringify([...us]); ea.textContent = (open && [...us].every(u => openUnits.has(u))) ? 'כווץ הכל' : 'הצג הכל'; } })();
+              document.getElementById('listToggleLabel').textContent = open ? 'הסתר כלי רכב מדווחים' : 'הצג כלי רכב מדווחים לפי יחידה (' + active.length + ')'; }
+    })();
     supPanel.hidden = !(supMode && isPrivileged());
     syncRoleUI();
 
@@ -2071,6 +2096,17 @@
       return;
     }
 
+    const unitOf = it => (it.unit || '').trim() || 'ללא יחידה';
+    const unitGroups = {};
+    active.slice().reverse().forEach(it => { (unitGroups[unitOf(it)] = unitGroups[unitOf(it)] || []).push(it); });
+    const unitBodies = {};
+    Object.keys(unitGroups).sort((a, b) => unitGroups[b].length - unitGroups[a].length).forEach(u => {
+      const det = document.createElement('details'); det.className = 'unit-group'; det.dataset.unit = u;
+      if (openUnits.has(u)) det.open = true;
+      det.innerHTML = '<summary><span class="ug-name">' + escapeHtml(u) + '</span><b class="ug-count">' + unitGroups[u].length + '</b><span class="ug-arrow" aria-hidden="true">▾</span></summary><div class="ug-body"></div>';
+      det.addEventListener('toggle', () => { if (det.open) openUnits.add(u); else openUnits.delete(u); });
+      boardList.appendChild(det); unitBodies[u] = det.querySelector('.ug-body');
+    });
     active.slice().reverse().forEach(item => {
       const d = daysAgo(item.entryDate);
       let ageClass = 'age-fresh', ageLabel = '';
@@ -2105,7 +2141,7 @@
           'נכנס ' + escapeHtml(formatDate(item.entryDate)) + (item.garage ? ' · מוסך: ' + escapeHtml(item.garage) + (item.city ? ', ' + escapeHtml(item.city) : '') : '') + (item.reportedBy ? ' · דווח ע"י ' + escapeHtml(item.reportedBy) : '') + (item.editedByName ? ' · נערך ע"י ' + escapeHtml(item.editedByName) : '') +
         '</div>' +
         '<div class="board-row-actions">' +
-          (canEdit() ? '<button type="button" class="edit-rep" data-row="' + escapeHtml(item.row).replace(/"/g, '&quot;') + '">עריכת פרטי דיווח (מפקח)</button>' : '') +
+          (canEdit() ? '<button type="button" class="edit-rep" data-row="' + escapeHtml(item.row).replace(/"/g, '&quot;') + '">הערות רמה ממונה</button>' : '') +
           undoBtn(item, false) +
           '<button type="button" class="exit-btn" data-row="' + item.row + '">סימון יציאה מהמוסך</button>' +
           '<div class="exit-form" data-row-form="' + item.row + '" hidden>' +
@@ -2115,7 +2151,7 @@
             '<span class="exit-err" hidden></span>' +
           '</div>' +
         '</div>';
-      boardList.appendChild(row);
+      unitBodies[unitOf(item)].appendChild(row);
     });
   }
 
@@ -2162,6 +2198,22 @@
 
     printReport.innerHTML = html;
   }
+
+  document.getElementById('expandAll').addEventListener('click', (e) => {
+    let us = []; try { us = JSON.parse(e.currentTarget.dataset.units || '[]'); } catch (x) {}
+    const allOpen = listOpen && us.length && us.every(u => openUnits.has(u));
+    if (allOpen){ us.forEach(u => openUnits.delete(u)); }
+    else { listOpen = true; us.forEach(u => openUnits.add(u)); }
+    renderBoard(lastItems);
+  });
+  document.getElementById('listToggle').addEventListener('click', () => { listOpen = !listOpen; renderBoard(lastItems); });
+  countBreakdown.addEventListener('click', (e) => {
+    const chip = e.target.closest('.unit-chip'); if (!chip) return;
+    const u = chip.dataset.unit; listOpen = true; openUnits.add(u);
+    renderBoard(lastItems);
+    const g = Array.prototype.find.call(boardList.querySelectorAll('.unit-group'), x => x.dataset.unit === u);
+    if (g){ g.open = true; g.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  });
 
   regionFilter.addEventListener('click', (e) => {
     const chip = e.target.closest('.region-chip');
@@ -2401,7 +2453,7 @@
         '<td class="decision">' + (it.stageLog.length > 1 ? '<b>' + escapeHtml(lastDecision(it)) + '</b>' + (it.stageNote ? '<br>' + escapeHtml(it.stageNote) : '') : '—') + '</td>' +
         '<td>' + (next && canSetStage(next.id) && !DECISION_IDS.includes(next.id) ? '<button type="button" class="sup-one" data-row="' + rid + '" data-to="' + next.id + '">' + escapeHtml(next.short) + ' ›</button>' : '') +
           '<select class="sup-dec-sel" data-row="' + rid + '"><option value="">החלטה…</option>' + DECISION_IDS.filter(d => canSetStage(d) && d !== it.stage).map(d => '<option value="' + d + '">' + escapeHtml(STAGES.find(x => x.id === d).short) + '</option>').join('') + '<option value="__free">✎ הקלדה חופשית</option></select>' +
-          '<div class="sup-row-confirm" hidden><input type="text" class="sup-row-note" maxlength="200" placeholder="הערת מפקח (לא חובה)"><div class="row2"><button type="button" class="sup-row-ok" data-row="' + rid + '">אישור</button><button type="button" class="sup-row-x">ביטול</button></div></div>' +
+          '<div class="sup-row-confirm" hidden><input type="text" class="sup-row-note" maxlength="200" placeholder="הערות רמה ממונה (לא חובה)"><div class="row2"><button type="button" class="sup-row-ok" data-row="' + rid + '">אישור</button><button type="button" class="sup-row-x">ביטול</button></div></div>' +
           (canEdit() ? '<br><button type="button" class="edit-rep small" data-row="' + rid + '">עריכת פרטים</button>' : '') + (canEdit() ? '<br>' + undoBtn(it, true) : '') + '</td>' +
       '</tr>';
     }).join('');
@@ -2417,7 +2469,7 @@
     if (so) so.hidden = !priv || !REQUIRE_CODE;
     if (sf) sf.hidden = REQUIRE_CODE ? priv : false;
     if (!priv && supMode){ supMode = false; }
-    document.getElementById('supBtnLabel').textContent = supMode ? 'חזרה לתצוגה רגילה' : 'מצב מפקח';
+    document.getElementById('supBtnLabel').textContent = supMode ? 'חזרה לתצוגה רגילה' : 'רמה ממונה';
   }
   document.getElementById('supBack').addEventListener('click', () => { supMode = false; syncRoleUI(); renderBoard(lastItems); window.scrollTo({ top: 0, behavior: 'smooth' }); });
   supBtn.addEventListener('click', () => { supMode = !supMode; syncRoleUI(); renderBoard(lastItems); });
@@ -2468,7 +2520,7 @@
     if (e.target.classList.contains('sup-dec-sel')){
       const v = e.target.value;
       const box = e.target.closest('td').querySelector('.sup-row-confirm');
-      if (box){ box.hidden = !v; box.dataset.to = v; if (v){ const ni = box.querySelector('.sup-row-note'); ni.placeholder = v === '__free' ? 'הקלידו את ההחלטה (חובה)' : 'הערת מפקח (לא חובה)'; ni.focus(); } }
+      if (box){ box.hidden = !v; box.dataset.to = v; if (v){ const ni = box.querySelector('.sup-row-note'); ni.placeholder = v === '__free' ? 'הקלידו את ההחלטה (חובה)' : 'הערות רמה ממונה (לא חובה)'; ni.focus(); } }
       return;
     }
     if (!e.target.classList.contains('sup-chk')) return;
