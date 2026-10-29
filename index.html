@@ -1079,14 +1079,14 @@
   .type-switch button{flex:1; min-height:44px; border:none; border-radius:999px; background:transparent; color:inherit; font:inherit; font-weight:600; cursor:pointer;}
   .type-switch button[aria-pressed="true"]{background:#1d8a82; color:#fff;}
   form[data-mode="garage"] .tow-only{display:none;}
-  form.gc-off .field:has(#garage), form.gc-off .field:has(#city), form.gc-off .field:has(#plate), form.gc-off .field:has(#fault){display:none;}
+  form.gc-off .field:has(#garage), form.gc-off .field:has(#city), form.gc-off .field:has(#fault){display:none;}
   form .field:has(#towPickup), form .field:has(#towDest){order:5;}
   form .field.tow-garage-opt{order:6; grid-column:1 / -1;}
   form[data-mode="tow"] .field:has(#entryDate){order:3;}
   form[data-mode="tow"] .field:has(#towPickup), form[data-mode="tow"] .field:has(#towDest){order:4;}
   form[data-mode="tow"] .field:has(#reportedBy){order:5;}
   form[data-mode="tow"] .field.tow-garage-opt{order:6;}
-  form[data-mode="tow"] .field:has(#plate){order:7;} form[data-mode="tow"] .field:has(#fault){order:8; grid-column:1 / -1;}
+  form[data-mode="tow"] .field:has(#plate){order:3;} form[data-mode="tow"] .field:has(#fault){order:8; grid-column:1 / -1;}
   form[data-mode="tow"] .field:has(#garage){order:9;} form[data-mode="tow"] .field:has(#city){order:10;}
   form[data-mode="tow"] #submitBtn{order:11;} form[data-mode="tow"] .status{order:12;}
   .type-switch button{display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:54px; padding:4px 8px; line-height:1.15; font-size:14px;}
@@ -1432,7 +1432,7 @@
 
     <div class="field tow-only tow-garage-opt">
       <label class="chk"><input type="checkbox" id="towWithGarage"> לדווח גם כניסת רכב למוסך (אופציונלי)</label>
-      <div class="hint">אם מסמנים: נפתח שאלון כניסת רכב למוסך (מספר רכב, תקלה, מוסך ועיר). הדיווח נשמר בגיליון הדיווחים הקיים ומופיע בתמונת המצב, וההזמנה עצמה נשמרת בגיליון הגרירות.</div>
+      <div class="hint">אם מסמנים: נפתחות שאלות כניסת רכב למוסך (תקלה, מוסך ועיר; מספר הרכב כבר הוזן). הדיווח נשמר בגיליון הדיווחים הקיים ומופיע בתמונת המצב, וההזמנה עצמה נשמרת בגיליון הגרירות.</div>
     </div>
 
     <div class="field">
@@ -1466,7 +1466,7 @@
 
   <div class="app-footer">
     <span id="userLabel"></span>
-    <span id="verInfo" class="ver-info" dir="rtl">דף 29.10-ד · שרת: בודק…</span>
+    <span id="verInfo" class="ver-info" dir="rtl">דף 29.10-ה · שרת: בודק…</span>
     <button type="button" id="urlBtn" class="link-btn" style="width:auto;min-height:32px;padding:0 6px;">כתובת שרת</button>
     <span>
       <select id="demoRole" hidden style="width:auto; padding:6px 10px; font-size:12.5px; border-radius:6px;">
@@ -1647,9 +1647,9 @@
     const el = document.getElementById('verInfo'); if (!el) return;
     try {
       const r = await gsCall({ action: 'list' });
-      if (r && r.v){ serverChecked = true; el.textContent = 'דף 29.10-ד · שרת: מעודכן ✓'; el.classList.add('ok'); }
-      else { el.textContent = 'דף 29.10-ד · שרת: ישן ✗ — עדכנו Code.gs ' + (function(){ try { return JSON.stringify(r).slice(0, 60); } catch (e) { return ''; } })(); el.classList.add('bad'); }
-    } catch (e) { el.textContent = 'דף 29.10-ד · שרת: אין חיבור ✗ — בדקו "כתובת שרת"'; el.classList.add('bad'); }
+      if (r && r.v){ serverChecked = true; el.textContent = 'דף 29.10-ה · שרת: מעודכן ✓'; el.classList.add('ok'); }
+      else { el.textContent = 'דף 29.10-ה · שרת: ישן ✗ — עדכנו Code.gs ' + (function(){ try { return JSON.stringify(r).slice(0, 60); } catch (e) { return ''; } })(); el.classList.add('bad'); }
+    } catch (e) { el.textContent = 'דף 29.10-ה · שרת: אין חיבור ✗ — בדקו "כתובת שרת"'; el.classList.add('bad'); }
   })();
   document.getElementById('urlBtn').addEventListener('click', () => {
     const cur = lsGet(URL_KEY) || APPS_SCRIPT_URL;
@@ -3070,12 +3070,13 @@
     const needG = !tow || towWithGarage.checked;
     form.dataset.mode = formMode;
     form.classList.toggle('gc-off', !needG);
-    ['garage', 'city', 'plate', 'fault'].forEach(id => { document.getElementById(id).required = needG; });
+    ['garage', 'city', 'fault'].forEach(id => { document.getElementById(id).required = needG; });
+    document.getElementById('plate').required = true;
     towPickup.required = tow; towDest.required = tow;
     document.querySelectorAll('#typeSwitch button').forEach(b => b.setAttribute('aria-pressed', b.dataset.mode === formMode ? 'true' : 'false'));
     const t = form.querySelector('.form-title');
     t.innerHTML = (tow ? ICON_TOW : ICON_WRENCH) + '<span class="ft-text">' + (tow ? 'דיווח הזמנת גרר' : 'דיווח כניסת רכב למוסך') + '</span><small>' +
-      (tow ? 'מרחב, יחידה, תאריך, נקודת איסוף, יעד ושם המזמין. אפשר לצרף גם דיווח כניסת רכב למוסך' : 'מלאו את הפרטים בעת כניסת הרכב לטיפול') + '</small>';
+      (tow ? 'מרחב, יחידה, מספר רכב, תאריך, נקודת איסוף, יעד ושם המזמין. אפשר לצרף גם דיווח כניסת רכב למוסך' : 'מלאו את הפרטים בעת כניסת הרכב לטיפול') + '</small>';
     form.querySelector('label[for="entryDate"]').firstChild.textContent = tow ? 'תאריך ' : 'תאריך כניסה ';
     form.querySelector('label[for="reportedBy"]').firstChild.textContent = tow ? 'שם המזמין ' : 'דווח ע"י ';
     if (!submitBtn.disabled) submitBtn.textContent = submitLabel();
@@ -3091,6 +3092,7 @@
   });
   function towValidate(){
     if (!towUrl()) return 'לא הוגדרה כתובת שרת גרירות. יש ללחוץ למטה על "כתובת שרת" ולהדביק את כתובת שרת הגרירות.';
+    if (!document.getElementById('plate').value.trim()) return 'חובה להזין מספר רכב.';
     if (!towPickup.value.trim()) return 'חובה להזין נקודת איסוף.';
     if (!towDest.value.trim()) return 'חובה להזין יעד.';
     return '';
@@ -3124,7 +3126,7 @@
       await ensureTowServer();
       check(await towCall({ action: 'towSubmit', submissionId: pendingSubmissionId, region: data.region, unit: data.unit, towDate: data.entryDate,
         pickup: towPickup.value.trim(), destination: towDest.value.trim(), orderer: data.reportedBy,
-        plate: withG ? data.plate : '', garage: withG ? data.garage : '' }));
+        plate: data.plate, garage: withG ? data.garage : '' }));
       if (withG){
         stage = 'garage';
         await ensureNewServer();
@@ -3197,11 +3199,12 @@
     lEl.innerHTML = names.map(n =>
       '<details class="unit-group tow-group" data-region="' + attr(n) + '"' + (towOpen.has(n) ? ' open' : '') + '><summary><span class="ug-name">' + escapeHtml(n) + '</span><b class="ug-count">' + groups[n].length + '</b><span class="ug-arrow" aria-hidden="true">▾</span></summary><div class="ug-body">' +
       groups[n].map(it =>
-        '<div class="tow-card"><div class="tow-top"><b>' + escapeHtml(it.unit) + '</b><span class="pill">' + escapeHtml(fd(it.towDate)) + '</span></div>' +
+        '<div class="tow-card"><div class="tow-top"><b>' + escapeHtml(it.plate) + '</b><span class="pill">' + escapeHtml(fd(it.towDate)) + '</span></div>' +
+        '<div class="h2">' + escapeHtml(it.unit) + '</div>' +
         '<div class="h2">איסוף: ' + escapeHtml(it.pickup) + '</div>' +
         '<div class="h2">יעד: ' + escapeHtml(it.destination) + '</div>' +
         '<div class="h2">הוזמן ע"י ' + escapeHtml(it.orderer) + '</div>' +
-        (it.plate || it.garage ? '<div class="tow-garage">דווחה כניסה למוסך' + (it.plate ? ' · רכב ' + escapeHtml(it.plate) : '') + (it.garage ? ' · ' + escapeHtml(it.garage) : '') + '</div>' : '') + '</div>'
+        (it.garage ? '<div class="tow-garage">דווחה כניסה למוסך · ' + escapeHtml(it.garage) + '</div>' : '') + '</div>'
       ).join('') + '</div></details>').join('');
   }
   document.getElementById('towList').addEventListener('toggle', ev => {
@@ -3223,13 +3226,13 @@
   function towExport(){
     const rows = towFiltered().slice().sort((a, b) => towRegionOf(a).localeCompare(towRegionOf(b), 'he') || String(b.towDate).localeCompare(String(a.towDate)));
     if (!rows.length){ alert('אין נתוני גרירה לייצוא.'); return; }
-    const header = ['מרחב', 'יחידה', 'תאריך', 'נקודת איסוף', 'יעד', 'שם המזמין', 'מספר רכב (אם דווח)', 'נכנס למוסך (אם דווח)'];
-    const data = rows.map(r => [towRegionOf(r), r.unit, r.towDate, r.pickup, r.destination, r.orderer, r.plate, r.garage]);
+    const header = ['מרחב', 'יחידה', 'מספר רכב', 'תאריך', 'נקודת איסוף', 'יעד', 'שם המזמין', 'נכנס למוסך (אם דווח)'];
+    const data = rows.map(r => [towRegionOf(r), r.unit, r.plate, r.towDate, r.pickup, r.destination, r.orderer, r.garage]);
     const filename = 'tow-data-' + new Date().toISOString().slice(0, 10);
     const sum = {}; rows.forEach(r => { const k = towRegionOf(r); sum[k] = (sum[k] || 0) + 1; });
     if (window.XLSX){
       const ws = XLSX.utils.aoa_to_sheet([header].concat(data));
-      ws['!cols'] = [{wch:16}, {wch:16}, {wch:12}, {wch:24}, {wch:24}, {wch:16}, {wch:16}, {wch:18}];
+      ws['!cols'] = [{wch:16}, {wch:16}, {wch:12}, {wch:12}, {wch:24}, {wch:24}, {wch:16}, {wch:18}];
       ws['!autofilter'] = { ref: 'A1:H' + (rows.length + 1) };
       const ws2 = XLSX.utils.aoa_to_sheet([['מרחב', 'מספר הזמנות גרר']].concat(Object.entries(sum).sort((a, b) => b[1] - a[1])).concat([['סה"כ', rows.length]]));
       ws2['!cols'] = [{wch:20}, {wch:16}];
