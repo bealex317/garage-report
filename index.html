@@ -1069,6 +1069,38 @@
   .unit-group .ug-arrow{transition:transform .2s;} .unit-group[open] .ug-arrow{transform:rotate(180deg);}
   .unit-group .ug-body{display:grid; gap:10px; padding:4px 10px 12px;}
   #boardList[hidden]{display:none !important;}
+
+  .sheet[data-view="tow"] > form, .sheet[data-view="tow"] > #board, .sheet[data-view="tow"] > #history{display:none;}
+  .sheet:not([data-view="tow"]) > #towView{display:none;}
+  .sheet[data-view="tow"] > #towView{display:block;}
+  .view-nav button{padding:0 6px; font-size:13.5px; line-height:1.15; text-align:center;}
+  .view-nav #tabTow[aria-selected="true"]{background:#1d8a82; color:#fff;}
+  .type-switch{order:0; grid-column:1 / -1; display:flex; gap:6px; background:rgba(127,127,127,.15); border-radius:999px; padding:4px;}
+  .type-switch button{flex:1; min-height:44px; border:none; border-radius:999px; background:transparent; color:inherit; font:inherit; font-weight:600; cursor:pointer;}
+  .type-switch button[aria-pressed="true"]{background:#1d8a82; color:#fff;}
+  form[data-mode="garage"] .tow-only{display:none;}
+  form.gc-off .field:has(#garage), form.gc-off .field:has(#city), form.gc-off .field:has(#plate), form.gc-off .field:has(#fault){display:none;}
+  form .field:has(#towPickup), form .field:has(#towDest){order:5;}
+  form .field.tow-garage-opt{order:6; grid-column:1 / -1;}
+  form[data-mode="tow"] .field:has(#entryDate){order:3;}
+  form[data-mode="tow"] .field:has(#towPickup), form[data-mode="tow"] .field:has(#towDest){order:4;}
+  form[data-mode="tow"] .field:has(#reportedBy){order:5;}
+  form[data-mode="tow"] .field.tow-garage-opt{order:6;}
+  form[data-mode="tow"] .field:has(#plate){order:7;} form[data-mode="tow"] .field:has(#fault){order:8; grid-column:1 / -1;}
+  form[data-mode="tow"] .field:has(#garage){order:9;} form[data-mode="tow"] .field:has(#city){order:10;}
+  form[data-mode="tow"] #submitBtn{order:11;} form[data-mode="tow"] .status{order:12;}
+  .type-switch button{display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:54px; padding:4px 8px; line-height:1.15; font-size:14px;}
+  .type-switch .ico{flex:none; width:26px; height:26px;}
+  form .form-title{display:flex; flex-wrap:wrap; align-items:center; gap:4px 10px;} form .form-title .ico{flex:none; width:30px; height:30px; color:#1d8a82;} form .form-title small{flex-basis:100%;}
+  .chk{display:flex; align-items:center; gap:10px; font-weight:600; cursor:pointer;}
+  .chk input{width:22px; height:22px; flex:none;}
+  .tow-list{display:block;}
+  .tow-card{border:1px solid rgba(127,127,127,.28); border-radius:12px; padding:10px 12px; background:rgba(127,127,127,.08);}
+  .tow-top{display:flex; align-items:center; justify-content:space-between; gap:8px;} .tow-top b{font-size:16px;}
+  .tow-card .h2{font-size:13px; opacity:.85; margin-top:3px;}
+  .tow-card .pill{border-radius:999px; padding:1px 9px; font-size:12px; background:rgba(127,127,127,.22);}
+  .tow-garage{margin-top:6px; font-size:13px; font-weight:600; color:#2bb3a8;}
+  #towView .pdf-btn{min-height:40px;}
   .hist-q{width:100%; box-sizing:border-box; min-height:48px; border-radius:14px; border:1px solid rgba(127,127,127,.35); background:rgba(127,127,127,.12); color:inherit; padding:0 14px; font:inherit; margin:6px 0 10px;}
   .hist-list{display:grid; gap:8px; max-height:min(70vh,640px); overflow-y:auto;}
   .hist-item{border:1px solid rgba(127,127,127,.28); border-radius:14px; padding:10px 12px; background:rgba(127,127,127,.08);}
@@ -1263,7 +1295,7 @@
     <p class="sub">מלאו את הפרטים בעת כניסת הרכב לטיפול. הדיווח נשמר אוטומטית ומתעדכן בזמן אמת אצל כולם.</p>
   </header>
 
-  <nav class="view-nav" role="tablist" aria-label="תצוגה"><button type="button" role="tab" id="tabReport" data-view="report" aria-selected="true">דיווח חדש</button><button type="button" role="tab" id="tabBoard" data-view="board" aria-selected="false">צפייה ועריכה <span class="cnt" id="tabCnt">0</span></button><button type="button" role="tab" id="tabHist" data-view="history" aria-selected="false">היסטוריה</button></nav>
+  <nav class="view-nav" role="tablist" aria-label="תצוגה"><button type="button" role="tab" id="tabReport" data-view="report" aria-selected="true">דיווח חדש</button><button type="button" role="tab" id="tabBoard" data-view="board" aria-selected="false">צפייה ועריכה <span class="cnt" id="tabCnt">0</span></button><button type="button" role="tab" id="tabHist" data-view="history" aria-selected="false">היסטוריה</button><button type="button" role="tab" id="tabTow" data-view="tow" aria-selected="false">נתוני גרירה</button></nav>
   <section class="board" id="board" style="margin-top:4px;">
     <div class="board-head">
       <div class="board-title-wrap">
@@ -1346,9 +1378,25 @@
     <input type="search" id="histQ" class="hist-q" placeholder="חיפוש: מספר רכב / מוסך / עיר / יחידה / תקלה" autocomplete="off">
     <div id="histList" class="hist-list"></div>
   </section>
+  <section class="board tow" id="towView" style="margin-top:4px;">
+    <div class="board-head">
+      <div class="board-title-wrap"><span class="tag">גרירות</span><h2>נתוני גרירה</h2></div>
+      <div class="board-tools">
+        <button type="button" class="pdf-btn" id="towRefreshBtn">רענון</button>
+        <button type="button" class="pdf-btn" id="towXls" title="הורדת גיליון Excel לצפייה">הורד גיליון (Excel)</button>
+      </div>
+    </div>
+    <div class="breakdown-label">סינון לפי מרחב</div>
+    <div class="count-breakdown region-filter" id="towRegionFilter"></div>
+    <div class="count-row"><div class="count-chip"><span class="count-num" id="towCount">–</span></div><div><div class="count-label">גרירות</div><div class="count-sub">לפי הסינון</div></div></div>
+    <input type="search" id="towQ" class="hist-q" placeholder="חיפוש: יחידה, איסוף, יעד, מזמין, רכב" autocomplete="off">
+    <button type="button" class="list-toggle list-all" id="towAll">הצג הכל</button>
+    <div id="towList" class="tow-list"></div>
+  </section>
 
   <form id="faultForm">
     <div class="form-title">דיווח חדש<small>מלאו את הפרטים בעת כניסת הרכב לטיפול</small></div>
+    <div class="type-switch" id="typeSwitch" role="group" aria-label="סוג דיווח"><button type="button" data-mode="garage" aria-pressed="true">דיווח כניסת רכב למוסך</button><button type="button" data-mode="tow" aria-pressed="false">דיווח הזמנת גרר</button></div>
     <div class="field">
       <label for="region">מרחב <span class="req">*</span></label>
       <select id="region" name="region" required>
@@ -1370,6 +1418,21 @@
     <div class="field">
       <label for="fault">מה התקלה <span class="req">*</span></label>
       <textarea id="fault" name="fault" placeholder="תארו את התקלה שדווחה או התגלתה" required></textarea>
+    </div>
+
+    <div class="field tow-only">
+      <label for="towPickup">נקודת איסוף <span class="req">*</span></label>
+      <input type="text" id="towPickup" placeholder="כתובת / כביש / ק&quot;מ" autocomplete="off">
+    </div>
+
+    <div class="field tow-only">
+      <label for="towDest">יעד <span class="req">*</span></label>
+      <input type="text" id="towDest" placeholder="לאן הרכב נגרר" autocomplete="off">
+    </div>
+
+    <div class="field tow-only tow-garage-opt">
+      <label class="chk"><input type="checkbox" id="towWithGarage"> לדווח גם כניסת רכב למוסך (אופציונלי)</label>
+      <div class="hint">אם מסמנים: נפתח שאלון כניסת רכב למוסך (מספר רכב, תקלה, מוסך ועיר). הדיווח נשמר בגיליון הדיווחים הקיים ומופיע בתמונת המצב, וההזמנה עצמה נשמרת בגיליון הגרירות.</div>
     </div>
 
     <div class="field">
@@ -1403,7 +1466,7 @@
 
   <div class="app-footer">
     <span id="userLabel"></span>
-    <span id="verInfo" class="ver-info" dir="rtl">דף 26.10-ד · שרת: בודק…</span>
+    <span id="verInfo" class="ver-info" dir="rtl">דף 29.10-ד · שרת: בודק…</span>
     <button type="button" id="urlBtn" class="link-btn" style="width:auto;min-height:32px;padding:0 6px;">כתובת שרת</button>
     <span>
       <select id="demoRole" hidden style="width:auto; padding:6px 10px; font-size:12.5px; border-radius:6px;">
@@ -1443,7 +1506,7 @@
     const cb = 'cb_' + Math.random().toString(36).slice(2);
     const q = new URLSearchParams(Object.assign({ name: staff ? staff.name : '' }, params, { callback: cb })).toString();
     const base = (urlOverride || lsGet(URL_KEY) || APPS_SCRIPT_URL);
-    const idem = (params.action === 'list' || params.action === 'submit');
+    const idem = (params.action === 'list' || params.action === 'submit' || params.action === 'towList' || params.action === 'towSubmit');
     if (gsMode === 'jsonp' || (gsMode === '' && !idem)) return gsCallJsonp(params, urlOverride);
     try {
       const ctl = new AbortController(); const tm = setTimeout(() => ctl.abort(), 20000);
@@ -1584,9 +1647,9 @@
     const el = document.getElementById('verInfo'); if (!el) return;
     try {
       const r = await gsCall({ action: 'list' });
-      if (r && r.v){ serverChecked = true; el.textContent = 'דף 26.10-ד · שרת: מעודכן ✓'; el.classList.add('ok'); }
-      else { el.textContent = 'דף 26.10-ד · שרת: ישן ✗ — עדכנו Code.gs ' + (function(){ try { return JSON.stringify(r).slice(0, 60); } catch (e) { return ''; } })(); el.classList.add('bad'); }
-    } catch (e) { el.textContent = 'דף 26.10-ד · שרת: אין חיבור ✗ — בדקו "כתובת שרת"'; el.classList.add('bad'); }
+      if (r && r.v){ serverChecked = true; el.textContent = 'דף 29.10-ד · שרת: מעודכן ✓'; el.classList.add('ok'); }
+      else { el.textContent = 'דף 29.10-ד · שרת: ישן ✗ — עדכנו Code.gs ' + (function(){ try { return JSON.stringify(r).slice(0, 60); } catch (e) { return ''; } })(); el.classList.add('bad'); }
+    } catch (e) { el.textContent = 'דף 29.10-ד · שרת: אין חיבור ✗ — בדקו "כתובת שרת"'; el.classList.add('bad'); }
   })();
   document.getElementById('urlBtn').addEventListener('click', () => {
     const cur = lsGet(URL_KEY) || APPS_SCRIPT_URL;
@@ -1595,10 +1658,24 @@
       '<p class="dup-sub">הדביקו את "כתובת אפליקציית אינטרנט" מ-Apps Script ← פריסה ← ניהול פריסות. חייבת להסתיים ב-/exec, וההרשאה "כל אחד".</p>' +
       '<input type="text" id="urlInp" dir="ltr" style="text-align:left" autocomplete="off">' +
       '<div id="urlRes" class="dup-sub" style="margin:10px 0 0;min-height:22px;"></div>' +
+      '<h3 style="margin-top:16px">שרת גרירות (סקריפט נפרד)</h3>' +
+      '<p class="dup-sub">כתובת /exec של סקריפט הגרירות (CodeTow.gs), המחובר לגיליון הגרירות. שדה זה נשאר ריק עד שמגדירים אותו.</p>' +
+      '<input type="text" id="towUrlInp" dir="ltr" style="text-align:left" autocomplete="off" placeholder="https://script.google.com/macros/s/.../exec">' +
+      '<div id="towUrlRes" class="dup-sub" style="margin:10px 0 0;min-height:22px;"></div>' +
+      '<button type="button" id="towUrlTest" style="margin-top:6px">בדיקת שרת גרירות</button>' +
       '<div class="btns" style="display:grid;gap:8px;margin-top:10px;"><button type="button" id="urlTest">בדיקת חיבור</button><button type="button" id="urlSave">שמירה וטעינה מחדש</button>' +
       '<button type="button" id="urlReset" class="link-btn">איפוס לכתובת המקורית</button><button type="button" id="urlClose" class="link-btn">סגירה</button></div></div>';
     document.body.appendChild(o);
     const inp = o.querySelector('#urlInp'), res = o.querySelector('#urlRes'); inp.value = cur;
+    const tInp = o.querySelector('#towUrlInp'), tRes = o.querySelector('#towUrlRes'); tInp.value = lsGet(TOW_URL_KEY) || TOW_SCRIPT_URL;
+    o.querySelector('#towUrlTest').addEventListener('click', async () => {
+      const u = tInp.value.trim().split('?')[0]; tRes.textContent = 'בודק…';
+      if (!/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/.test(u)){ tRes.textContent = '✗ הכתובת לא נראית כמו כתובת /exec של Apps Script'; return; }
+      try {
+        const r = await gsCall({ action: 'towList' }, u);
+        tRes.textContent = (r && r.kind === 'tow' && r.ok !== false) ? '✓ מחובר — זה סקריפט הגרירות' : '✗ הכתובת עונה, אבל זה לא סקריפט הגרירות (CodeTow.gs)';
+      } catch (e) { tRes.textContent = '✗ אין חיבור — בדקו שההרשאה "כל אחד" ושהכתובת נכונה'; }
+    });
     const norm = () => inp.value.trim().split('?')[0];
     o.querySelector('#urlTest').addEventListener('click', async () => {
       const u = norm(); res.textContent = 'בודק…'; res.style.color = '';
@@ -1608,8 +1685,8 @@
         res.textContent = (r && r.v) ? '✓ מחובר — הסקריפט מעודכן' : (r && r.ok ? '⚠ מחובר, אבל הסקריפט ישן — הדביקו Code.gs חדש ופרסמו "גרסה חדשה"' : '✗ תשובה לא צפויה מהשרת');
       } catch (e) { res.textContent = '✗ אין חיבור — הכתובת שגויה, או ש"מי יכול לגשת" אינו "כל אחד", או שהפריסה נמחקה'; }
     });
-    o.querySelector('#urlSave').addEventListener('click', () => { const u = norm(); if (u && u !== APPS_SCRIPT_URL) lsSet(URL_KEY, u); else lsDel(URL_KEY); location.reload(); });
-    o.querySelector('#urlReset').addEventListener('click', () => { lsDel(URL_KEY); location.reload(); });
+    o.querySelector('#urlSave').addEventListener('click', () => { const u = norm(); if (u && u !== APPS_SCRIPT_URL) lsSet(URL_KEY, u); else lsDel(URL_KEY); const t = tInp.value.trim().split('?')[0]; if (t && t !== TOW_SCRIPT_URL) lsSet(TOW_URL_KEY, t); else lsDel(TOW_URL_KEY); location.reload(); });
+    o.querySelector('#urlReset').addEventListener('click', () => { lsDel(URL_KEY); lsDel(TOW_URL_KEY); location.reload(); });
     o.querySelector('#urlClose').addEventListener('click', () => o.remove());
     o.addEventListener('click', ev => { if (ev.target === o) o.remove(); });
   });
@@ -1840,6 +1917,7 @@
   // מזהה ייחודי לשליחה הנוכחית — נשמר בין ניסיונות חוזרים של אותו דיווח
   // כדי שרענון/שליחה כפולה לא ייצרו שורה כפולה בגיליון
   let pendingSubmissionId = null;
+  let formMode = 'garage';
   function makeId(){
     if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
     return 'id_' + Date.now() + '_' + Math.random().toString(36).slice(2);
@@ -2828,12 +2906,15 @@
       return;
     }
 
-    if (!document.getElementById('garage').value.trim() || !document.getElementById('city').value.trim()){
+    const isTow = formMode === 'tow';
+    const needGarage = !isTow || towWithGarage.checked;
+    if (isTow){ const m = towValidate(); if (m){ showStatus(m, 'err'); return; } }
+    if (needGarage && (!document.getElementById('garage').value.trim() || !document.getElementById('city').value.trim())){
       showStatus('חובה להזין שם מוסך ועיר.', 'err');
       return;
     }
 
-    {
+    if (needGarage) {
       const dupIt = inGarage(document.getElementById('plate').value);
       if (dupIt && ackPlate !== plateKey(document.getElementById('plate').value)){
         if (!(await askDup(dupIt))) return;
@@ -2865,6 +2946,8 @@
     submitBtn.textContent = 'שולח...';
     statusEl.className = 'status';
 
+    if (isTow){ await sendTow(data); return; }
+
     try {
       // מזהה המסמך = מזהה השליחה, ולכן שליחה חוזרת לא יוצרת כפילות
       const w = setDoc(doc(db, 'reports', pendingSubmissionId), data);
@@ -2890,7 +2973,7 @@
       try { console.error('submit failed', err); } catch (e3) {}
     } finally {
       submitBtn.disabled = false;
-      submitBtn.textContent = 'שלח דיווח';
+      submitBtn.textContent = submitLabel();
     }
   });
 
@@ -2924,6 +3007,7 @@
     const sheetEl = document.querySelector('.sheet'); const KEY = 'garageView_v1';
     function setView(v){
       sheetEl.dataset.view = v;
+      if (v === 'tow' && window.__towRefresh) window.__towRefresh();
       document.querySelectorAll('.view-nav button').forEach(b => b.setAttribute('aria-selected', b.dataset.view === v ? 'true' : 'false'));
       try { if (v === 'board') localStorage.setItem(KEY, v); else localStorage.removeItem(KEY); } catch(e){}
       window.scrollTo({top:0});
@@ -2967,6 +3051,199 @@
     qEl.addEventListener('input', render);
     window.__histRender = render; render();
   })();
+
+  // ===== גרירות: מצב הטופס + נתוני גרירה (שרת גרירות נפרד) =====
+  const TOW_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby-VMzpSAeKUlHkW5qPmDxoQWUgLyJ8LKgDU321-IpbuywsJqB0b1zPbvGGLarNPY6vFg/exec';  // כתובת /exec של סקריפט הגרירות (CodeTow.gs). אפשר גם להגדיר מהדף: "כתובת שרת" ← "שרת גרירות".
+  const TOW_URL_KEY = 'garageTowUrl_v1';
+  const towUrl = () => lsGet(TOW_URL_KEY) || TOW_SCRIPT_URL;
+  const ICON_TOW = '<svg class="ico" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 16V12.6h5.2V9.4h3.5l3.3 3.6V16"/><path d="M9 16h-.2M13.1 16h2.6M19.3 16h1.7M9 16h.1"/><circle cx="11" cy="17" r="1.8" stroke-width="0"/><circle cx="11.3" cy="17" r="1.8"/><circle cx="18" cy="17" r="1.8"/><path d="M10 12.6L4.2 5.2h-1.5"/><path d="M3.2 5.2v4.3"/><path d="M3.2 9.5a1.3 1.3 0 1 1 1.3 1.3"/></svg>';
+  const ICON_WRENCH = '<svg class="ico" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>';
+  document.querySelector('#typeSwitch [data-mode="garage"]').innerHTML = ICON_WRENCH + '<span>דיווח כניסת רכב למוסך</span>';
+  document.querySelector('#typeSwitch [data-mode="tow"]').innerHTML = ICON_TOW + '<span>דיווח הזמנת גרר</span>';
+
+  const towWithGarage = document.getElementById('towWithGarage');
+  const towPickup = document.getElementById('towPickup');
+  const towDest = document.getElementById('towDest');
+  function submitLabel(){ return 'שלח דיווח'; }
+  function applyMode(){
+    const tow = formMode === 'tow';
+    const needG = !tow || towWithGarage.checked;
+    form.dataset.mode = formMode;
+    form.classList.toggle('gc-off', !needG);
+    ['garage', 'city', 'plate', 'fault'].forEach(id => { document.getElementById(id).required = needG; });
+    towPickup.required = tow; towDest.required = tow;
+    document.querySelectorAll('#typeSwitch button').forEach(b => b.setAttribute('aria-pressed', b.dataset.mode === formMode ? 'true' : 'false'));
+    const t = form.querySelector('.form-title');
+    t.innerHTML = (tow ? ICON_TOW : ICON_WRENCH) + '<span class="ft-text">' + (tow ? 'דיווח הזמנת גרר' : 'דיווח כניסת רכב למוסך') + '</span><small>' +
+      (tow ? 'מרחב, יחידה, תאריך, נקודת איסוף, יעד ושם המזמין. אפשר לצרף גם דיווח כניסת רכב למוסך' : 'מלאו את הפרטים בעת כניסת הרכב לטיפול') + '</small>';
+    form.querySelector('label[for="entryDate"]').firstChild.textContent = tow ? 'תאריך ' : 'תאריך כניסה ';
+    form.querySelector('label[for="reportedBy"]').firstChild.textContent = tow ? 'שם המזמין ' : 'דווח ע"י ';
+    if (!submitBtn.disabled) submitBtn.textContent = submitLabel();
+  }
+  document.getElementById('typeSwitch').addEventListener('click', ev => {
+    const b = ev.target.closest('button[data-mode]'); if (!b) return;
+    formMode = b.dataset.mode; applyMode();
+  });
+  towWithGarage.addEventListener('change', () => {
+    applyMode();
+    const g = document.getElementById('garage');
+    if (towWithGarage.checked && !g.value.trim() && towDest.value.trim()) g.value = towDest.value.trim();
+  });
+  function towValidate(){
+    if (!towUrl()) return 'לא הוגדרה כתובת שרת גרירות. יש ללחוץ למטה על "כתובת שרת" ולהדביק את כתובת שרת הגרירות.';
+    if (!towPickup.value.trim()) return 'חובה להזין נקודת איסוף.';
+    if (!towDest.value.trim()) return 'חובה להזין יעד.';
+    return '';
+  }
+  applyMode();
+
+  function towCall(params){
+    const u = towUrl();
+    if (!u) return Promise.reject(Object.assign(new Error('no-tow-url'), { code: 'no-tow-url' }));
+    return gsCall(params, u);
+  }
+  let towChecked = false;
+  async function ensureTowServer(){
+    if (towChecked) return;
+    const r = await towCall({ action: 'towList' });
+    if (!r || r.ok === false || r.kind !== 'tow') throw Object.assign(new Error('bad-tow'), { code: 'bad-tow', resp: r });
+    towChecked = true;
+  }
+  function towReason(err, stage){
+    const c = err && err.code;
+    if (c === 'no-tow-url') return 'לא הוגדרה כתובת שרת גרירות. יש ללחוץ למטה על "כתובת שרת" ולהדביק את כתובת שרת הגרירות.';
+    if (c === 'bad-tow') return 'הכתובת שהוגדרה כשרת גרירות אינה סקריפט הגרירות (CodeTow.gs). בדקו את הכתובת תחת "כתובת שרת".';
+    const m = err && err.message;
+    return (stage === 'garage' ? 'הגרירה נשמרה, אבל דיווח הכניסה למוסך נכשל (' : 'שגיאה בשמירה (') +
+      (m === 'timeout' ? 'אין תשובה מהשרת' : m === 'network' ? 'אין חיבור לשרת' : String(m || '').slice(0, 100)) + '). אפשר ללחוץ שוב — לא תיווצר כפילות.';
+  }
+  async function sendTow(data){
+    const withG = towWithGarage.checked;
+    let stage = 'tow';
+    try {
+      await ensureTowServer();
+      check(await towCall({ action: 'towSubmit', submissionId: pendingSubmissionId, region: data.region, unit: data.unit, towDate: data.entryDate,
+        pickup: towPickup.value.trim(), destination: towDest.value.trim(), orderer: data.reportedBy,
+        plate: withG ? data.plate : '', garage: withG ? data.garage : '' }));
+      if (withG){
+        stage = 'garage';
+        await ensureNewServer();
+        check(await gsCall({ action: 'submit', submissionId: pendingSubmissionId, plate: data.plate, fault: data.fault, entryDate: data.entryDate, unit: data.unit,
+          region: data.region, garage: data.garage, city: data.city, reportedBy: data.reportedBy }));
+      }
+      pendingSubmissionId = null; ackPlate = '';
+      form.reset(); formMode = 'tow'; applyMode();
+      regionSelect.dispatchEvent(new Event('change'));
+      entryDateInput.value = new Date().toISOString().slice(0, 10);
+      statusEl.className = 'status';
+      if (withG) refresh();
+      towRefresh();
+      if (window.__setView){ window.__setView('tow'); window.__toast('✓ הזמנת הגרר נשמרה' + (withG ? ' · נרשמה גם כניסה למוסך' : '')); }
+    } catch (err) {
+      showStatus(err && err.code === 'old-script' ? window.__errText(err) : towReason(err, stage), 'err');
+    } finally {
+      submitBtn.disabled = false; submitBtn.textContent = submitLabel();
+    }
+  }
+
+  let towItems = [], towRegion = '', towQ = '', towErr = '', towLoaded = false;
+  const towOpen = new Set();
+  function normTow(it){
+    const o = Object.assign({}, it);
+    o.towDate = normDate(it.towDate);
+    ['region','unit','pickup','destination','orderer','plate','garage'].forEach(k => { o[k] = it[k] == null ? '' : String(it[k]); });
+    return o;
+  }
+  async function towRefresh(){
+    try {
+      const r = await towCall({ action: 'towList' });
+      if (r && r.ok !== false && r.kind === 'tow'){ towItems = (r.items || []).map(normTow); towErr = ''; towChecked = true; }
+      else towErr = 'bad';
+    } catch (e) { towErr = (e && e.code === 'no-tow-url') ? 'nourl' : 'net'; }
+    towLoaded = true; towRender();
+  }
+  window.__towRefresh = towRefresh;
+  const towRegionOf = it => (it.region || '').trim() || 'ללא מרחב';
+  function towFiltered(){
+    const q = towQ.trim().toLowerCase();
+    return towItems.filter(it => (!towRegion || towRegionOf(it) === towRegion) &&
+      (!q || [it.plate, it.unit, it.pickup, it.destination, it.orderer, it.garage, it.region].join(' ').toLowerCase().indexOf(q) !== -1));
+  }
+  function towRender(){
+    const cEl = document.getElementById('towCount'), fEl = document.getElementById('towRegionFilter'), lEl = document.getElementById('towList'), aEl = document.getElementById('towAll');
+    if (!lEl) return;
+    if (towErr){
+      cEl.textContent = '–'; fEl.innerHTML = '';
+      lEl.innerHTML = '<div class="board-empty-state">' + (towErr === 'nourl' ? 'לא הוגדרה כתובת שרת גרירות. לחצו למטה על "כתובת שרת" והדביקו את כתובת סקריפט הגרירות.' :
+        towErr === 'bad' ? 'הכתובת שהוגדרה אינה סקריפט הגרירות (CodeTow.gs). בדקו תחת "כתובת שרת".' : 'אין חיבור לשרת הגרירות. נסו לרענן.') + '</div>';
+      return;
+    }
+    if (!towLoaded){ lEl.innerHTML = '<div class="board-empty-state">טוען נתוני גרירה...</div>'; return; }
+    const counts = {};
+    towItems.forEach(it => { const r = towRegionOf(it); counts[r] = (counts[r] || 0) + 1; });
+    if (towRegion && !(towRegion in counts)) towRegion = '';
+    const attr = s => escapeHtml(s).replace(/"/g, '&quot;');
+    fEl.innerHTML = '<button type="button" class="region-chip' + (towRegion === '' ? ' active' : '') + '" data-region="">הצג הכל <b>' + towItems.length + '</b></button>' +
+      Object.entries(counts).sort((a, b) => b[1] - a[1]).map(([r, c]) => '<button type="button" class="region-chip' + (towRegion === r ? ' active' : '') + '" data-region="' + attr(r) + '">' + escapeHtml(r) + ' <b>' + c + '</b></button>').join('');
+    const rows = towFiltered();
+    cEl.textContent = rows.length;
+    const groups = {};
+    rows.slice().sort((a, b) => String(b.towDate).localeCompare(String(a.towDate)) || (b.createdAt || 0) - (a.createdAt || 0))
+        .forEach(it => { (groups[towRegionOf(it)] = groups[towRegionOf(it)] || []).push(it); });
+    const names = Object.keys(groups).sort((a, b) => groups[b].length - groups[a].length);
+    const fd = d => { const p = String(d || '').slice(0, 10).split('-'); return p.length === 3 ? p[2] + '/' + p[1] + '/' + p[0].slice(-2) : ''; };
+    aEl.textContent = (names.length && names.every(n => towOpen.has(n))) ? 'כווץ הכל' : 'הצג הכל';
+    if (!rows.length){ lEl.innerHTML = '<div class="board-empty-state">' + (towItems.length ? 'לא נמצאו גרירות התואמות לסינון.' : 'עדיין לא דווחו הזמנות גרר.') + '</div>'; return; }
+    lEl.innerHTML = names.map(n =>
+      '<details class="unit-group tow-group" data-region="' + attr(n) + '"' + (towOpen.has(n) ? ' open' : '') + '><summary><span class="ug-name">' + escapeHtml(n) + '</span><b class="ug-count">' + groups[n].length + '</b><span class="ug-arrow" aria-hidden="true">▾</span></summary><div class="ug-body">' +
+      groups[n].map(it =>
+        '<div class="tow-card"><div class="tow-top"><b>' + escapeHtml(it.unit) + '</b><span class="pill">' + escapeHtml(fd(it.towDate)) + '</span></div>' +
+        '<div class="h2">איסוף: ' + escapeHtml(it.pickup) + '</div>' +
+        '<div class="h2">יעד: ' + escapeHtml(it.destination) + '</div>' +
+        '<div class="h2">הוזמן ע"י ' + escapeHtml(it.orderer) + '</div>' +
+        (it.plate || it.garage ? '<div class="tow-garage">דווחה כניסה למוסך' + (it.plate ? ' · רכב ' + escapeHtml(it.plate) : '') + (it.garage ? ' · ' + escapeHtml(it.garage) : '') + '</div>' : '') + '</div>'
+      ).join('') + '</div></details>').join('');
+  }
+  document.getElementById('towList').addEventListener('toggle', ev => {
+    const d = ev.target; if (!d || !d.classList || !d.classList.contains('tow-group')) return;
+    if (d.open) towOpen.add(d.dataset.region); else towOpen.delete(d.dataset.region);
+    const names = Array.prototype.map.call(document.querySelectorAll('#towList .tow-group'), x => x.dataset.region);
+    document.getElementById('towAll').textContent = (names.length && names.every(n => towOpen.has(n))) ? 'כווץ הכל' : 'הצג הכל';
+  }, true);
+  document.getElementById('towRegionFilter').addEventListener('click', ev => {
+    const c = ev.target.closest('.region-chip'); if (!c) return; towRegion = c.dataset.region || ''; towRender();
+  });
+  document.getElementById('towQ').addEventListener('input', ev => { towQ = ev.target.value; towRender(); });
+  document.getElementById('towRefreshBtn').addEventListener('click', towRefresh);
+  document.getElementById('towAll').addEventListener('click', () => {
+    const names = Array.prototype.map.call(document.querySelectorAll('#towList .tow-group'), x => x.dataset.region);
+    const allOpen = names.length && names.every(n => towOpen.has(n));
+    names.forEach(n => allOpen ? towOpen.delete(n) : towOpen.add(n)); towRender();
+  });
+  function towExport(){
+    const rows = towFiltered().slice().sort((a, b) => towRegionOf(a).localeCompare(towRegionOf(b), 'he') || String(b.towDate).localeCompare(String(a.towDate)));
+    if (!rows.length){ alert('אין נתוני גרירה לייצוא.'); return; }
+    const header = ['מרחב', 'יחידה', 'תאריך', 'נקודת איסוף', 'יעד', 'שם המזמין', 'מספר רכב (אם דווח)', 'נכנס למוסך (אם דווח)'];
+    const data = rows.map(r => [towRegionOf(r), r.unit, r.towDate, r.pickup, r.destination, r.orderer, r.plate, r.garage]);
+    const filename = 'tow-data-' + new Date().toISOString().slice(0, 10);
+    const sum = {}; rows.forEach(r => { const k = towRegionOf(r); sum[k] = (sum[k] || 0) + 1; });
+    if (window.XLSX){
+      const ws = XLSX.utils.aoa_to_sheet([header].concat(data));
+      ws['!cols'] = [{wch:16}, {wch:16}, {wch:12}, {wch:24}, {wch:24}, {wch:16}, {wch:16}, {wch:18}];
+      ws['!autofilter'] = { ref: 'A1:H' + (rows.length + 1) };
+      const ws2 = XLSX.utils.aoa_to_sheet([['מרחב', 'מספר הזמנות גרר']].concat(Object.entries(sum).sort((a, b) => b[1] - a[1])).concat([['סה"כ', rows.length]]));
+      ws2['!cols'] = [{wch:20}, {wch:16}];
+      const wb = XLSX.utils.book_new(); wb.Workbook = { Views: [{ RTL: true }] };
+      XLSX.utils.book_append_sheet(wb, ws, 'הזמנות גרר'); XLSX.utils.book_append_sheet(wb, ws2, 'סיכום לפי מרחב');
+      XLSX.writeFile(wb, filename + '.xlsx'); return;
+    }
+    const esc = v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+    const csv = '﻿' + [header].concat(data).map(r => r.map(esc).join(',')).join('\r\n');
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' })); a.download = filename + '.csv';
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+  document.getElementById('towXls').addEventListener('click', towExport);
+  towRender();
 
   // ===== עריכת פרטי דיווח — למפקח בלבד =====
   const EDIT_FIELDS = [['plate','מספר רכב'],['unit','יחידה'],['region','מרחב'],['garage','מוסך'],['reportedBy','דווח ע"י']];
